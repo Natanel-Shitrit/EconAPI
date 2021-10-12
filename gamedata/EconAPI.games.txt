@@ -1,0 +1,68 @@
+"Games"
+{
+    "csgo"
+    {
+        "Signatures"
+        {
+            "CCStrike15ItemDefinition::GetLoadoutSlot"
+            {
+                "library"       "server"
+                "windows"       "\x55\x8B\xEC\x8B\x45\x08\x8D\x50\xFF"
+                "linux"         "\x55\x89\xE5\x8B\x45\x0C\x8B\x55\x08\x8D\x48\xFF"
+            }
+        }
+        "Offsets"
+        {
+            "CEconItemSchema::m_mapItems"
+            {
+                "windows"       "172"
+                "linux"         "172"
+            }
+            "CEconItemSchema::m_mapPaintKits"
+            {
+                "windows"       "648"
+                "linux"         "648"
+            }
+            "CEconItemSchema::m_mapMusicDefs"
+            {
+                "windows"       "1004"
+                "linux"         "1004"
+            }
+            "CCStrike15ItemDefinition::m_vbClassUsability"
+            {
+                "windows"       "648"
+                "linux"         "648"
+            }
+            "CEconItemDefinition::GetNumSupportedStickerSlots"
+            {
+                "windows"       "44"
+                "linux"         "45"
+            }
+            "CEconItemDefinition::GetInventoryImage"
+            {
+                "windows"       "5"
+                "linux"         "5"
+            }
+            "CEconItemDefinition::GetBasePlayerDisplayModel"
+            {
+                "windows"       "6"
+                "linux"         "6"
+            }
+            "CEconItemDefinition::GetWorldDisplayModel"
+            {
+                "windows"       "7"
+                "linux"         "7"
+            }
+            "CEconItemDefinition::GetWorldDroppedModel"
+            {
+                "windows"       "33"
+                "linux"         "34"
+            }
+            "CEconItemDefinition::m_pszDefinitionName"
+            {
+                "windows"       "476"
+                "linux"         "476"
+            }
+        }
+    }
+}

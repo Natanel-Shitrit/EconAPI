@@ -1,0 +1,25 @@
+# vim: set sts=2 ts=8 sw=2 tw=99 et ft=python:
+import os
+
+projectName = 'EconAPI'
+
+# smsdk_ext.cpp will be automatically added later
+sourceFiles = [
+  'extension.cpp',
+  'natives.cpp',
+  'classes.cpp'
+]
+
+###############
+# Make sure to edit PackageScript, which copies your files to their appropriate locations
+# Simple extensions do not need to modify past this point.
+
+project = Extension.HL2Project(builder, projectName + '.ext')
+
+project.sources += sourceFiles + [os.path.join(Extension.sm_root, 'public', 'smsdk_ext.cpp')]
+
+for sdk_name in Extension.sdks:
+  Extension.HL2Config(project, projectName + '.ext.' + Extension.sdks[sdk_name].ext, Extension.sdks[sdk_name])
+
+
+Extension.extensions = builder.Add(project)
