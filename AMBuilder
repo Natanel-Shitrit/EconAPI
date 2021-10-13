@@ -18,8 +18,6 @@ project = Extension.HL2Project(builder, projectName + '.ext')
 
 project.sources += sourceFiles + [os.path.join(Extension.sm_root, 'public', 'smsdk_ext.cpp')]
 
-for sdk_name in Extension.sdks:
-  Extension.HL2Config(project, projectName + '.ext.' + Extension.sdks[sdk_name].ext, Extension.sdks[sdk_name])
-
+Extension.HL2Config(project, projectName + '.ext.' + Extension.sdk.ext, Extension.sdk)
 
 Extension.extensions = builder.Add(project)
