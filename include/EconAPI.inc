@@ -236,6 +236,7 @@ methodmap CStickerKit	                    // < Address
     public native int GetsItemName(char[] buffer, int len);
     public native int GetMaterialPath(char[] buffer, int len);
     public native int GetMaterialPathNoDrips(char[] buffer, int len);
+    public native int GetInventoryImage(char[] buffer, int len);
 
     property int EventID
     {
