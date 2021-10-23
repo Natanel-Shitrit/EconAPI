@@ -533,6 +533,24 @@ static cell_t CStickerKit_GetScaleMax(IPluginContext* pContext, const cell_t* pa
     return sp_ftoc(pStickerKit->GetScaleMax());
 }
 
+static cell_t CStickerKit_GetWearMin(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetWearMin());
+}
+
+static cell_t CStickerKit_GetWearMax(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetWearMax());
+}
+
 static cell_t CStickerKit_GetIconURLSmall(IPluginContext* pContext, const cell_t* params)
 {
     CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
@@ -1198,6 +1216,8 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CStickerKit.IsMaterialPathIsAbsolute.get",           CStickerKit_IsMaterialPathIsAbsolute },
     { "CStickerKit.ScaleMin.get",                           CStickerKit_GetScaleMin },
     { "CStickerKit.ScaleMax.get",                           CStickerKit_GetScaleMax },
+    { "CStickerKit.WearMin.get",                            CStickerKit_GetWearMin },
+    { "CStickerKit.WearMax.get",                            CStickerKit_GetWearMax },
     { "CStickerKit.GetIconURLSmall",                        CStickerKit_GetIconURLSmall },
     { "CStickerKit.GetIconURLLarge",                        CStickerKit_GetIconURLLarge },
 

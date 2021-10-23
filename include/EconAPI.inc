@@ -205,7 +205,7 @@ methodmap CPaintKit	                    // < Address
     public native int GetVmtPath(char[] buffer, int len);
 }
 
-methodmap CStickerKit	                    // < Address
+methodmap CStickerKit	                // < Address
 {
     // CStickerKit is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CStickerKit - NULL ( if(pStickerKit) ) !!!!!!!!!!!!!!!!!!!!!

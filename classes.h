@@ -143,6 +143,9 @@ public:
     float       GetScaleMin( void ) const               { return flScaleMin; }
     float       GetScaleMax( void ) const               { return flScaleMax; }
 
+    float       GetWearMin( void ) const                { return flWearMin; }
+    float       GetWearMax( void ) const                { return flWearMax; }
+
 	const char *GetIconURLSmall() const			        { return m_sIconURLSmall.Get(); }
 	const char *GetIconURLLarge() const			        { return m_sIconURLLarge.Get(); }
 
