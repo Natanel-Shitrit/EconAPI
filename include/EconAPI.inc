@@ -21,6 +21,11 @@ enum CPaintKit
     CPaintKit_NULL = 0
 }
 
+enum CStickerKit
+{
+    CStickerKit_NULL = 0
+}
+
 enum CEconMusicDefinition
 {
     CEconMusicDefinition_NULL = 0
@@ -198,6 +203,35 @@ methodmap CPaintKit	                    // < Address
     }
 
     public native int GetVmtPath(char[] buffer, int len);
+}
+
+methodmap CStickerKit	                    // < Address
+{
+    // CStickerKit is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
+    // Always check, if not wounded CStickerKit - NULL ( if(pStickerKit) ) !!!!!!!!!!!!!!!!!!!!!
+    
+    public static native CStickerKit Get(int index);
+    public static native int Count();
+
+    public static native CStickerKit FindByID(int id);
+    public static native CStickerKit FindByName(const char[] name);
+    
+    property int ID
+    {
+        public native get();
+    }
+    
+    /**
+     * Gets the item name.
+     *
+     * @param buffer        Destination string buffer.
+     * @param len           Maximum length of output string buffer.
+     *
+     * @return              Returns length or 0 if failed.
+     *
+     * @error               CStickerKit == NULL.
+     */
+    public native int GetName(char[] buffer, int len);
 }
 
 methodmap CEconMusicDefinition	        // < Address
@@ -389,6 +423,14 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CPaintKit.MaxWear.get");
     MarkNativeAsOptional("CPaintKit.PatternScale.get");
     MarkNativeAsOptional("CPaintKit.GetVmtPath");
+
+    // CStickerKit
+    MarkNativeAsOptional("CStickerKit.Get");
+    MarkNativeAsOptional("CStickerKit.Count");
+    MarkNativeAsOptional("CStickerKit.FindByID");
+    MarkNativeAsOptional("CStickerKit.FindByName");
+    MarkNativeAsOptional("CStickerKit.ID.get");
+    MarkNativeAsOptional("CStickerKit.GetName");
 
     // CEconMusicDefinition
     MarkNativeAsOptional("CEconMusicDefinition.Get");

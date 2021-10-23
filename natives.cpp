@@ -329,6 +329,71 @@ static cell_t CPaintKit_GetVmtPath(IPluginContext* pContext, const cell_t* param
     return numBytes;
 }
 
+// CStickerKit //
+static cell_t CStickerKit_Get(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    auto pStickerKitMap = g_pCEconItemSchema->GetStickerKitMap();
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKitMap);
+    
+    return pStickerKitMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(pStickerKitMap->Element(params[1])) : 0;
+}
+
+static cell_t CStickerKit_Count(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    auto pStickerKitMap = g_pCEconItemSchema->GetStickerKitMap();
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKitMap);
+    
+    return pStickerKitMap->Count();
+}
+
+static cell_t CStickerKit_FindByID(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetStickerKitByID(params[1]));
+}
+
+static cell_t CStickerKit_FindByName(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    char* strSource; pContext->LocalToString(params[1], &strSource);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetStickerKitByName(strSource));
+}
+
+static cell_t CStickerKit_GetID(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return pStickerKit->GetID();
+}
+
+static cell_t CStickerKit_GetName(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetName();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
 // CEconMusicDefinition //
 static cell_t CEconMusicDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
@@ -941,6 +1006,14 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CPaintKit.MaxWear.get",                              CPaintKit_GetMaxWear },
     { "CPaintKit.PatternScale.get",                         CPaintKit_GetPatternScale },
     { "CPaintKit.GetVmtPath",                               CPaintKit_GetVmtPath },
+
+    // CStickerKit
+    { "CStickerKit.Get",                                    CStickerKit_Get },
+    { "CStickerKit.Count",                                  CStickerKit_Count },
+    { "CStickerKit.FindByID",                               CStickerKit_FindByID },
+    { "CStickerKit.FindByName",                             CStickerKit_FindByName },
+    { "CStickerKit.ID.get",                                 CStickerKit_GetID },
+    { "CStickerKit.GetName",                                CStickerKit_GetName },
 
     // CEconMusicDefinition
     { "CEconMusicDefinition.Get",                           CEconMusicDefinition_Get },

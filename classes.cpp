@@ -250,6 +250,55 @@ CPaintKit* CEconItemSchema::GetPaintKitByID(uint32 nID)
     return nullptr;
 }
 
+// CStickerKit
+CUtlMap<int, CStickerKit*, int, CDefLess<int>>* CEconItemSchema::GetStickerKitMap()
+{
+    static int offset = -1;
+
+    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemSchema::m_mapStickerKits", &offset))
+    {
+        smutils->LogError(myself, "Failed to get CEconItemSchema::m_mapStickerKits offset.");
+
+        return nullptr;
+    }
+    
+    return (CUtlMap<int, CStickerKit*, int, CDefLess<int>>*)((intptr_t)this + offset);
+}
+
+CStickerKit* CEconItemSchema::GetStickerKitByName(const char* pszName)
+{
+    auto pStickerKitMap = GetStickerKitMap();
+
+    if (pStickerKitMap)
+    {
+        FOR_EACH_MAP_FAST(*pStickerKitMap, i)
+        {
+            if (!strcmp(pszName, pStickerKitMap->Element(i)->GetName()))
+            {
+                return pStickerKitMap->Element(i);
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+CStickerKit* CEconItemSchema::GetStickerKitByID(uint32 nID)
+{
+    auto pStickerKitMap = GetStickerKitMap();
+
+    if (pStickerKitMap)
+    {
+        int iIndex = pStickerKitMap->Find(nID);
+        
+        if (pStickerKitMap->IsValidIndex(iIndex))
+        {
+            return pStickerKitMap->Element(iIndex);
+        }
+    }
+
+    return nullptr;
+}
 
 // CEconMusicDefinition
 CUtlMap<int, CEconMusicDefinition*, int, CDefLess<int>>* CEconItemSchema::GetMusicDefinitionMap()

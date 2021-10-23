@@ -38,6 +38,11 @@
                 "windows"       "648"
                 "linux"         "648"
             }
+            "CEconItemSchema::m_mapStickerKits"
+            {
+                "windows"       "684"
+                "linux"         "684"
+            }
             "CEconItemSchema::m_mapMusicDefs"
             {
                 "windows"       "1004"

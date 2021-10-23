@@ -73,7 +73,7 @@ public:
     float       GetPatternScale( void ) const       { return flPatternScale; }
     const char *GetVmtPath( void ) const            { return sVmtPath.Get(); }
 
-public:
+private:
     enum { NUM_COLORS = 4 };
 
     // Generic fields
@@ -120,6 +120,60 @@ public:
     // Character paint kit fields
     CUtlString sVmtPath;
     KeyValues* kvVmtOverrides;
+};
+
+class CStickerKit
+{
+public:
+    int         GetID( void ) const                     { return nID; }
+    int         GetRarity( void ) const                 { return nRarity; }
+    const char *GetName( void ) const                   { return sName.Get(); }
+    const char *GetDescriptionString( void ) const      { return sDescriptionString.Get(); }
+    const char *GetsItemName( void ) const              { return sItemName.Get(); }
+    const char *GetMaterialPath( void ) const           { return sMaterialPath.Get(); }
+    const char *GetMaterialPathNoDrips( void ) const    { return sMaterialPathNoDrips.Get(); }
+	const char *GetInventoryImage( void ) const	        { return m_strInventoryImage.Get(); }
+
+    int         GetEventID( void ) const                { return m_nEventID; }
+    int         GetEventTeamID( void ) const            { return m_nEventTeamID; }
+    int         GetPlayerID( void ) const               { return m_nPlayerID; }
+
+    bool        IsMaterialPathIsAbsolute( void ) const  { return bMaterialPathIsAbsolute; }
+
+    float       GetScaleMin( void ) const               { return flScaleMin; }
+    float       GetScaleMax( void ) const               { return flScaleMax; }
+
+	const char *GetIconURLSmall() const			        { return m_sIconURLSmall.Get(); }
+	const char *GetIconURLLarge() const			        { return m_sIconURLLarge.Get(); }
+
+private:
+	int nID;
+	int nRarity;
+	CUtlString sName;
+	CUtlString sDescriptionString;
+	CUtlString sItemName;
+	CUtlString sMaterialPath;
+	CUtlString sMaterialPathNoDrips;
+	CUtlString m_strInventoryImage;
+
+	int m_nEventID;
+	int m_nEventTeamID;
+	int m_nPlayerID;
+
+	bool bMaterialPathIsAbsolute;
+
+	float flRotateStart;
+	float flRotateEnd;
+
+	float flScaleMin;
+	float flScaleMax;
+
+	float flWearMin;
+	float flWearMax;
+
+	CUtlString m_sIconURLSmall;
+	CUtlString m_sIconURLLarge;
+	KeyValues *m_pKVItem;
 };
 
 class CEconMusicDefinition
@@ -283,6 +337,11 @@ public:
     CUtlMap<int, CPaintKit*, int, CDefLess<int>>* GetPaintKitMap();
     CPaintKit* GetPaintKitByName(const char* pszDefName);
     CPaintKit* GetPaintKitByID(uint32 iItemIndex);
+
+    // CStickerKit
+    CUtlMap<int, CStickerKit*, int, CDefLess<int>>* GetStickerKitMap();
+    CStickerKit* GetStickerKitByName(const char* pszDefName);
+    CStickerKit* GetStickerKitByID(uint32 iID);
 
     // CEconMusicDefinition
     CUtlMap<int, CEconMusicDefinition*, int, CDefLess<int>>* GetMusicDefinitionMap();
