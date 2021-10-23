@@ -394,6 +394,179 @@ static cell_t CStickerKit_GetName(IPluginContext* pContext, const cell_t* params
     return numBytes;
 }
 
+static cell_t CStickerKit_GetDescriptionString(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetDescriptionString();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetsItemName(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetsItemName();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetMaterialPath(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetMaterialPath();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetMaterialPathNoDrips(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetMaterialPathNoDrips();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetInventoryImage(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetInventoryImage();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetEventID(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return pStickerKit->GetEventID();
+}
+
+static cell_t CStickerKit_GetEventTeamID(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return pStickerKit->GetEventTeamID();
+}
+
+static cell_t CStickerKit_GetPlayerID(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return pStickerKit->GetPlayerID();
+}
+
+static cell_t CStickerKit_IsMaterialPathIsAbsolute(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return pStickerKit->IsMaterialPathIsAbsolute();
+}
+
+static cell_t CStickerKit_GetScaleMin(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetScaleMin());
+}
+
+static cell_t CStickerKit_GetScaleMax(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetScaleMax());
+}
+
+static cell_t CStickerKit_GetIconURLSmall(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetIconURLSmall();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CStickerKit_GetIconURLLarge(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pStickerKit->GetIconURLLarge();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
 // CEconMusicDefinition //
 static cell_t CEconMusicDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
@@ -1014,6 +1187,19 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CStickerKit.FindByName",                             CStickerKit_FindByName },
     { "CStickerKit.ID.get",                                 CStickerKit_GetID },
     { "CStickerKit.GetName",                                CStickerKit_GetName },
+    { "CStickerKit.GetDescriptionString",                   CStickerKit_GetDescriptionString },
+    { "CStickerKit.GetsItemName",                           CStickerKit_GetsItemName },
+    { "CStickerKit.GetMaterialPath",                        CStickerKit_GetMaterialPath },
+    { "CStickerKit.GetMaterialPathNoDrips",                 CStickerKit_GetMaterialPathNoDrips },
+    { "CStickerKit.GetInventoryImage",                      CStickerKit_GetInventoryImage },
+    { "CStickerKit.EventID.get",                            CStickerKit_GetEventID },
+    { "CStickerKit.EventTeamID.get",                        CStickerKit_GetEventTeamID },
+    { "CStickerKit.PlayerID.get",                           CStickerKit_GetPlayerID },
+    { "CStickerKit.IsMaterialPathIsAbsolute.get",           CStickerKit_IsMaterialPathIsAbsolute },
+    { "CStickerKit.ScaleMin.get",                           CStickerKit_GetScaleMin },
+    { "CStickerKit.ScaleMax.get",                           CStickerKit_GetScaleMax },
+    { "CStickerKit.GetIconURLSmall",                        CStickerKit_GetIconURLSmall },
+    { "CStickerKit.GetIconURLLarge",                        CStickerKit_GetIconURLLarge },
 
     // CEconMusicDefinition
     { "CEconMusicDefinition.Get",                           CEconMusicDefinition_Get },

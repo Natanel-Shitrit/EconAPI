@@ -232,6 +232,43 @@ methodmap CStickerKit	                    // < Address
      * @error               CStickerKit == NULL.
      */
     public native int GetName(char[] buffer, int len);
+    public native int GetDescriptionString(char[] buffer, int len);
+    public native int GetsItemName(char[] buffer, int len);
+    public native int GetMaterialPath(char[] buffer, int len);
+    public native int GetMaterialPathNoDrips(char[] buffer, int len);
+
+    property int EventID
+    {
+        public native get();
+    }
+
+    property int EventTeamID
+    {
+        public native get();
+    }
+
+    property int PlayerID
+    {
+        public native get();
+    }
+
+    property bool IsMaterialPathIsAbsolute
+    {
+        public native get();
+    }
+
+    property float ScaleMin
+    {
+        public native get();
+    }
+
+    property float ScaleMax
+    {
+        public native get();
+    }
+
+    public native int GetIconURLSmall(char[] buffer, int len);
+    public native int GetIconURLLarge(char[] buffer, int len);
 }
 
 methodmap CEconMusicDefinition	        // < Address
@@ -431,6 +468,19 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CStickerKit.FindByName");
     MarkNativeAsOptional("CStickerKit.ID.get");
     MarkNativeAsOptional("CStickerKit.GetName");
+    MarkNativeAsOptional("CStickerKit.GetDescriptionString");
+    MarkNativeAsOptional("CStickerKit.GetsItemName");
+    MarkNativeAsOptional("CStickerKit.GetMaterialPath");
+    MarkNativeAsOptional("CStickerKit.GetMaterialPathNoDrips");
+    MarkNativeAsOptional("CStickerKit.GetInventoryImage");
+    MarkNativeAsOptional("CStickerKit.EventID.get");
+    MarkNativeAsOptional("CStickerKit.EventTeamID.get");
+    MarkNativeAsOptional("CStickerKit.PlayerID.get");
+    MarkNativeAsOptional("CStickerKit.IsMaterialPathIsAbsolute.get");
+    MarkNativeAsOptional("CStickerKit.ScaleMin.get");
+    MarkNativeAsOptional("CStickerKit.ScaleMax.get");
+    MarkNativeAsOptional("CStickerKit.GetIconURLSmall");
+    MarkNativeAsOptional("CStickerKit.GetIconURLLarge");
 
     // CEconMusicDefinition
     MarkNativeAsOptional("CEconMusicDefinition.Get");
