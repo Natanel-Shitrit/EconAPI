@@ -31,22 +31,26 @@ enum CEconItemSetDefinition
     CEconItemSetDefinition_NULL = 0
 }
 
-methodmap CEconItemDefinition	// < Address
+enum CEconItemRarityDefinition
+{
+    CEconItemRarityDefinition_NULL = 0
+}
+
+enum CEconItemQualityDefinition
+{
+    CEconItemQualityDefinition_NULL = 0
+}
+
+methodmap CEconItemDefinition	        // < Address
 {
     // CEconItemDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CEconItemDefinition - NULL ( if(pItemDefinition) ) !!!!!!!!!!!!!!!!!!!!!
 
-    /*
-    // such a shame
-    property int ItemCount
-    {
-        public static native get();
-    }
-    */
-    
-    public static native int ItemCount();
+    public static native CEconItemDefinition Get(int index);
+    public static native int Count();
+
     public static native CEconItemDefinition FindByName(const char[] name);
-    public static native CEconItemDefinition FindByIndex(int def_index);
+    public static native CEconItemDefinition FindByDefIndex(int def_index);
 
     /**
      * Gets the definition index.
@@ -55,19 +59,22 @@ methodmap CEconItemDefinition	// < Address
      *
      * @error              CEconItemDefinition == NULL.
      */
-    public native int GetDefinitionIndex();
+    property int DefinitionIndex
+    {
+        public native get();
+    }
 
     /**
      * Gets the item definition name.
      *
-     * @param sBuffer      Destination string buffer.
-     * @param iLen         Maximum length of output string buffer.
+     * @param buffer      Destination string buffer.
+     * @param len         Maximum length of output string buffer.
      *
      * @return             Returns length or 0 if failed.
      *
      * @error              CEconItemDefinition == NULL.
      */
-    public native int GetDefinitionName(char[] sBuffer, int iLen);
+    public native int GetDefinitionName(char[] buffer, int len);
 
     /**
      * Gets LoadoutSlot.
@@ -85,7 +92,10 @@ methodmap CEconItemDefinition	// < Address
      *
      * @return             Returns team index or 0 if both team.
      */
-    public native int GetUsedByTeam();
+    property int UsedByTeam
+    {
+        public native get();
+    }
 
     /**
      * Gets the amount slot for stickers.
@@ -96,7 +106,10 @@ methodmap CEconItemDefinition	// < Address
      *
      * @error              CEconItemDefinition == NULL.
      */
-    public native int GetNumSupportedStickerSlots();
+    property int NumSupportedStickerSlots
+    {
+        public native get();
+    }
 
     /**
      * Gets the item econ image path in resource/flash/.
@@ -104,35 +117,38 @@ methodmap CEconItemDefinition	// < Address
      *
      * @note Add ".png" in the end of string for full formatting.
      *
-     * @param sBuffer      Destination string buffer.
-     * @param iLen         Maximum length of output string buffer.
+     * @param buffer      Destination string buffer.
+     * @param len         Maximum length of output string buffer.
      *
      * @return             Returns length or 0 if failed.
      *
      * @error              CEconItemDefinition == NULL.
      */
-    public native int GetEconImage(char[] sBuffer, int iLen);
+    public native int GetEconImage(char[] buffer, int len);
 
     /**
      * Gets the item model path.
      *
      * @param iModelType   Model type.
-     * @param sBuffer      Destination string buffer.
-     * @param iLen         Maximum length of output string buffer.
+     * @param buffer      Destination string buffer.
+     * @param len         Maximum length of output string buffer.
      *                     Max size PLATFORM_MAX_PATH.
      *
      * @return             Returns length or 0 if failed.
      *
      * @error              CEconItemDefinition == NULL or model type invalid.
      */
-    public native int GetModel(EconAPI_ModelType iModelType, char[] sBuffer, int iLen);
+    public native int GetModel(EconAPI_ModelType iModelType, char[] buffer, int len);
 }
 
-methodmap CPaintKit	// < Address
+methodmap CPaintKit	                    // < Address
 {
     // CPaintKit is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CPaintKit - NULL ( if(pPaintKit) ) !!!!!!!!!!!!!!!!!!!!!
     
+    public static native CPaintKit Get(int index);
+    public static native int Count();
+
     public static native CPaintKit FindByID(int id);
     public static native CPaintKit FindByName(const char[] name);
     
@@ -156,17 +172,12 @@ methodmap CPaintKit	// < Address
         public native get();
     }
 
-    property float Rarity
+    property int Rarity
     {
         public native get();
     }
     
-    property float Style
-    {
-        public native get();
-    }
-    
-    property float DefaultWear
+    property int Style
     {
         public native get();
     }
@@ -181,14 +192,22 @@ methodmap CPaintKit	// < Address
         public native get();
     }
 
+    property float PatternScale
+    {
+        public native get();
+    }
+
     public native int GetVmtPath(char[] buffer, int len);
 }
 
-methodmap CEconMusicDefinition	// < Address
+methodmap CEconMusicDefinition	        // < Address
 {
     // CEconMusicDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CEconMusicDefinition - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
     
+    public static native CEconMusicDefinition Get(int index);
+    public static native int Count();
+
     public static native CEconMusicDefinition FindByName(const char[] name);
     public static native CEconMusicDefinition FindByID(int id);
     
@@ -200,31 +219,126 @@ methodmap CEconMusicDefinition	// < Address
     /**
      * Gets the item name.
      *
-     * @param sBuffer      Destination string buffer.
-     * @param iLen         Maximum length of output string buffer.
+     * @param buffer      Destination string buffer.
+     * @param len         Maximum length of output string buffer.
      *
      * @return             Returns length or 0 if failed.
      *
      * @error              CEconMusicDefinition == NULL.
      */
-    public native int GetName(char[] sBuffer, int iLen);
+    public native int GetName(char[] buffer, int len);
     
-    public native int GetNameLocToken(char[] sBuffer, int iLen);
-    public native int GetLocDescription(char[] sBuffer, int iLen);
-    public native int GetPedestalDisplayModel(char[] sBuffer, int iLen);
-    public native int GetInventoryImage(char[] sBuffer, int iLen);
+    public native int GetNameLocToken(char[] buffer, int len);
+    public native int GetLocDescription(char[] buffer, int len);
+    public native int GetPedestalDisplayModel(char[] buffer, int len);
+    public native int GetInventoryImage(char[] buffer, int len);
 }
 
-methodmap CEconItemSetDefinition	// < Address
+methodmap CEconItemSetDefinition	    // < Address
 {
     // CEconItemSetDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CEconItemSetDefinition - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
     
+    public static native CEconItemSetDefinition Get(int index);
+    public static native int Count();
+
     public static native CEconItemSetDefinition FindByName(const char[] name);
     
-    public native int GetLocalizedName(char[] sBuffer, int iLen);
-    //public native int GetUnlocalizedName(char[] sBuffer, int iLen);
-    public native int GetLocalizedDescription(char[] sBuffer, int iLen);
+    public native int GetName(char[] buffer, int len);
+    public native int GetLocalizedName(char[] buffer, int len);
+    public native int GetLocalizedDescription(char[] buffer, int len);
+    
+    property int BundleItemDef
+    {
+        public native get();
+    }
+
+    property int IsCollection
+    {
+        public native get();
+    }
+
+    property int IsHiddenSet
+    {
+        public native get();
+    }
+}
+
+methodmap CEconItemRarityDefinition	    // < Address
+{
+    public static native CEconItemRarityDefinition Get(int index);
+    public static native int Count();
+
+    public static native CEconItemRarityDefinition FindByName(const char[] name);
+    public static native CEconItemRarityDefinition FindByDBValue(int value);
+
+    property int DBValue
+    {
+        public native get();
+    }
+
+    public native int GetName(char[] buffer, int len);
+    public native int GetLocKey(char[] buffer, int len);
+    public native int GetWepLocKey(char[] buffer, int len);
+    public native int GetCharacterLocKey(char[] buffer, int len);
+    public native int GetLootList(char[] buffer, int len);
+    public native int GetRecycleLootList(char[] buffer, int len);
+    public native int GetDropSound(char[] buffer, int len);
+
+    property int AttribColor
+    {
+        public native get();
+    }
+
+    public native int GetNextRarity(char[] buffer, int len);
+    
+    property int WhiteCount
+    {
+        public native get();
+    }
+    
+    property int BlackCount
+    {
+        public native get();
+    }
+    
+    property int Weight
+    {
+        public native get();
+    }
+}
+
+methodmap CEconItemQualityDefinition    // < Address
+{
+    public static native CEconItemQualityDefinition Get(int index);
+    public static native int Count();
+
+    public static native CEconItemQualityDefinition FindByName(const char[] name);
+    public static native CEconItemQualityDefinition FindByDBValue(int value);
+
+    property int DBValue
+    {
+        public native get();
+    }
+
+    public native int GetName(char[] buffer, int len);
+    
+    property int Weight
+    {
+        public native get();
+    }
+
+    property bool RequiresExplicitMatches
+    {
+        public native get();
+    }
+    
+    property bool CanSupportSet
+    {
+        public native get();
+    }
+
+    public native int GetHexColor(char[] buffer, int len);
 }
 
 public Extension __ext_EconAPI = 
@@ -247,18 +361,21 @@ public Extension __ext_EconAPI =
 public __ext_EconAPI_SetNTVOptional()
 {
     // CEconItemDefinition
-    MarkNativeAsOptional("CEconItemDefinition.ItemCount.get");
-    MarkNativeAsOptional("CEconItemDefinition.FindByIndex");
+    MarkNativeAsOptional("CEconItemDefinition.Get");
+    MarkNativeAsOptional("CEconItemDefinition.Count");
+    MarkNativeAsOptional("CEconItemDefinition.FindByDefIndex");
     MarkNativeAsOptional("CEconItemDefinition.FindByName");
-    MarkNativeAsOptional("CEconItemDefinition.GetDefinitionIndex");
+    MarkNativeAsOptional("CEconItemDefinition.DefinitionIndex.get");
     MarkNativeAsOptional("CEconItemDefinition.GetDefinitionName");
     MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
-    MarkNativeAsOptional("CEconItemDefinition.GetUsedByTeam");
-    MarkNativeAsOptional("CEconItemDefinition.GetNumSupportedStickerSlots");
+    MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");
+    MarkNativeAsOptional("CEconItemDefinition.NumSupportedStickerSlots.get");
     MarkNativeAsOptional("CEconItemDefinition.GetEconImage");
     MarkNativeAsOptional("CEconItemDefinition.GetModel");
 
     // CPaintKit
+    MarkNativeAsOptional("CPaintKit.Get");
+    MarkNativeAsOptional("CPaintKit.Count");
     MarkNativeAsOptional("CPaintKit.FindByID");
     MarkNativeAsOptional("CPaintKit.FindByName");
     MarkNativeAsOptional("CPaintKit.ID.get");
@@ -268,12 +385,14 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CPaintKit.GetPattern");
     MarkNativeAsOptional("CPaintKit.Rarity.get");
     MarkNativeAsOptional("CPaintKit.Style.get");
-    MarkNativeAsOptional("CPaintKit.DefaultWear.get");
     MarkNativeAsOptional("CPaintKit.MinWear.get");
     MarkNativeAsOptional("CPaintKit.MaxWear.get");
+    MarkNativeAsOptional("CPaintKit.PatternScale.get");
     MarkNativeAsOptional("CPaintKit.GetVmtPath");
 
     // CEconMusicDefinition
+    MarkNativeAsOptional("CEconMusicDefinition.Get");
+    MarkNativeAsOptional("CEconMusicDefinition.Count");
     MarkNativeAsOptional("CEconMusicDefinition.FindByName");
     MarkNativeAsOptional("CEconMusicDefinition.FindByID");
     MarkNativeAsOptional("CEconMusicDefinition.ID.get");
@@ -284,8 +403,45 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconMusicDefinition.GetInventoryImage");
     
     // CEconItemSetDefinition
+    MarkNativeAsOptional("CEconItemSetDefinition.Get");
+    MarkNativeAsOptional("CEconItemSetDefinition.Count");
     MarkNativeAsOptional("CEconItemSetDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemSetDefinition.GetName");
     MarkNativeAsOptional("CEconItemSetDefinition.GetLocalizedName");
     MarkNativeAsOptional("CEconItemSetDefinition.GetLocalizedDescription");
+    MarkNativeAsOptional("CEconItemSetDefinition.BundleItemDef.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.IsCollection.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.IsHiddenSet.get");
+
+    // CEconItemRarityDefinition
+    MarkNativeAsOptional("CEconItemRarityDefinition.Get");
+    MarkNativeAsOptional("CEconItemRarityDefinition.Count");
+    MarkNativeAsOptional("CEconItemRarityDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemRarityDefinition.FindByDBValue");
+    MarkNativeAsOptional("CEconItemRarityDefinition.DBValue.get");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetName");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetLocKey");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetWepLocKey");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetCharacterLocKey");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetLootList");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetRecycleLootList");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetDropSound");
+    MarkNativeAsOptional("CEconItemRarityDefinition.AttribColor.get");
+    MarkNativeAsOptional("CEconItemRarityDefinition.GetNextRarity");
+    MarkNativeAsOptional("CEconItemRarityDefinition.WhiteCount.get");
+    MarkNativeAsOptional("CEconItemRarityDefinition.BlackCount.get");
+    MarkNativeAsOptional("CEconItemRarityDefinition.Weight.get");
+    
+    // CEconItemQualityDefinition
+    MarkNativeAsOptional("CEconItemQualityDefinition.Get");
+    MarkNativeAsOptional("CEconItemQualityDefinition.Count");
+    MarkNativeAsOptional("CEconItemQualityDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemQualityDefinition.FindByDBValue");
+    MarkNativeAsOptional("CEconItemQualityDefinition.DBValue.get");
+    MarkNativeAsOptional("CEconItemQualityDefinition.GetName");
+    MarkNativeAsOptional("CEconItemQualityDefinition.Weight.get");
+    MarkNativeAsOptional("CEconItemQualityDefinition.RequiresExplicitMatches.get");
+    MarkNativeAsOptional("CEconItemQualityDefinition.CanSupportSet.get");
+    MarkNativeAsOptional("CEconItemQualityDefinition.GetHexColor");
 }
 #endif

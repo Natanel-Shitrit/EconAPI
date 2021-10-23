@@ -13,10 +13,25 @@
         }
         "Offsets"
         {
+            "CEconItemSchema::m_mapRarities"
+            {
+                "windows"       "100"
+                "linux"         "100"
+            }
+            "CEconItemSchema::m_mapQualities"
+            {
+                "windows"       "136"
+                "linux"         "136"
+            }
             "CEconItemSchema::m_mapItems"
             {
                 "windows"       "172"
                 "linux"         "172"
+            }
+            "CEconItemSchema::m_mapItemSets"
+            {
+                "windows"       "340"
+                "linux"         "340"
             }
             "CEconItemSchema::m_mapPaintKits"
             {

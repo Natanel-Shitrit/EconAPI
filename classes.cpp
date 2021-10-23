@@ -324,10 +324,110 @@ CEconItemSetDefinition* CEconItemSchema::GetItemSetByName(const char* pszName)
     {
         FOR_EACH_MAP_FAST(*pMapItemSet, i)
         {
-            if (!strcmp(pszName, pMapItemSet->Element(i).m_pszName))
+            if (!strcmp(pszName, pMapItemSet->Element(i).GetName()))
             {
                 return &pMapItemSet->Element(i);
             }
+        }
+    }
+
+    return nullptr;
+}
+
+// CEconItemRarityDefinition
+CUtlMap<int, CEconItemRarityDefinition, int, CDefLess<int>>* CEconItemSchema::GetItemRarityDefinitionMap()
+{
+    static int offset = -1;
+
+    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemSchema::m_mapRarities", &offset))
+    {
+        smutils->LogError(myself, "Failed to get CEconItemSchema::m_mapRarities offset.");
+
+        return nullptr;
+    }
+    
+    return (CUtlMap<int, CEconItemRarityDefinition, int, CDefLess<int>>*)((intptr_t)this + offset);
+}
+
+CEconItemRarityDefinition* CEconItemSchema::GetItemRarityDefinitionByName(const char* pszName)
+{
+    auto pItemRarityDefinitionMap = GetItemRarityDefinitionMap();
+
+    if (pItemRarityDefinitionMap)
+    {
+        FOR_EACH_MAP_FAST(*pItemRarityDefinitionMap, i)
+        {
+            if (!strcmp(pszName, pItemRarityDefinitionMap->Element(i).GetName()))
+            {
+                return &pItemRarityDefinitionMap->Element(i);
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+CEconItemRarityDefinition* CEconItemSchema::GetItemRarityDefinitionByDBValue(uint32 iValue)
+{
+    auto pItemRarityDefinitionMap = GetItemRarityDefinitionMap();
+
+    if (pItemRarityDefinitionMap)
+    {
+        int iIndex = pItemRarityDefinitionMap->Find(iValue);
+        
+        if (pItemRarityDefinitionMap->IsValidIndex(iIndex))
+        {
+            return &pItemRarityDefinitionMap->Element(iIndex);
+        }
+    }
+
+    return nullptr;
+}
+
+// CEconItemQualityDefinition
+CUtlMap<int, CEconItemQualityDefinition, int, CDefLess<int>>* CEconItemSchema::GetItemQualityDefinitionMap()
+{
+    static int offset = -1;
+
+    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemSchema::m_mapQualities", &offset))
+    {
+        smutils->LogError(myself, "Failed to get CEconItemSchema::m_mapQualities offset.");
+
+        return nullptr;
+    }
+    
+    return (CUtlMap<int, CEconItemQualityDefinition, int, CDefLess<int>>*)((intptr_t)this + offset);
+}
+
+CEconItemQualityDefinition* CEconItemSchema::GetItemQualityDefinitionByName(const char* pszName)
+{
+    auto pItemQualityDefinitionMap = GetItemQualityDefinitionMap();
+
+    if (pItemQualityDefinitionMap)
+    {
+        FOR_EACH_MAP_FAST(*pItemQualityDefinitionMap, i)
+        {
+            if (!strcmp(pszName, pItemQualityDefinitionMap->Element(i).GetName()))
+            {
+                return &pItemQualityDefinitionMap->Element(i);
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+CEconItemQualityDefinition* CEconItemSchema::GetItemQualityDefinitionByDBValue(uint32 iValue)
+{
+    auto pItemQualityDefinitionMap = GetItemQualityDefinitionMap();
+
+    if (pItemQualityDefinitionMap)
+    {
+        int iIndex = pItemQualityDefinitionMap->Find(iValue);
+        
+        if (pItemQualityDefinitionMap->IsValidIndex(iIndex))
+        {
+            return &pItemQualityDefinitionMap->Element(iIndex);
         }
     }
 
