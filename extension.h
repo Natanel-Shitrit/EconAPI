@@ -22,15 +22,12 @@
 // networkvar.h must be included before smsdk_ext.h !!!
 #include "networkvar.h"
 #include "smsdk_ext.h"
-#include <server_class.h>
 
 #ifdef PLATFORM_WINDOWS
 #define VCallingConvention __thiscall
 #else
 #define VCallingConvention __cdecl
 #endif
-
-typedef CBaseEntity CBaseCombatWeapon;
 
 /**
  * @brief Sample implementation of the SDK Extension.
