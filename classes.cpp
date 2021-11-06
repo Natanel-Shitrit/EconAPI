@@ -369,7 +369,7 @@ CEconMusicDefinition* CEconItemSchema::GetMusicDefinitionByID(uint32 nID)
 }
 
 // CEconItemSetDefinition
-CUtlMap<const char*, CEconItemSetDefinition, int>* CEconItemSchema::GetItemSetsMap()
+CUtlMap<const char*, CEconItemSetDefinition, int>* CEconItemSchema::GetItemSetDefinitionMap()
 {
     static int offset = -1;
 
@@ -385,7 +385,7 @@ CUtlMap<const char*, CEconItemSetDefinition, int>* CEconItemSchema::GetItemSetsM
 
 CEconItemSetDefinition* CEconItemSchema::GetItemSetByName(const char* pszName)
 {
-    auto pMapItemSet = GetItemSetsMap();
+    auto pMapItemSet = GetItemSetDefinitionMap();
 
     if (pMapItemSet)
     {

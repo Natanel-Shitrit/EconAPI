@@ -352,35 +352,42 @@ public:
 
     // CEconItemDefinition
     CUtlHashMapLarge<int, CEconItemDefinition*>* GetItemDefinitionMap();
+    CEconItemDefinition* GetItemDefinition(int iIndex) { return GetItemDefinitionMap()->IsValidIndex(iIndex) ? GetItemDefinitionMap()->Element(iIndex) : nullptr; }
     CEconItemDefinition* GetItemDefinitionByName(const char* pszDefName);
     CEconItemDefinition* GetItemDefinitionByDefIndex(uint16_t iItemIndex);
 
     // CPaintKit
     CUtlMap<int, CPaintKit*, int, CDefLess<int>>* GetPaintKitMap();
+    CPaintKit* GetPaintKit(int iIndex) { return GetPaintKitMap()->IsValidIndex(iIndex) ? GetPaintKitMap()->Element(iIndex) : nullptr; }
     CPaintKit* GetPaintKitByName(const char* pszDefName);
     CPaintKit* GetPaintKitByID(uint32 iItemIndex);
 
     // CStickerKit
     CUtlMap<int, CStickerKit*, int, CDefLess<int>>* GetStickerKitMap();
+    CStickerKit* GetStickerKit(int iIndex) { return GetStickerKitMap()->IsValidIndex(iIndex) ? GetStickerKitMap()->Element(iIndex) : nullptr; }
     CStickerKit* GetStickerKitByName(const char* pszDefName);
     CStickerKit* GetStickerKitByID(uint32 iID);
 
     // CEconMusicDefinition
     CUtlMap<int, CEconMusicDefinition*, int, CDefLess<int>>* GetMusicDefinitionMap();
+    CEconMusicDefinition* GetMusicDefinition(int iIndex) { return GetMusicDefinitionMap()->IsValidIndex(iIndex) ? GetMusicDefinitionMap()->Element(iIndex) : nullptr; }
     CEconMusicDefinition* GetMusicDefinitionByName(const char* pszDefName);
     CEconMusicDefinition* GetMusicDefinitionByID(uint32 iItemIndex);
 
     // CEconItemSetDefinition
-    CUtlMap<const char*, CEconItemSetDefinition, int>* GetItemSetsMap();
+    CUtlMap<const char*, CEconItemSetDefinition, int>* GetItemSetDefinitionMap();
+    CEconItemSetDefinition* GetItemSetDefinition(int iIndex) { return GetItemSetDefinitionMap()->IsValidIndex(iIndex) ? &GetItemSetDefinitionMap()->Element(iIndex) : nullptr; }
     CEconItemSetDefinition* GetItemSetByName(const char* pszName);
 
     // CEconItemRarityDefinition
     CUtlMap<int, CEconItemRarityDefinition, int, CDefLess<int>>* GetItemRarityDefinitionMap();
+    CEconItemRarityDefinition* GetItemRarityDefinition(int iIndex) { return GetItemRarityDefinitionMap()->IsValidIndex(iIndex) ? &GetItemRarityDefinitionMap()->Element(iIndex) : nullptr; }
     CEconItemRarityDefinition* GetItemRarityDefinitionByName(const char* pszName);
     CEconItemRarityDefinition* GetItemRarityDefinitionByDBValue(uint32 iValue);
 
     // CEconItemQualityDefinition
     CUtlMap<int, CEconItemQualityDefinition, int, CDefLess<int>>* GetItemQualityDefinitionMap();
+    CEconItemQualityDefinition* GetItemQualityDefinition(int iIndex) { return GetItemQualityDefinitionMap()->IsValidIndex(iIndex) ? &GetItemQualityDefinitionMap()->Element(iIndex) : nullptr; }
     CEconItemQualityDefinition* GetItemQualityDefinitionByName(const char* pszName);
     CEconItemQualityDefinition* GetItemQualityDefinitionByDBValue(uint32 iValue);
 };

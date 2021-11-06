@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -25,11 +25,7 @@ static cell_t CEconItemDefinition_Get(IPluginContext* pContext, const cell_t* pa
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    auto pItemDefMap = g_pCEconItemSchema->GetItemDefinitionMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pItemDefMap);
-        
-    return pItemDefMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(pItemDefMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinition(params[1]));
 }
 
 static cell_t CEconItemDefinition_Count(IPluginContext* pContext, const cell_t* params)
@@ -174,11 +170,7 @@ static cell_t CPaintKit_Get(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    auto pPaintKitMap = g_pCEconItemSchema->GetPaintKitMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pPaintKitMap);
-    
-    return pPaintKitMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(pPaintKitMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetPaintKit(params[1]));
 }
 
 static cell_t CPaintKit_Count(IPluginContext* pContext, const cell_t* params)
@@ -352,11 +344,7 @@ static cell_t CStickerKit_Get(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    auto pStickerKitMap = g_pCEconItemSchema->GetStickerKitMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pStickerKitMap);
-    
-    return pStickerKitMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(pStickerKitMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetStickerKit(params[1]));
 }
 
 static cell_t CStickerKit_Count(IPluginContext* pContext, const cell_t* params)
@@ -608,11 +596,7 @@ static cell_t CEconMusicDefinition_Get(IPluginContext* pContext, const cell_t* p
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    auto pMusicDefinitionMap = g_pCEconItemSchema->GetMusicDefinitionMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pMusicDefinitionMap);
-    
-    return pMusicDefinitionMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(pMusicDefinitionMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinition(params[1]));
 }
 
 static cell_t CEconMusicDefinition_Count(IPluginContext* pContext, const cell_t* params)
@@ -798,12 +782,8 @@ static cell_t CEconItemSetItem_GetMusicKit(IPluginContext* pContext, const cell_
 static cell_t CEconItemSetDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
-
-    auto pItemSetsMap = g_pCEconItemSchema->GetItemSetsMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pItemSetsMap);
     
-    return pItemSetsMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(&pItemSetsMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemSetDefinition(params[1]));
 }
 
 static cell_t CEconItemSetDefinition_Count(IPluginContext* pContext, const cell_t* params)
@@ -928,12 +908,8 @@ static cell_t CEconItemSetDefinition_GetItem(IPluginContext* pContext, const cel
 static cell_t CEconItemRarityDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
-
-    auto pItemRarityDefinitionMap = g_pCEconItemSchema->GetItemRarityDefinitionMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pItemRarityDefinitionMap);
     
-    return pItemRarityDefinitionMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(&pItemRarityDefinitionMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemRarityDefinition(params[1]));
 }
 
 static cell_t CEconItemRarityDefinition_Count(IPluginContext* pContext, const cell_t* params)
@@ -1151,11 +1127,7 @@ static cell_t CEconItemQualityDefinition_Get(IPluginContext* pContext, const cel
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    auto pItemQualityDefinitionMap = g_pCEconItemSchema->GetItemQualityDefinitionMap();
-
-    SM_NATIVE_ERROR_IF_NULL(pItemQualityDefinitionMap);
-    
-    return pItemQualityDefinitionMap->IsValidIndex(params[1]) ? reinterpret_cast<cell_t>(&pItemQualityDefinitionMap->Element(params[1])) : 0;
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemQualityDefinition(params[1]));
 }
 
 static cell_t CEconItemQualityDefinition_Count(IPluginContext* pContext, const cell_t* params)
