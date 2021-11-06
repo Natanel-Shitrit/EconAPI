@@ -329,12 +329,12 @@ methodmap CEconItemSetItem            // < Address
     // CEconItemSetItem is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
     // Always check, if not wounded CEconItemSetItem - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
 
-    property int ItemDef
+    property CEconItemDefinition ItemDef
     {
         public native get();
     }
 
-    property int PaintKit
+    property CPaintKit PaintKit
     {
         public native get();
     }
@@ -349,12 +349,12 @@ methodmap CEconItemSetItem            // < Address
         public native get();
     }
 
-    property int StickerKit
+    property CStickerKit StickerKit
     {
         public native get();
     }
 
-    property int MusicKit
+    property CEconMusicDefinition MusicKit
     {
         public native get();
     }
