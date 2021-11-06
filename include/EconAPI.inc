@@ -64,11 +64,8 @@ enum CEconItemQualityDefinition
     CEconItemQualityDefinition_NULL = 0
 }
 
-methodmap CEconItemDefinition	        // < Address
+methodmap CEconItemDefinition
 {
-    // CEconItemDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CEconItemDefinition - NULL ( if(pItemDefinition) ) !!!!!!!!!!!!!!!!!!!!!
-
     public static native CEconItemDefinition Get(int index);
     public static native int Count();
 
@@ -164,11 +161,8 @@ methodmap CEconItemDefinition	        // < Address
     public native int GetModel(EconAPI_ModelType iModelType, char[] buffer, int len);
 }
 
-methodmap CPaintKit	                    // < Address
+methodmap CPaintKit
 {
-    // CPaintKit is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CPaintKit - NULL ( if(pPaintKit) ) !!!!!!!!!!!!!!!!!!!!!
-    
     public static native CPaintKit Get(int index);
     public static native int Count();
 
@@ -223,11 +217,8 @@ methodmap CPaintKit	                    // < Address
     public native int GetVmtPath(char[] buffer, int len);
 }
 
-methodmap CStickerKit	                // < Address
+methodmap CStickerKit
 {
-    // CStickerKit is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CStickerKit - NULL ( if(pStickerKit) ) !!!!!!!!!!!!!!!!!!!!!
-    
     public static native CStickerKit Get(int index);
     public static native int Count();
 
@@ -290,11 +281,8 @@ methodmap CStickerKit	                // < Address
     public native int GetIconURLLarge(char[] buffer, int len);
 }
 
-methodmap CEconMusicDefinition	        // < Address
+methodmap CEconMusicDefinition
 {
-    // CEconMusicDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CEconMusicDefinition - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
-    
     public static native CEconMusicDefinition Get(int index);
     public static native int Count();
 
@@ -324,11 +312,8 @@ methodmap CEconMusicDefinition	        // < Address
     public native int GetInventoryImage(char[] buffer, int len);
 }
 
-methodmap CEconItemSetItem            // < Address
+methodmap CEconItemSetItem
 {
-    // CEconItemSetItem is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CEconItemSetItem - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
-
     property CEconItemDefinition ItemDef
     {
         public native get();
@@ -360,11 +345,8 @@ methodmap CEconItemSetItem            // < Address
     }
 }
 
-methodmap CEconItemSetDefinition	    // < Address
+methodmap CEconItemSetDefinition
 {
-    // CEconItemSetDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
-    // Always check, if not wounded CEconItemSetDefinition - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
-    
     public static native CEconItemSetDefinition Get(int index);
     public static native int Count();
 
@@ -397,7 +379,7 @@ methodmap CEconItemSetDefinition	    // < Address
     public native CEconItemSetItem GetItem(int index);
 }
 
-methodmap CEconItemRarityDefinition	    // < Address
+methodmap CEconItemRarityDefinition
 {
     public static native CEconItemRarityDefinition Get(int index);
     public static native int Count();
@@ -441,7 +423,7 @@ methodmap CEconItemRarityDefinition	    // < Address
     }
 }
 
-methodmap CEconItemQualityDefinition    // < Address
+methodmap CEconItemQualityDefinition
 {
     public static native CEconItemQualityDefinition Get(int index);
     public static native int Count();
