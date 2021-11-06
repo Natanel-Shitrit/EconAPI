@@ -177,6 +177,7 @@ class ExtensionConfig(object):
       '-Wno-unused',
       '-Wno-switch',
       '-Wno-array-bounds',
+      '-Wno-macro-redefined',
       '-msse',
       '-m32',
       '-fvisibility=hidden',
