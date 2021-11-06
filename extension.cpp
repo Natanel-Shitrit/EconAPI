@@ -61,8 +61,3 @@ void EconAPI::SDK_OnUnload()
 	gameconfs->CloseGameConfigFile(g_pGameConf[GameConf_EconAPI]);
 	gameconfs->CloseGameConfigFile(g_pGameConf[GameConf_CSST]);
 }
-
-bool EconAPI::SDK_OnMetamodLoad(ISmmAPI* ismm, char* error, size_t maxlen, bool late)
-{
-	return true;
-}

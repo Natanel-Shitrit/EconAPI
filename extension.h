@@ -79,6 +79,5 @@ public:
 #define GameConf_CSST 1
 
 extern IGameConfig* g_pGameConf[2];
-extern CGlobalVars* gpGlobals;
 
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
