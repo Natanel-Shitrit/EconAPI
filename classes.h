@@ -240,18 +240,19 @@ struct item_list_entry_t
 class CEconItemSetDefinition
 {
 public:
-    const char* GetName( void ) const                    { return m_pszName; }
-    const char* GetLocKey( void ) const                  { return m_pszLocalizedName; }
-    const char* GetUnlocalizedName( void ) const         { return m_pszUnlocalizedName; }
-    const char* GetLocDescription( void ) const          { return m_pszLocalizedDescription; }
-    int            GetBundle( void ) const                  { return m_iBundleItemDef; }
-    int            GetItemCount( void ) const               { return m_ItemEntries.Count(); }
-    int            GetItemDef( int iIndex ) const           { return m_ItemEntries[iIndex].m_nItemDef; }
-    int            GetItemPaintKit( int iIndex ) const      { return m_ItemEntries[iIndex].m_nPaintKit; }
-    item_definition_index_t GetCraftReward( void ) const { return m_nCraftReward; }
+    const char* GetName( void ) const                       { return m_pszName; }
+    const char* GetLocKey( void ) const                     { return m_pszLocalizedName; }
+    const char* GetUnlocalizedName( void ) const            { return m_pszUnlocalizedName; }
+    const char* GetLocDescription( void ) const             { return m_pszLocalizedDescription; }
+    int         GetBundle( void ) const                     { return m_iBundleItemDef; }
+    int         IsCollection( void ) const                  { return m_bIsCollection; }
+    int         IsHiddenSet( void ) const                   { return m_bIsHiddenSet; }
+    int         GetItemCount( void ) const                  { return m_ItemEntries.Count(); }
+    const item_list_entry_t* GetItem( int iIndex ) const    { return &m_ItemEntries[iIndex]; }
+    item_definition_index_t GetCraftReward( void ) const    { return m_nCraftReward; }
 private: // Not used, just for offset.
     void* m_pVTable;
-public: // Used.
+private: // Used.
     const char    *m_pszName;
     const char    *m_pszLocalizedName;
     const char    *m_pszUnlocalizedName;

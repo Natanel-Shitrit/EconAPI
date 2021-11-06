@@ -738,6 +738,62 @@ static cell_t CEconMusicDefinition_GetInventoryImage(IPluginContext* pContext, c
     return numBytes;
 }
 
+// CEconItemSetItem //
+static cell_t CEconItemSetItem_GetItemDef(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    
+    return reinterpret_cast<cell_t>(pItemSetItem->m_nItemDef);
+}
+
+static cell_t CEconItemSetItem_GetPaintKit(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+
+    return reinterpret_cast<cell_t>(pItemSetItem->m_nPaintKit);
+}
+
+static cell_t CEconItemSetItem_GetPaintKitSeed(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+
+    return reinterpret_cast<cell_t>(pItemSetItem->m_nPaintKitSeed);
+}
+
+static cell_t CEconItemSetItem_GetPaintKitWear(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+
+    return sp_ftoc(pItemSetItem->m_flPaintKitWear);
+}
+
+static cell_t CEconItemSetItem_GetStickerKit(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+
+    return reinterpret_cast<cell_t>((int)pItemSetItem->m_nStickerKit);
+}
+
+static cell_t CEconItemSetItem_GetMusicKit(IPluginContext* pContext, const cell_t* params)
+{
+    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+
+    return reinterpret_cast<cell_t>((int)pItemSetItem->m_nMusicKit);
+}
+
+
 // CEconItemSetDefinition //
 static cell_t CEconItemSetDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
@@ -779,7 +835,7 @@ static cell_t CEconItemSetDefinition_GetName(IPluginContext* pContext, const cel
     SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
 
     size_t numBytes = 0;
-    const char* sBuf = pItemSetDefinition->m_pszName;
+    const char* sBuf = pItemSetDefinition->GetName();
 
     if (sBuf)
     {
@@ -838,7 +894,7 @@ static cell_t CEconItemSetDefinition_IsCollection(IPluginContext* pContext, cons
 
     SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
 
-    return pItemSetDefinition->m_bIsCollection;
+    return pItemSetDefinition->IsCollection();
 }
 
 static cell_t CEconItemSetDefinition_IsHiddenSet(IPluginContext* pContext, const cell_t* params)
@@ -847,7 +903,25 @@ static cell_t CEconItemSetDefinition_IsHiddenSet(IPluginContext* pContext, const
 
     SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
 
-    return pItemSetDefinition->m_bIsHiddenSet;
+    return pItemSetDefinition->IsHiddenSet();
+}
+
+static cell_t CEconItemSetDefinition_GetItemCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return pItemSetDefinition->GetItemCount();
+}
+
+static cell_t CEconItemSetDefinition_GetItem(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return reinterpret_cast<cell_t>(pItemSetDefinition->GetItem(params[2]));
 }
 
 // CEconItemRarityDefinition
@@ -1251,6 +1325,14 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconMusicDefinition.GetPedestalDisplayModel",       CEconMusicDefinition_GetPedestalDisplayModel },
     { "CEconMusicDefinition.GetInventoryImage",             CEconMusicDefinition_GetInventoryImage },
 
+    // CEconItemSetItem
+    { "CEconItemSetItem.ItemDef.get",                       CEconItemSetItem_GetItemDef },
+    { "CEconItemSetItem.PaintKit.get",                      CEconItemSetItem_GetPaintKit },
+    { "CEconItemSetItem.PaintKitSeed.get",                  CEconItemSetItem_GetPaintKitSeed },
+    { "CEconItemSetItem.PaintKitWear.get",                  CEconItemSetItem_GetPaintKitWear },
+    { "CEconItemSetItem.StickerKit.get",                    CEconItemSetItem_GetStickerKit },
+    { "CEconItemSetItem.MusicKit.get",                      CEconItemSetItem_GetMusicKit },
+
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },
     { "CEconItemSetDefinition.Count",                       CEconItemSetDefinition_Count },
@@ -1261,6 +1343,8 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemSetDefinition.BundleItemDef.get",           CEconItemSetDefinition_GetBundleItemDef },
     { "CEconItemSetDefinition.IsCollection.get",            CEconItemSetDefinition_IsCollection },
     { "CEconItemSetDefinition.IsHiddenSet.get",             CEconItemSetDefinition_IsHiddenSet },
+    { "CEconItemSetDefinition.ItemCount.get",               CEconItemSetDefinition_GetItemCount },
+    { "CEconItemSetDefinition.GetItem",                     CEconItemSetDefinition_GetItem },
 
     // CEconItemRarityDefinition
     { "CEconItemRarityDefinition.Get",                      CEconItemRarityDefinition_Get },

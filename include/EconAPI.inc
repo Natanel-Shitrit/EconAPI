@@ -324,6 +324,42 @@ methodmap CEconMusicDefinition	        // < Address
     public native int GetInventoryImage(char[] buffer, int len);
 }
 
+methodmap CEconItemSetItem            // < Address
+{
+    // CEconItemSetItem is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
+    // Always check, if not wounded CEconItemSetItem - NULL ( if(pMusicDefinition) ) !!!!!!!!!!!!!!!!!!!!!
+
+    property int ItemDef
+    {
+        public native get();
+    }
+
+    property int PaintKit
+    {
+        public native get();
+    }
+
+    property int PaintKitSeed
+    {
+        public native get();
+    }
+
+    property float PaintKitWear
+    {
+        public native get();
+    }
+
+    property int StickerKit
+    {
+        public native get();
+    }
+
+    property int MusicKit
+    {
+        public native get();
+    }
+}
+
 methodmap CEconItemSetDefinition	    // < Address
 {
     // CEconItemSetDefinition is not Handle, CloseHandle() - NOT NEEDED !!!!!!!!!!!!!!!!!!!!!
@@ -352,6 +388,13 @@ methodmap CEconItemSetDefinition	    // < Address
     {
         public native get();
     }
+
+    property int ItemCount
+    {
+        public native get();
+    }
+
+    public native CEconItemSetItem GetItem(int index);
 }
 
 methodmap CEconItemRarityDefinition	    // < Address
@@ -513,6 +556,14 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconMusicDefinition.GetPedestalDisplayModel");
     MarkNativeAsOptional("CEconMusicDefinition.GetInventoryImage");
     
+    // CEconItemSetItem
+    MarkNativeAsOptional("CEconItemSetItem.ItemDef.get");
+    MarkNativeAsOptional("CEconItemSetItem.PaintKit.get");
+    MarkNativeAsOptional("CEconItemSetItem.PaintKitSeed.get");
+    MarkNativeAsOptional("CEconItemSetItem.PaintKitWear.get");
+    MarkNativeAsOptional("CEconItemSetItem.StickerKit.get");
+    MarkNativeAsOptional("CEconItemSetItem.MusicKit.get");
+
     // CEconItemSetDefinition
     MarkNativeAsOptional("CEconItemSetDefinition.Get");
     MarkNativeAsOptional("CEconItemSetDefinition.Count");
@@ -523,6 +574,8 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemSetDefinition.BundleItemDef.get");
     MarkNativeAsOptional("CEconItemSetDefinition.IsCollection.get");
     MarkNativeAsOptional("CEconItemSetDefinition.IsHiddenSet.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.ItemCount.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.GetItem");
 
     // CEconItemRarityDefinition
     MarkNativeAsOptional("CEconItemRarityDefinition.Get");
