@@ -49,6 +49,11 @@
                 "windows"       "340"
                 "linux"         "340"
             }
+            "CEconItemSchema::m_dictLootLists"
+            {
+                "windows"       "448"
+                "linux"         "448"
+            }
             "CEconItemSchema::m_mapPaintKits"
             {
                 "windows"       "648"

@@ -1237,7 +1237,119 @@ static cell_t CEconItemQualityDefinition_GetHexColor(IPluginContext* pContext, c
     return numBytes;
 }
 
+// CEconLootListDefinition
+static cell_t CEconLootListDefinition_Get(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinition(params[1]));
+}
+
+static cell_t CEconLootListDefinition_Count(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+    
+    return g_pCEconItemSchema->GetLootListDefinitionDict()->Count();
+}
+
+static cell_t CEconLootListDefinition_GetName(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pLootListDefinition->GetName();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CEconLootListDefinition_GetHeroID(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->GetHeroID();
+}
+
+static cell_t CEconLootListDefinition_IsPublicListContents(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->IsPublicListContents();
+}
+
+static cell_t CEconLootListDefinition_ContainsStickersAutographedByProplayers(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->ContainsStickersAutographedByProplayers();
+}
+
+static cell_t CEconLootListDefinition_ContainsStickersRepresentingOrganizations(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->ContainsStickersRepresentingOrganizations();
+}
+
+static cell_t CEconLootListDefinition_ContainsPatchesRepresentingOrganizations(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->ContainsPatchesRepresentingOrganizations();
+}
+
+static cell_t CEconLootListDefinition_WillProduceStattrak(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->WillProduceStattrak();
+}
+
+static cell_t CEconLootListDefinition_GetTotalWeight(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return sp_ftoc(pLootListDefinition->GetTotalWeight());
+}
+
+static cell_t CEconLootListDefinition_IsServerList(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->IsServerList();
+}
+/*
+static cell_t CEconLootListDefinition_(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->_____();
+}
+*/
 extern const sp_nativeinfo_t g_ExtensionNatives[] =
 {
     // CEconItemDefinition
@@ -1356,6 +1468,19 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemQualityDefinition.RequiresExplicitMatches.get", CEconItemQualityDefinition_GetRequiresExplicitMatches },
     { "CEconItemQualityDefinition.CanSupportSet.get",           CEconItemQualityDefinition_CanSupportSet },
     { "CEconItemQualityDefinition.GetHexColor",                 CEconItemQualityDefinition_GetHexColor },
+
+    // CEconLootListDefinition
+    { "CEconLootListDefinition.Get",                                CEconLootListDefinition_Get },
+    { "CEconLootListDefinition.Count",                              CEconLootListDefinition_Count },
+    { "CEconLootListDefinition.GetName",                            CEconLootListDefinition_GetName },
+    { "CEconLootListDefinition.HeroID.get",                         CEconLootListDefinition_GetHeroID },
+    { "CEconLootListDefinition.PublicListContents.get",             CEconLootListDefinition_IsPublicListContents },
+    { "CEconLootListDefinition.ContainsAutographedStickers.get",    CEconLootListDefinition_ContainsStickersAutographedByProplayers },
+    { "CEconLootListDefinition.ContainsOrganizationsStickers.get",  CEconLootListDefinition_ContainsStickersRepresentingOrganizations },
+    { "CEconLootListDefinition.ContainsOrganizationsPatches.get",   CEconLootListDefinition_ContainsPatchesRepresentingOrganizations },
+    { "CEconLootListDefinition.WillProduceStattrak.get",            CEconLootListDefinition_WillProduceStattrak },
+    { "CEconLootListDefinition.TotalWeight.get",                    CEconLootListDefinition_GetTotalWeight },
+    { "CEconLootListDefinition.ServerList.get",                     CEconLootListDefinition_IsServerList },
 
     { nullptr,  nullptr }
 };

@@ -456,6 +456,54 @@ methodmap CEconItemQualityDefinition
     public native int GetHexColor(char[] buffer, int len);
 }
 
+methodmap CEconLootListDefinition
+{
+    public static native CEconLootListDefinition Get(int index);
+    public static native int Count();
+
+    public native int GetName(char[] buffer, int len);
+
+    property int HeroID
+    {
+        public native get();
+    }
+    
+    property bool PublicListContents
+    {
+        public native get();
+    }
+    
+    property bool ContainsAutographedStickers
+    {
+        public native get();
+    }
+    
+    property bool ContainsOrganizationsStickers
+    {
+        public native get();
+    }
+    
+    property bool ContainsOrganizationsPatches
+    {
+        public native get();
+    }
+    
+    property bool WillProduceStattrak
+    {
+        public native get();
+    }
+    
+    property float TotalWeight
+    {
+        public native get();
+    }
+    
+    property bool ServerList
+    {
+        public native get();
+    }
+}
+
 public Extension __ext_EconAPI = 
 {
     name = "EconAPI",
@@ -589,5 +637,18 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemQualityDefinition.RequiresExplicitMatches.get");
     MarkNativeAsOptional("CEconItemQualityDefinition.CanSupportSet.get");
     MarkNativeAsOptional("CEconItemQualityDefinition.GetHexColor");
+
+    // CEconLootListDefinition
+    MarkNativeAsOptional("CEconLootListDefinition.Get");
+    MarkNativeAsOptional("CEconLootListDefinition.Count");
+    MarkNativeAsOptional("CEconLootListDefinition.GetName");
+    MarkNativeAsOptional("CEconLootListDefinition.HeroID.get");
+    MarkNativeAsOptional("CEconLootListDefinition.PublicListContents.get");
+    MarkNativeAsOptional("CEconLootListDefinition.ContainsAutographedStickers.get");
+    MarkNativeAsOptional("CEconLootListDefinition.ContainsOrganizationsStickers.get");
+    MarkNativeAsOptional("CEconLootListDefinition.ContainsOrganizationsPatches.get");
+    MarkNativeAsOptional("CEconLootListDefinition.WillProduceStattrak.get");
+    MarkNativeAsOptional("CEconLootListDefinition.TotalWeight.get");
+    MarkNativeAsOptional("CEconLootListDefinition.ServerList.get");
 }
 #endif

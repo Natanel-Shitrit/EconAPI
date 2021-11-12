@@ -500,3 +500,18 @@ CEconItemQualityDefinition* CEconItemSchema::GetItemQualityDefinitionByDBValue(u
 
     return nullptr;
 }
+
+// CEconLootListDefinition
+CUtlDict<CEconLootListDefinition>* CEconItemSchema::GetLootListDefinitionDict()
+{
+    static int offset = -1;
+
+    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemSchema::m_dictLootLists", &offset))
+    {
+        smutils->LogError(myself, "Failed to get CEconItemSchema::m_dictLootLists offset.");
+
+        return nullptr;
+    }
+    
+    return (CUtlDict<CEconLootListDefinition>*)((intptr_t)this + offset);
+}

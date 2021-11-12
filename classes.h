@@ -20,11 +20,29 @@
 #define _INCLUDE_SOURCEMOD_EXTENSION_CLASSES_H_
 
 #include "utlhashmaplarge.h"
+#include "utldict.h"
 #include "utlstring.h"
 #include "string_t.h"
 
+//-----------------------------------------------------------------------------
+// A dictionary mapping from symbol to structure
+//-----------------------------------------------------------------------------
+
+// This is a useful macro to iterate from start to end in order in a map
+#define FOR_EACH_DICT( dictName, iteratorName ) \
+	for( int iteratorName=(dictName).First(); iteratorName != (dictName).InvalidIndex(); iteratorName = (dictName).Next( iteratorName ) )
+
+// faster iteration, but in an unspecified order
+#define FOR_EACH_DICT_FAST( dictName, iteratorName ) \
+	for ( int iteratorName = 0; iteratorName < (dictName).MaxElement(); ++iteratorName ) if ( !(dictName).IsValidIndex( iteratorName ) ) continue; else
+
+
 typedef uint32 RTime32;
+
+// The Steam backend representation of a unique item index
+typedef uint64	itemid_t;
 typedef uint16 item_definition_index_t;
+typedef uint16 attrib_definition_index_t;
 typedef uint32 attrib_value_t;
 
 enum attrib_colors_t
@@ -150,7 +168,7 @@ public:
     const char *GetsItemName( void ) const              { return sItemName.Get(); }
     const char *GetMaterialPath( void ) const           { return sMaterialPath.Get(); }
     const char *GetMaterialPathNoDrips( void ) const    { return sMaterialPathNoDrips.Get(); }
-	const char *GetInventoryImage( void ) const	        { return m_strInventoryImage.Get(); }
+    const char *GetInventoryImage( void ) const         { return m_strInventoryImage.Get(); }
 
     int         GetEventID( void ) const                { return m_nEventID; }
     int         GetEventTeamID( void ) const            { return m_nEventTeamID; }
@@ -164,37 +182,37 @@ public:
     float       GetWearMin( void ) const                { return flWearMin; }
     float       GetWearMax( void ) const                { return flWearMax; }
 
-	const char *GetIconURLSmall() const			        { return m_sIconURLSmall.Get(); }
-	const char *GetIconURLLarge() const			        { return m_sIconURLLarge.Get(); }
+    const char *GetIconURLSmall() const                 { return m_sIconURLSmall.Get(); }
+    const char *GetIconURLLarge() const                 { return m_sIconURLLarge.Get(); }
 
 private:
-	int nID;
-	int nRarity;
-	CUtlString sName;
-	CUtlString sDescriptionString;
-	CUtlString sItemName;
-	CUtlString sMaterialPath;
-	CUtlString sMaterialPathNoDrips;
-	CUtlString m_strInventoryImage;
+    int nID;
+    int nRarity;
+    CUtlString sName;
+    CUtlString sDescriptionString;
+    CUtlString sItemName;
+    CUtlString sMaterialPath;
+    CUtlString sMaterialPathNoDrips;
+    CUtlString m_strInventoryImage;
 
-	int m_nEventID;
-	int m_nEventTeamID;
-	int m_nPlayerID;
+    int m_nEventID;
+    int m_nEventTeamID;
+    int m_nPlayerID;
 
-	bool bMaterialPathIsAbsolute;
+    bool bMaterialPathIsAbsolute;
 
-	float flRotateStart;
-	float flRotateEnd;
+    float flRotateStart;
+    float flRotateEnd;
 
-	float flScaleMin;
-	float flScaleMax;
+    float flScaleMin;
+    float flScaleMax;
 
-	float flWearMin;
-	float flWearMax;
+    float flWearMin;
+    float flWearMax;
 
-	CUtlString m_sIconURLSmall;
-	CUtlString m_sIconURLLarge;
-	KeyValues *m_pKVItem;
+    CUtlString m_sIconURLSmall;
+    CUtlString m_sIconURLLarge;
+    KeyValues *m_pKVItem;
 };
 
 class CEconMusicDefinition
@@ -344,6 +362,88 @@ private:
     CUtlConstString    m_strHexColor;
 };
 
+class CEconLootListDefinition
+{
+public:
+    // TODO: m_AdditionalDrops
+    const char *GetName() const                                         { return m_pszName; }
+    // TODO: m_ItemEntries
+    uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
+    bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
+    bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
+    bool        ContainsStickersRepresentingOrganizations( void ) const { return m_bContainsStickersRepresentingOrganizations; }
+    bool        ContainsPatchesRepresentingOrganizations( void ) const  { return m_bContainsPatchesRepresentingOrganizations; }
+    bool        WillProduceStattrak( void ) const                       { return m_bWillProduceStattrak; }
+    float       GetTotalWeight( void ) const                            { return m_flTotalWeight; }
+    // TODO: m_flWeights
+    // TODO: m_RandomAttribs
+    bool        IsServerList( void ) const                              { return m_bWillProduceStattrak; }
+    // TODO: UNKNOWNS
+public:
+    struct loot_list_additional_drop_t
+    {
+        float       m_fChance;
+        bool        m_bPremiumOnly;
+        const char *m_pszLootListDefName;
+    };
+    
+    struct static_attrib_t
+    {
+        union attribute_data_union_t
+        {
+            float asFloat;
+            uint32 asUint32;
+            byte *asBlobPointer;
+        };
+
+        attrib_definition_index_t	iDefIndex;
+        attribute_data_union_t m_value;
+        bool	m_bForceGCToGenerate;
+    };
+
+    struct lootlist_attrib_t
+    {
+        static_attrib_t    m_staticAttrib;
+        float    m_flWeight;
+        float    m_flRangeMin;
+        float    m_flRangeMax;
+
+        CCopyableUtlVector< uint32 > m_vecValues;
+    };
+
+    struct random_attrib_t
+    {
+        float               m_flChanceOfRandomAttribute;
+        float               m_flTotalAttributeWeight;
+        bool                m_bPickAllAttributes;
+        CUtlVector<lootlist_attrib_t> m_RandomAttributes;
+    };
+
+private: 
+    void*                           m_pVTable; // 0 (4)
+    CUtlVector<loot_list_additional_drop_t>    m_AdditionalDrops; // 4 (+20)
+    const char*                     m_pszName; // 24 (4)
+	CUtlVector<item_list_entry_t>   m_ItemEntries; // 28 (20)
+	uint32				            m_unHeroID;             // 48 (4)
+	bool				            m_bPublicListContents;	// 52 (1) // do not show loot list contents to users (ie., when listing crate contents on Steam)
+    bool                            m_bContainsStickersAutographedByProplayers;   // 53 (1)
+    bool                            m_bContainsStickersRepresentingOrganizations;   // 54 (1)
+    bool                            m_bContainsPatchesRepresentingOrganizations;   // 55 (1)
+    bool                            m_bWillProduceStattrak; // 56 (1)
+    // [Padding] 57 (3)
+    float                           m_flTotalWeight; // 60 (4)
+    CUtlVector<float>               m_flWeights; // 64 (20)
+    CUtlVector<random_attrib_t*>    m_RandomAttribs; // 84 (20)
+    bool                            m_bServerList; // 104 (1)
+    bool                        unknown105; // 105 (1)
+    // [Padding] 106 (2)
+    int                         unknown108; // 108 (4)
+    int                         unknown112; // 112 (4)
+    int                         unknown116; // 116 (4)
+    int                         unknown120; // 120 (4)
+    int                         unknown124; // 124 (4)
+};
+
 class CEconItemSchema
 {
 public:
@@ -390,6 +490,11 @@ public:
     CEconItemQualityDefinition* GetItemQualityDefinition(int iIndex) { return GetItemQualityDefinitionMap()->IsValidIndex(iIndex) ? &GetItemQualityDefinitionMap()->Element(iIndex) : nullptr; }
     CEconItemQualityDefinition* GetItemQualityDefinitionByName(const char* pszName);
     CEconItemQualityDefinition* GetItemQualityDefinitionByDBValue(uint32 iValue);
+
+    // CEconLootListDefinition
+    CUtlDict<CEconLootListDefinition>*  GetLootListDefinitionDict();
+    CEconLootListDefinition*            GetLootListDefinition(int iIndex) { return GetLootListDefinitionDict()->IsValidIndex(iIndex) ? &GetLootListDefinitionDict()->Element(iIndex) : nullptr; }
+    const char*                         GetLootListDefinitionName(CEconLootListDefinition* pLootListDefinition);
 };
 
 extern CEconItemSchema* g_pCEconItemSchema;
