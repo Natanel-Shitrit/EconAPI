@@ -365,21 +365,6 @@ private:
 class CEconLootListDefinition
 {
 public:
-    // TODO: m_AdditionalDrops
-    const char *GetName() const                                         { return m_pszName; }
-    // TODO: m_ItemEntries
-    uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
-    bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
-    bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
-    bool        ContainsStickersRepresentingOrganizations( void ) const { return m_bContainsStickersRepresentingOrganizations; }
-    bool        ContainsPatchesRepresentingOrganizations( void ) const  { return m_bContainsPatchesRepresentingOrganizations; }
-    bool        WillProduceStattrak( void ) const                       { return m_bWillProduceStattrak; }
-    float       GetTotalWeight( void ) const                            { return m_flTotalWeight; }
-    // TODO: m_flWeights
-    // TODO: m_RandomAttribs
-    bool        IsServerList( void ) const                              { return m_bWillProduceStattrak; }
-    // TODO: UNKNOWNS
-public:
     struct loot_list_additional_drop_t
     {
         float       m_fChance;
@@ -419,6 +404,20 @@ public:
         CUtlVector<lootlist_attrib_t> m_RandomAttributes;
     };
 
+public:
+    const char *GetName() const                                         { return m_pszName; }
+    // TODO: m_ItemEntries
+    uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
+    bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
+    bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
+    bool        ContainsStickersRepresentingOrganizations( void ) const { return m_bContainsStickersRepresentingOrganizations; }
+    bool        ContainsPatchesRepresentingOrganizations( void ) const  { return m_bContainsPatchesRepresentingOrganizations; }
+    bool        WillProduceStattrak( void ) const                       { return m_bWillProduceStattrak; }
+    float       GetTotalWeight( void ) const                            { return m_flTotalWeight; }
+    // TODO: m_flWeights
+    // TODO: m_RandomAttribs
+    bool        IsServerList( void ) const                              { return m_bWillProduceStattrak; }
+    // TODO: UNKNOWNS
 private: 
     void*                           m_pVTable; // 0 (4)
     CUtlVector<loot_list_additional_drop_t>    m_AdditionalDrops; // 4 (+20)
