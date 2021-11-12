@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -494,6 +494,7 @@ public:
     // CEconLootListDefinition
     CUtlDict<CEconLootListDefinition>*  GetLootListDefinitionDict();
     CEconLootListDefinition*            GetLootListDefinition(int iIndex) { return GetLootListDefinitionDict()->IsValidIndex(iIndex) ? &GetLootListDefinitionDict()->Element(iIndex) : nullptr; }
+    CEconLootListDefinition*            GetLootListDefinitionByName(const char* pszName);
     const char*                         GetLootListDefinitionName(CEconLootListDefinition* pLootListDefinition);
 };
 

@@ -515,3 +515,20 @@ CUtlDict<CEconLootListDefinition>* CEconItemSchema::GetLootListDefinitionDict()
     
     return (CUtlDict<CEconLootListDefinition>*)((intptr_t)this + offset);
 }
+
+CEconLootListDefinition* CEconItemSchema::GetLootListDefinitionByName(const char* pszName)
+{
+    auto pLootListDefinitionDict = GetLootListDefinitionDict();
+
+    if (pLootListDefinitionDict)
+    {
+        int iIndex = pLootListDefinitionDict->Find(pszName);
+        
+        if (pLootListDefinitionDict->IsValidIndex(iIndex))
+        {
+            return &pLootListDefinitionDict->Element(iIndex);
+        }
+    }
+
+    return nullptr;
+}
