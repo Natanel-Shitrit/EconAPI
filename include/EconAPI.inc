@@ -456,6 +456,24 @@ methodmap CEconItemQualityDefinition
     public native int GetHexColor(char[] buffer, int len);
 }
 
+methodmap CEconAdditionalDrop
+{
+    property float Chance
+    {
+        public native get();
+    }
+
+    property bool PremiumOnly
+    {
+        public native get();
+    }
+
+    property CEconLootListDefinition LootListDefinition
+    {
+        public native get();
+    }
+}
+
 methodmap CEconLootListDefinition
 {
     public static native CEconLootListDefinition Get(int index);
@@ -504,6 +522,13 @@ methodmap CEconLootListDefinition
     {
         public native get();
     }
+
+    property int AdditionalDropCount
+    {
+        public native get();
+    }
+
+    public native CEconAdditionalDrop GetAdditionalDrop(int index);
 }
 
 public Extension __ext_EconAPI = 
@@ -640,6 +665,11 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemQualityDefinition.CanSupportSet.get");
     MarkNativeAsOptional("CEconItemQualityDefinition.GetHexColor");
 
+    // CEconAdditionalDrop
+    MarkNativeAsOptional("CEconAdditionalDrop.Chance.get");
+    MarkNativeAsOptional("CEconAdditionalDrop.PremiumOnly.get");
+    MarkNativeAsOptional("CEconAdditionalDrop.LootListDefinition.get");
+
     // CEconLootListDefinition
     MarkNativeAsOptional("CEconLootListDefinition.Get");
     MarkNativeAsOptional("CEconLootListDefinition.Count");
@@ -653,5 +683,7 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconLootListDefinition.WillProduceStattrak.get");
     MarkNativeAsOptional("CEconLootListDefinition.TotalWeight.get");
     MarkNativeAsOptional("CEconLootListDefinition.ServerList.get");
+    MarkNativeAsOptional("CEconLootListDefinition.AdditionalDropCount.get");
+    MarkNativeAsOptional("CEconLootListDefinition.GetAdditionalDrop");
 }
 #endif

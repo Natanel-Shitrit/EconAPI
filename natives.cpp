@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -1350,6 +1350,54 @@ static cell_t CEconLootListDefinition_IsServerList(IPluginContext* pContext, con
 
     return pLootListDefinition->IsServerList();
 }
+
+static cell_t CEconLootListDefinition_GetAdditionalDropCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return reinterpret_cast<cell_t>(pLootListDefinition->GetAdditionalDropCount());
+}
+
+static cell_t CEconLootListDefinition_GetAdditionalDrop(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return reinterpret_cast<cell_t>(pLootListDefinition->GetAdditionalDrop(params[2]));
+}
+
+// CEconAdditionalDrop
+static cell_t CEconAdditionalDrop_GetChance(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition::loot_list_additional_drop_t* pAdditionalDrop = reinterpret_cast<CEconLootListDefinition::loot_list_additional_drop_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pAdditionalDrop);
+
+    return sp_ftoc(pAdditionalDrop->m_fChance);
+}
+
+static cell_t CEconAdditionalDrop_GetPremiumOnly(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition::loot_list_additional_drop_t* pAdditionalDrop = reinterpret_cast<CEconLootListDefinition::loot_list_additional_drop_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pAdditionalDrop);
+
+    return pAdditionalDrop->m_bPremiumOnly;
+}
+
+static cell_t CEconAdditionalDrop_GetLootListDefinition(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconLootListDefinition::loot_list_additional_drop_t* pAdditionalDrop = reinterpret_cast<CEconLootListDefinition::loot_list_additional_drop_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pAdditionalDrop);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinitionByName(pAdditionalDrop->m_pszLootListDefName));
+}
 /*
 static cell_t CEconLootListDefinition_(IPluginContext* pContext, const cell_t* params)
 {
@@ -1479,6 +1527,11 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemQualityDefinition.CanSupportSet.get",           CEconItemQualityDefinition_CanSupportSet },
     { "CEconItemQualityDefinition.GetHexColor",                 CEconItemQualityDefinition_GetHexColor },
 
+    // CEconAdditionalDrop
+    { "CEconAdditionalDrop.Chance.get",                         CEconAdditionalDrop_GetChance },
+    { "CEconAdditionalDrop.PremiumOnly.get",                    CEconAdditionalDrop_GetPremiumOnly },
+    { "CEconAdditionalDrop.LootListDefinition.get",             CEconAdditionalDrop_GetLootListDefinition },
+
     // CEconLootListDefinition
     { "CEconLootListDefinition.Get",                                CEconLootListDefinition_Get },
     { "CEconLootListDefinition.Count",                              CEconLootListDefinition_Count },
@@ -1492,6 +1545,8 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconLootListDefinition.WillProduceStattrak.get",            CEconLootListDefinition_WillProduceStattrak },
     { "CEconLootListDefinition.TotalWeight.get",                    CEconLootListDefinition_GetTotalWeight },
     { "CEconLootListDefinition.ServerList.get",                     CEconLootListDefinition_IsServerList },
+    { "CEconLootListDefinition.AdditionalDropCount.get",            CEconLootListDefinition_GetAdditionalDropCount },
+    { "CEconLootListDefinition.GetAdditionalDrop",                  CEconLootListDefinition_GetAdditionalDrop },
 
     { nullptr,  nullptr }
 };

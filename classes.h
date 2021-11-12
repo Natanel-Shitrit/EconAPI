@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -405,6 +405,8 @@ public:
     };
 
 public:
+    int                                GetAdditionalDropCount( void ) const { return m_AdditionalDrops.Count(); }
+    const loot_list_additional_drop_t* GetAdditionalDrop( int iIndex ) const  { return m_AdditionalDrops.IsValidIndex(iIndex) ? &m_AdditionalDrops[iIndex] : nullptr; }
     const char *GetName() const                                         { return m_pszName; }
     // TODO: m_ItemEntries
     uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
