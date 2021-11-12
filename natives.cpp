@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -1252,6 +1252,16 @@ static cell_t CEconLootListDefinition_Count(IPluginContext* pContext, const cell
     return g_pCEconItemSchema->GetLootListDefinitionDict()->Count();
 }
 
+
+static cell_t CEconLootListDefinition_FindByName(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    char* strSource; pContext->LocalToString(params[1], &strSource);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinitionByName(strSource));
+}
+
 static cell_t CEconLootListDefinition_GetName(IPluginContext* pContext, const cell_t* params)
 {
     CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
@@ -1472,6 +1482,7 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     // CEconLootListDefinition
     { "CEconLootListDefinition.Get",                                CEconLootListDefinition_Get },
     { "CEconLootListDefinition.Count",                              CEconLootListDefinition_Count },
+    { "CEconLootListDefinition.FindByName",                         CEconLootListDefinition_FindByName },
     { "CEconLootListDefinition.GetName",                            CEconLootListDefinition_GetName },
     { "CEconLootListDefinition.HeroID.get",                         CEconLootListDefinition_GetHeroID },
     { "CEconLootListDefinition.PublicListContents.get",             CEconLootListDefinition_IsPublicListContents },

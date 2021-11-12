@@ -461,6 +461,8 @@ methodmap CEconLootListDefinition
     public static native CEconLootListDefinition Get(int index);
     public static native int Count();
 
+    public native CEconLootListDefinition FindByName(char[] buffer);
+    
     public native int GetName(char[] buffer, int len);
 
     property int HeroID
@@ -641,6 +643,7 @@ public __ext_EconAPI_SetNTVOptional()
     // CEconLootListDefinition
     MarkNativeAsOptional("CEconLootListDefinition.Get");
     MarkNativeAsOptional("CEconLootListDefinition.Count");
+    MarkNativeAsOptional("CEconLootListDefinition.FindByName");
     MarkNativeAsOptional("CEconLootListDefinition.GetName");
     MarkNativeAsOptional("CEconLootListDefinition.HeroID.get");
     MarkNativeAsOptional("CEconLootListDefinition.PublicListContents.get");
