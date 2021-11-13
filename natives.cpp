@@ -1249,7 +1249,11 @@ static cell_t CEconLootListDefinition_Count(IPluginContext* pContext, const cell
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
     
-    return g_pCEconItemSchema->GetLootListDefinitionDict()->Count();
+    auto pLootListDefinitionDict = g_pCEconItemSchema->GetLootListDefinitionDict();
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinitionDict);
+
+    return pLootListDefinitionDict->Count();
 }
 
 static cell_t CEconLootListDefinition_FindByName(IPluginContext* pContext, const cell_t* params)
