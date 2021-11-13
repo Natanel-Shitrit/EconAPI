@@ -287,10 +287,9 @@ public:
     const char* GetWorldDroppedModel();
     const char* GetDefinitionName();
 
-private: // Not used, just for offset.
+private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
-public: // Used.
     // The number used to refer to this definition in the DB
     item_definition_index_t    m_nDefIndex; // 8 (4)
 
@@ -441,11 +440,8 @@ public: // Used.
 
     CUtlVector<int> m_nCharacterPaintKitIndices; // 420 (20)
 
-protected:
     CUtlVector< WeaponPaintableMaterial_t > m_PaintData; // 440 (20)
     InventoryImageData_t*                   m_pInventoryImageData; // 460 (4)
-
-private:
 
     // ---------------------------------------------
     // Creation related data
@@ -689,9 +685,8 @@ public:
     int         GetItemCount( void ) const                  { return m_ItemEntries.Count(); }
     const item_list_entry_t* GetItem( int iIndex ) const    { return &m_ItemEntries[iIndex]; }
     item_definition_index_t GetCraftReward( void ) const    { return m_nCraftReward; }
-private: // Not used, just for offset.
+private: 
     void* m_pVTable;
-private: // Used.
     const char    *m_pszName;
     const char    *m_pszLocalizedName;
     const char    *m_pszUnlocalizedName;
