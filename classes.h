@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -294,9 +294,7 @@ private:
     item_definition_index_t    m_nDefIndex; // 8 (4)
 
     // List of associated items, such as multiple different keys for the same crate.
-    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 8 (20)
-
-    int unknown28; // 28 (4)
+    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 12+ (20)
 
     // False if this definition has been turned off and we're not using it to generate items
     bool        m_bEnabled; // 32 (1)
@@ -429,8 +427,12 @@ private:
 
     bool            m_bDisableStyleSelection; // 340 (1)
 
-    CUtlString        m_sIconURLSmall;
-    CUtlString        m_sIconURLLarge;
+    // [Padding] 341 (3)
+
+    CUtlString        m_sIconURLSmall; // 344 (16)
+    CUtlString        m_sIconURLLarge; // 360 (16)
+    CUtlString        m_sUnknown1; // 376 (16)
+    CUtlString        m_sUnknown2; // 392 (16)
     
     //particle file
     const char        *m_pszParticleFile; // 408 (4)            // Some items have custom particle files attached to them
