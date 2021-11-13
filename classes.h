@@ -409,7 +409,7 @@ public:
     const loot_list_additional_drop_t* GetAdditionalDrop( int iIndex ) const  { return m_AdditionalDrops.IsValidIndex(iIndex) ? &m_AdditionalDrops[iIndex] : nullptr; }
     const char *GetName() const                                         { return m_pszName; }
     int         GetItemCount( void ) const                              { return m_ItemEntries.Count(); }
-    const item_list_entry_t* GetItem( int iIndex ) const                { return &m_ItemEntries[iIndex]; }
+    const item_list_entry_t* GetItem( int iIndex ) const                { return m_ItemEntries.IsValidIndex(iIndex) ? &m_ItemEntries[iIndex] : nullptr; }
     uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
     bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
     bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
