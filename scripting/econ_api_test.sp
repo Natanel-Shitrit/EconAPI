@@ -372,4 +372,98 @@ void DumpEcon()
 			hex_color
 		);
 	}
+	
+	Logger_Message("CEconLootListDefinition.Count: %d", CEconLootListDefinition.Count());
+	CEconLootListDefinition loot_list;
+	for (int i = CEconLootListDefinition.Count() - 1; i >= 0; i--)
+	{
+		loot_list = CEconLootListDefinition.Get(i);
+	
+		if (!loot_list)
+		{
+			Logger_Message("loot_list == NULL");
+			continue;
+		}
+		
+		char loot_list_name[64];
+		loot_list.GetName(loot_list_name, sizeof(loot_list_name));
+		
+		Logger_Message("[%d = %X] name: %s | HeroID: %d | PublicListContents: %d | ContainsAutographedStickers: %d | ContainsOrganizationsStickers: %d | ContainsOrganizationsPatches: %d | WillProduceStattrak: %d | TotalWeight: %f | ServerList: %d",
+			i,
+			loot_list,
+			loot_list_name,
+			loot_list.HeroID,
+			loot_list.PublicListContents,
+			loot_list.ContainsAutographedStickers,
+			loot_list.ContainsOrganizationsStickers,
+			loot_list.ContainsOrganizationsPatches,
+			loot_list.WillProduceStattrak,
+			loot_list.TotalWeight,
+			loot_list.ServerList
+		);
+		
+		Logger_Message("\tloot_list.AdditionalDropCount: %d", loot_list.AdditionalDropCount);
+		CEconAdditionalDrop additional_drop;
+		for (int j = loot_list.AdditionalDropCount - 1; j >= 0; j--)
+		{
+			additional_drop = loot_list.GetAdditionalDrop(j);
+			
+			if (!additional_drop)
+			{
+				Logger_Message("\tadditional_drop == NULL");
+				continue;
+			}
+			
+			char loot_list_def_name[64];
+			additional_drop.LootListDefinition.GetName(loot_list_def_name, sizeof(loot_list_def_name));
+			
+			Logger_Message("\t[%d] Chance: %f | PremiumOnly: %d | LootListDefinition: %s",
+				additional_drop.Chance,
+				additional_drop.PremiumOnly,
+				loot_list_def_name
+			);
+		}
+		
+		Logger_Message("\tloot_list.ItemCount: %d", loot_list.ItemCount);
+		CEconItemListEntry item_list_entry;
+		char item_def_name[64], paint_kit_name[64];
+		for (int j = loot_list.ItemCount - 1; j >= 0; j--)
+		{
+			item_list_entry = loot_list.GetItem(j);
+			
+			if (!item_list_entry)
+			{
+				Logger_Message("\titem_list_entry == NULL");
+				continue;
+			}
+			
+			if (item_list_entry.ItemDef)
+			{
+				item_list_entry.ItemDef.GetDefinitionName(item_def_name, sizeof(item_def_name));
+			}
+			else
+			{
+				Logger_Message("\tNO ItemDef");
+			}
+			
+			if (item_list_entry)
+			{
+				item_list_entry.PaintKit.GetName(paint_kit_name, sizeof(paint_kit_name));
+			}
+			else
+			{
+				Logger_Message("\tNO PaintKit");
+			}
+			
+			Logger_Message("\t[%d] ItemDef: %s | PaintKit: %s | PaintKitSeed: %d | PaintKitWear: %f | StickerKit: %X | MusicKit: %X",
+				j,
+				item_def_name,
+				paint_kit_name,
+				item_list_entry.PaintKitSeed,
+				item_list_entry.PaintKitWear,
+				item_list_entry.StickerKit,
+				item_list_entry.MusicKit
+			);
+		}
+	}
 }
