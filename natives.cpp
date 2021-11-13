@@ -83,7 +83,7 @@ static cell_t CEconItemDefinition_GetDefinitionName(IPluginContext* pContext, co
 
 static cell_t CEconItemDefinition_GetLoadoutSlot(IPluginContext* pContext, const cell_t* params)
 {
-    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+    CCStrike15ItemDefinition* pItemDefinition = reinterpret_cast<CCStrike15ItemDefinition*>(params[1]);
 
     SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
 
@@ -92,7 +92,7 @@ static cell_t CEconItemDefinition_GetLoadoutSlot(IPluginContext* pContext, const
 
 static cell_t CEconItemDefinition_GetUsedByTeam(IPluginContext* pContext, const cell_t* params)
 {
-    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+    CCStrike15ItemDefinition* pItemDefinition = reinterpret_cast<CCStrike15ItemDefinition*>(params[1]);
 
     SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
 

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -38,6 +38,18 @@
 #define MAX_PAINT_DATA_NAME 128
 #define MAX_STICKER_DATA_PATH 128
 
+// The total number of loadouts to track for each player.
+#define LOADOUT_COUNT       4	// these are the number of skins (2 valid + 2 invalid)
+
+// CS Team IDs.
+#define TEAM_ANY           -1	// for some team query methods
+#define	TEAM_INVALID       -1
+#define TEAM_UNASSIGNED     0	// not assigned to a team
+#define TEAM_SPECTATOR      1	// spectator team
+#define TEAM_TERRORIST      2
+#define TEAM_CT             3
+#define TEAM_MAXCOUNT       4
+
 typedef uint32 RTime32;
 
 // The Steam backend representation of a unique item index
@@ -45,10 +57,10 @@ typedef uint16 item_definition_index_t;
 typedef uint16 attrib_definition_index_t;
 typedef uint32 attrib_value_t;
 typedef CUtlVector< uint32 > WorkshopContributorList_t;
-typedef int		econ_tag_handle_t;
+typedef int        econ_tag_handle_t;
 
 // Misc typedefs for clarity.
-typedef uint32	equip_region_mask_t;
+typedef uint32    equip_region_mask_t;
 
 enum attrib_colors_t
 {
@@ -79,79 +91,79 @@ enum attrib_colors_t
 
 enum EItemType
 {
-	k_EItemTypeNone,
-	k_EItemTypeCoupon,
-	k_EItemTypeCampaign,
-	k_EItemTypeSelfOpeningPurchase,
-	k_EItemTypeOperationCoin,
-	k_EItemTypePrestigeCoin,
-	k_EItemTypeTool,
+    k_EItemTypeNone,
+    k_EItemTypeCoupon,
+    k_EItemTypeCampaign,
+    k_EItemTypeSelfOpeningPurchase,
+    k_EItemTypeOperationCoin,
+    k_EItemTypePrestigeCoin,
+    k_EItemTypeTool,
 };
 
 enum item_capabilities_t
 {
-	ITEM_CAP_NONE					= 0,
-	ITEM_CAP_PAINTABLE				= 1 << 0,		// some items are tagged in CS:GO schema, but we don't use it
-	ITEM_CAP_NAMEABLE				= 1 << 1,		// used in CS:GO on all weapons that can get a name tag
-	ITEM_CAP_DECODABLE				= 1 << 2,		// used in CS:GO on supply crates containers
-	ITEM_CAP_CAN_DELETE				= 1 << 3,		// used in CS:GO on supply crates containers
-	ITEM_CAP_CAN_CUSTOMIZE_TEXTURE	= 1 << 4,	// NOT USED
-	ITEM_CAP_USABLE					= 1 << 5,	// NOT USED
-	ITEM_CAP_USABLE_GC				= 1 << 6,		// some items are tagged in CS:GO schema, but we don't use it
-	ITEM_CAP_CAN_GIFT_WRAP			= 1 << 7,	// NOT USED
-	ITEM_CAP_USABLE_OUT_OF_GAME		= 1 << 8,		// some items are tagged in CS:GO schema, but we don't use it
-	ITEM_CAP_CAN_COLLECT			= 1 << 9,	// NOT USED
-	ITEM_CAP_CAN_CRAFT_COUNT		= 1 << 10,	// NOT USED
-	ITEM_CAP_CAN_CRAFT_MARK			= 1 << 11,	// NOT USED
-	ITEM_CAP_PAINTABLE_TEAM_COLORS	= 1 << 12,	// NOT USED
-	ITEM_CAP_CAN_BE_RESTORED		= 1 << 13,	// NOT USED
-	ITEM_CAP_CAN_USE_STRANGE_PARTS	= 1 << 14,	// NOT USED
-	ITEM_CAP_PAINTABLE_UNUSUAL		= 1 << 15,	// NOT USED
-	ITEM_CAP_CAN_INCREMENT			= 1 << 16,	// NOT USED
-	ITEM_CAP_USES_ESSENCE			= 1 << 17,	// NOT USED
-	ITEM_CAP_AUTOGRAPH				= 1 << 18,	// NOT USED
-	ITEM_CAP_RECIPE					= 1 << 19,	// NOT USED
-	ITEM_CAP_CAN_STICKER			= 1 << 20,		// used in CS:GO on sticker tools, primary and secondary weapons
-	ITEM_CAP_STATTRACK_SWAP			= 1 << 21,		// used in CS:GO on stattrack items
-	NUM_ITEM_CAPS					= 22,
+    ITEM_CAP_NONE                   = 0,
+    ITEM_CAP_PAINTABLE              = 1 << 0,        // some items are tagged in CS:GO schema, but we don't use it
+    ITEM_CAP_NAMEABLE               = 1 << 1,        // used in CS:GO on all weapons that can get a name tag
+    ITEM_CAP_DECODABLE              = 1 << 2,        // used in CS:GO on supply crates containers
+    ITEM_CAP_CAN_DELETE             = 1 << 3,        // used in CS:GO on supply crates containers
+    ITEM_CAP_CAN_CUSTOMIZE_TEXTURE  = 1 << 4,    // NOT USED
+    ITEM_CAP_USABLE                 = 1 << 5,    // NOT USED
+    ITEM_CAP_USABLE_GC              = 1 << 6,        // some items are tagged in CS:GO schema, but we don't use it
+    ITEM_CAP_CAN_GIFT_WRAP          = 1 << 7,    // NOT USED
+    ITEM_CAP_USABLE_OUT_OF_GAME     = 1 << 8,        // some items are tagged in CS:GO schema, but we don't use it
+    ITEM_CAP_CAN_COLLECT            = 1 << 9,    // NOT USED
+    ITEM_CAP_CAN_CRAFT_COUNT        = 1 << 10,    // NOT USED
+    ITEM_CAP_CAN_CRAFT_MARK         = 1 << 11,    // NOT USED
+    ITEM_CAP_PAINTABLE_TEAM_COLORS  = 1 << 12,    // NOT USED
+    ITEM_CAP_CAN_BE_RESTORED        = 1 << 13,    // NOT USED
+    ITEM_CAP_CAN_USE_STRANGE_PARTS  = 1 << 14,    // NOT USED
+    ITEM_CAP_PAINTABLE_UNUSUAL      = 1 << 15,    // NOT USED
+    ITEM_CAP_CAN_INCREMENT          = 1 << 16,    // NOT USED
+    ITEM_CAP_USES_ESSENCE           = 1 << 17,    // NOT USED
+    ITEM_CAP_AUTOGRAPH              = 1 << 18,    // NOT USED
+    ITEM_CAP_RECIPE                 = 1 << 19,    // NOT USED
+    ITEM_CAP_CAN_STICKER            = 1 << 20,        // used in CS:GO on sticker tools, primary and secondary weapons
+    ITEM_CAP_STATTRACK_SWAP         = 1 << 21,        // used in CS:GO on stattrack items
+    NUM_ITEM_CAPS                   = 22,
 
     // TODO: Check `can_patch` value in `customplayertradable`
 };
 
 enum
 {
-	MATERIAL_MAX_LIGHT_COUNT = 4,
+    MATERIAL_MAX_LIGHT_COUNT = 4,
 };
 
 struct WeaponPaintableMaterial_t
 {
-	char m_szName[ MAX_PAINT_DATA_NAME ];
-	char m_szOriginalMaterialName[ MAX_PAINT_DATA_NAME ];
-	char m_szFolderName[ MAX_PAINT_DATA_NAME ];
-	int m_nViewModelSize;						// texture size
-	int m_nWorldModelSize;						// texture size
-	float m_flWeaponLength;
-	float m_flUVScale;
-	bool m_bBaseTextureOverride;
-	bool m_bMirrorPattern;
+    char m_szName[ MAX_PAINT_DATA_NAME ];
+    char m_szOriginalMaterialName[ MAX_PAINT_DATA_NAME ];
+    char m_szFolderName[ MAX_PAINT_DATA_NAME ];
+    int m_nViewModelSize;                        // texture size
+    int m_nWorldModelSize;                        // texture size
+    float m_flWeaponLength;
+    float m_flUVScale;
+    bool m_bBaseTextureOverride;
+    bool m_bMirrorPattern;
 };
 
 struct InventoryImageData_t
 {
-	QAngle *m_pCameraAngles; 
-	Vector *m_pCameraOffset; 
-	float m_cameraFOV; 
-	void *m_pLightDesc[ MATERIAL_MAX_LIGHT_COUNT ]; // [LightDesc_t]
-	bool m_bOverrideDefaultLight; 
+    QAngle *m_pCameraAngles; 
+    Vector *m_pCameraOffset; 
+    float   m_cameraFOV; 
+    void   *m_pLightDesc[ MATERIAL_MAX_LIGHT_COUNT ]; // [LightDesc_t]
+    bool    m_bOverrideDefaultLight; 
 };
 
 struct StickerData_t
 {
-	char	m_szStickerModelPath[ MAX_STICKER_DATA_PATH ];
-	char	m_szStickerMaterialPath[ MAX_STICKER_DATA_PATH ];
-	Vector	m_vWorldModelProjectionStart;
-	Vector	m_vWorldModelProjectionEnd;
-	char	m_szStickerBoneParentName[ 32 ];
+    char m_szStickerModelPath[ MAX_STICKER_DATA_PATH ];
+    char m_szStickerMaterialPath[ MAX_STICKER_DATA_PATH ];
+    Vector m_vWorldModelProjectionStart;
+    Vector m_vWorldModelProjectionEnd;
+    char m_szStickerBoneParentName[ 32 ];
 };
 
 struct item_list_entry_t
@@ -177,17 +189,17 @@ struct item_list_entry_t
 
 struct bundleinfo_t
 {
-	CUtlVector <item_list_entry_t > vecItemEntries;
+    CUtlVector <item_list_entry_t> vecItemEntries;
 };
 
 class IEconTool
 {
 private:
-	const char *m_pszTypeName;
-	const char *m_pszUseString;
-	const char *m_pszUsageRestriction;
-	item_capabilities_t m_unCapabilities;
-	CUtlVector<int>	m_vecBonusItemDef;
+    const char *m_pszTypeName;
+    const char *m_pszUseString;
+    const char *m_pszUsageRestriction;
+    item_capabilities_t m_unCapabilities;
+    CUtlVector<int> m_vecBonusItemDef;
 };
 
 class CEconLootListDefinition
@@ -277,15 +289,13 @@ private:
 class CEconItemDefinition
 {
 public:
-    uint16 GetDefinitionIndex() { return m_nDefIndex; }
-    int GetLoadoutSlot(int iTeam);
-    int GetUsedByTeam();
-    int GetNumSupportedStickerSlots();
-    const char* GetInventoryImage();
-    const char* GetBasePlayerDisplayModel();
-    const char* GetWorldDisplayModel();
-    const char* GetWorldDroppedModel();
-    const char* GetDefinitionName();
+    uint16 GetDefinitionIndex()                     { return m_nDefIndex; }
+    int GetNumSupportedStickerSlots()              { return m_vStickerModels.Count(); }
+    const char* GetInventoryImage() const           { return m_pszInventoryImage; }
+    const char* GetBasePlayerDisplayModel() const   { return m_pszBaseDisplayModel; }
+    const char* GetWorldDisplayModel() const        { return m_pszWorldDisplayModel; }
+    const char* GetWorldDroppedModel() const        { return m_pszWorldDroppedModel; }
+    const char* GetDefinitionName() const           { return m_pszDefinitionName; }
 
 private:
     void* m_pVTable; // 0 (4)
@@ -530,6 +540,29 @@ private:
     // [Padding] 614 (2)
 
     // SIZE == 616
+};
+
+class CCStrike15ItemDefinition : public CEconItemDefinition
+{
+public:
+    int         GetUsedByTeam();
+    int         GetLoadoutSlot(int iTeam);
+    bool        CanBeUsedByTeam( int iTeam ) const { return m_vbClassUsability.IsBitSet( iTeam ); }
+private:
+    // The load-out slot that this item can be placed into.
+    int                     m_iDefaultLoadoutSlot; // 616 (4)
+    int                     m_iGearSlot; // 620 (4)
+    int                     m_iGearSlotPosition; // 624 (4)
+    int                     m_iAnimationSlot; // 628 (4)
+
+    // The .mdl file used for this item when it's being carried by a player.
+    const char              *m_pszPlayerDisplayModel[LOADOUT_COUNT]; // 632 (4 * 4 = 16)
+
+    // Specifies which class can use this item.
+    CBitVec<LOADOUT_COUNT>  m_vbClassUsability; // 648 (4 * 1 = 4)
+    int                     m_iLoadoutSlots[LOADOUT_COUNT];        // Slot that each class places the item into.
+    bool m_bIsSupplyCrate : 1;
+    bool m_bItemSharesEquipSlot : 1;
 };
 
 class CPaintKit
