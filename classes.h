@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -23,6 +23,7 @@
 #include "utldict.h"
 #include "utlstring.h"
 #include "string_t.h"
+#include "ssemath.h"
 
 //-----------------------------------------------------------------------------
 // A dictionary mapping from symbol to structure
@@ -30,20 +31,28 @@
 
 // This is a useful macro to iterate from start to end in order in a map
 #define FOR_EACH_DICT( dictName, iteratorName ) \
-	for( int iteratorName=(dictName).First(); iteratorName != (dictName).InvalidIndex(); iteratorName = (dictName).Next( iteratorName ) )
+    for( int iteratorName=(dictName).First(); iteratorName != (dictName).InvalidIndex(); iteratorName = (dictName).Next( iteratorName ) )
 
 // faster iteration, but in an unspecified order
 #define FOR_EACH_DICT_FAST( dictName, iteratorName ) \
-	for ( int iteratorName = 0; iteratorName < (dictName).MaxElement(); ++iteratorName ) if ( !(dictName).IsValidIndex( iteratorName ) ) continue; else
+    for ( int iteratorName = 0; iteratorName < (dictName).MaxElement(); ++iteratorName ) if ( !(dictName).IsValidIndex( iteratorName ) ) continue; else
 
+
+#define MAX_PAINT_DATA_NAME 128
+#define MAX_STICKER_DATA_PATH 128
 
 typedef uint32 RTime32;
 
 // The Steam backend representation of a unique item index
-typedef uint64	itemid_t;
+typedef uint64 itemid_t;
 typedef uint16 item_definition_index_t;
 typedef uint16 attrib_definition_index_t;
 typedef uint32 attrib_value_t;
+typedef CUtlVector< uint32 > WorkshopContributorList_t;
+typedef int		econ_tag_handle_t;
+
+// Misc typedefs for clarity.
+typedef uint32	equip_region_mask_t;
 
 enum attrib_colors_t
 {
@@ -72,6 +81,303 @@ enum attrib_colors_t
     NUM_ATTRIB_COLORS,
 };
 
+enum EItemType
+{
+	k_EItemTypeNone,
+	k_EItemTypeCoupon,
+	k_EItemTypeCampaign,
+	k_EItemTypeSelfOpeningPurchase,
+	k_EItemTypeOperationCoin,
+	k_EItemTypePrestigeCoin,
+	k_EItemTypeTool,
+};
+
+enum item_capabilities_t
+{
+	ITEM_CAP_NONE					= 0,
+	ITEM_CAP_PAINTABLE				= 1 << 0,		// some items are tagged in CS:GO schema, but we don't use it
+	ITEM_CAP_NAMEABLE				= 1 << 1,		// used in CS:GO on all weapons that can get a name tag
+	ITEM_CAP_DECODABLE				= 1 << 2,		// used in CS:GO on supply crates containers
+	ITEM_CAP_CAN_DELETE				= 1 << 3,		// used in CS:GO on supply crates containers
+	ITEM_CAP_CAN_CUSTOMIZE_TEXTURE	= 1 << 4,	// NOT USED
+	ITEM_CAP_USABLE					= 1 << 5,	// NOT USED
+	ITEM_CAP_USABLE_GC				= 1 << 6,		// some items are tagged in CS:GO schema, but we don't use it
+	ITEM_CAP_CAN_GIFT_WRAP			= 1 << 7,	// NOT USED
+	ITEM_CAP_USABLE_OUT_OF_GAME		= 1 << 8,		// some items are tagged in CS:GO schema, but we don't use it
+	ITEM_CAP_CAN_COLLECT			= 1 << 9,	// NOT USED
+	ITEM_CAP_CAN_CRAFT_COUNT		= 1 << 10,	// NOT USED
+	ITEM_CAP_CAN_CRAFT_MARK			= 1 << 11,	// NOT USED
+	ITEM_CAP_PAINTABLE_TEAM_COLORS	= 1 << 12,	// NOT USED
+	ITEM_CAP_CAN_BE_RESTORED		= 1 << 13,	// NOT USED
+	ITEM_CAP_CAN_USE_STRANGE_PARTS	= 1 << 14,	// NOT USED
+	ITEM_CAP_PAINTABLE_UNUSUAL		= 1 << 15,	// NOT USED
+	ITEM_CAP_CAN_INCREMENT			= 1 << 16,	// NOT USED
+	ITEM_CAP_USES_ESSENCE			= 1 << 17,	// NOT USED
+	ITEM_CAP_AUTOGRAPH				= 1 << 18,	// NOT USED
+	ITEM_CAP_RECIPE					= 1 << 19,	// NOT USED
+	ITEM_CAP_CAN_STICKER			= 1 << 20,		// used in CS:GO on sticker tools, primary and secondary weapons
+	ITEM_CAP_STATTRACK_SWAP			= 1 << 21,		// used in CS:GO on stattrack items
+	NUM_ITEM_CAPS					= 22,
+
+    // TODO: Check `can_patch` value in `customplayertradable`
+};
+
+enum
+{
+	MATERIAL_MAX_LIGHT_COUNT = 4,
+};
+
+enum LightType_t
+{
+	MATERIAL_LIGHT_DISABLE = 0,
+	MATERIAL_LIGHT_POINT,
+	MATERIAL_LIGHT_DIRECTIONAL,
+	MATERIAL_LIGHT_SPOT,
+};
+
+struct WeaponPaintableMaterial_t
+{
+	char m_szName[ MAX_PAINT_DATA_NAME ];
+	char m_szOriginalMaterialName[ MAX_PAINT_DATA_NAME ];
+	char m_szFolderName[ MAX_PAINT_DATA_NAME ];
+	int m_nViewModelSize;						// texture size
+	int m_nWorldModelSize;						// texture size
+	float m_flWeaponLength;
+	float m_flUVScale;
+	bool m_bBaseTextureOverride;
+	bool m_bMirrorPattern;
+};
+
+struct LightDesc_t 
+{
+    LightType_t m_Type;										//< MATERIAL_LIGHT_xxx
+	Vector m_Color;											//< color+intensity 
+    Vector m_Position;										//< light source center position
+    Vector m_Direction;										//< for SPOT, direction it is pointing
+    float  m_Range;											//< distance range for light.0=infinite
+    float m_Falloff;										//< angular falloff exponent for spot lights
+    float m_Attenuation0;									//< constant distance falloff term
+    float m_Attenuation1;									//< linear term of falloff
+    float m_Attenuation2;									//< quadatic term of falloff
+
+	// NOTE: theta and phi are *half angles*
+    float m_Theta;											//< inner cone angle. no angular falloff 
+															//< within this cone
+    float m_Phi;											//< outer cone angle
+
+	// the values below are derived from the above settings for optimizations
+	// These aren't used by DX8. . used for software lighting.
+
+	// NOTE: These dots are cos( m_Theta ), cos( m_Phi )
+	float m_ThetaDot;
+	float m_PhiDot;
+	float m_OneOverThetaDotMinusPhiDot;
+	unsigned int m_Flags;
+protected:
+	float m_RangeSquared;
+public:
+
+	void RecalculateDerivedValues(void);			 // calculate m_xxDot, m_Type for changed parms
+	void RecalculateOneOverThetaDotMinusPhiDot();
+
+	LightDesc_t(void)
+	{
+	}
+
+	// constructors for various useful subtypes
+
+	// a point light with infinite range
+	LightDesc_t( const Vector &pos, const Vector &color )
+	{
+		InitPoint( pos, color );
+	}
+
+	LightDesc_t &operator=( const LightDesc_t &src )
+	{
+		memcpy( this, &src, sizeof(LightDesc_t) );
+		return *this;
+	}
+
+	/// a simple light. cone boundaries in radians. you pass a look_at point and the
+	/// direciton is derived from that.
+	LightDesc_t( const Vector &pos, const Vector &color, const Vector &point_at,
+				float inner_cone_boundary, float outer_cone_boundary )
+	{
+		InitSpot( pos, color, point_at, inner_cone_boundary, outer_cone_boundary );
+	}
+
+	void InitPoint( const Vector &pos, const Vector &color );
+	void InitDirectional( const Vector &dir, const Vector &color );
+	void InitSpot(const Vector &pos, const Vector &color, const Vector &point_at,
+		float inner_cone_boundary, float outer_cone_boundary );
+
+	/// Given 4 points and 4 normals, ADD lighting from this light into "color".
+	void ComputeLightAtPoints( const FourVectors &pos, const FourVectors &normal,
+							   FourVectors &color, bool DoHalfLambert=false ) const;
+	void ComputeNonincidenceLightAtPoints( const FourVectors &pos, FourVectors &color ) const;
+	void ComputeLightAtPointsForDirectional( const FourVectors &pos,
+											 const FourVectors &normal,
+											 FourVectors &color, bool DoHalfLambert=false ) const;
+
+	// warning - modifies color!!! set color first!!
+	void SetupOldStyleAttenuation( float fQuadatricAttn, float fLinearAttn, float fConstantAttn );
+
+	void SetupNewStyleAttenuation( float fFiftyPercentDistance, float fZeroPercentDistance );
+
+
+/// given a direction relative to the light source position, is this ray within the
+	/// light cone (for spotlights..non spots consider all rays to be within their cone)
+	bool IsDirectionWithinLightCone(const Vector &rdir) const
+	{
+		return ( ( m_Type != MATERIAL_LIGHT_SPOT ) || ( rdir.Dot(m_Direction) >= m_PhiDot ) );
+	}
+
+	float OneOverThetaDotMinusPhiDot() const
+	{
+		return m_OneOverThetaDotMinusPhiDot;
+	}
+
+	float DistanceAtWhichBrightnessIsLessThan( float flAmount ) const;
+};
+
+struct InventoryImageData_t
+{
+	QAngle *m_pCameraAngles; 
+	Vector *m_pCameraOffset; 
+	float m_cameraFOV; 
+	LightDesc_t *m_pLightDesc[ MATERIAL_MAX_LIGHT_COUNT ]; 
+	bool m_bOverrideDefaultLight; 
+};
+
+struct StickerData_t
+{
+	char	m_szStickerModelPath[ MAX_STICKER_DATA_PATH ];
+	char	m_szStickerMaterialPath[ MAX_STICKER_DATA_PATH ];
+	Vector	m_vWorldModelProjectionStart;
+	Vector	m_vWorldModelProjectionEnd;
+	char	m_szStickerBoneParentName[ 32 ];
+};
+
+struct item_list_entry_t
+{
+    // Item def
+    int m_nItemDef;
+    
+    // Paint kit applied to it
+    int m_nPaintKit;
+    int m_nPaintKitSeed;
+    float m_flPaintKitWear;
+    
+    // Sticker kit applied to it
+    uint32 m_nStickerKit;
+
+    // music kit applied to it
+    uint32 m_nMusicKit;
+    
+    bool m_bIsNestedList;
+    bool m_bIsUnusualList;
+    mutable bool m_bAlreadyUsedInRecursiveCreation;
+};
+
+struct bundleinfo_t
+{
+	CUtlVector <item_list_entry_t > vecItemEntries;
+};
+
+class IEconTool
+{
+private:
+	const char *m_pszTypeName;
+	const char *m_pszUseString;
+	const char *m_pszUsageRestriction;
+	item_capabilities_t m_unCapabilities;
+	CUtlVector<int>	m_vecBonusItemDef;
+};
+
+class CEconLootListDefinition
+{
+public:
+    struct loot_list_additional_drop_t
+    {
+        float       m_fChance;
+        bool        m_bPremiumOnly;
+        const char *m_pszLootListDefName;
+    };
+    
+    struct static_attrib_t
+    {
+        union attribute_data_union_t
+        {
+            float asFloat;
+            uint32 asUint32;
+            byte *asBlobPointer;
+        };
+
+        attrib_definition_index_t    iDefIndex;
+        attribute_data_union_t m_value;
+        bool    m_bForceGCToGenerate;
+    };
+
+    struct lootlist_attrib_t
+    {
+        static_attrib_t    m_staticAttrib;
+        float    m_flWeight;
+        float    m_flRangeMin;
+        float    m_flRangeMax;
+
+        CCopyableUtlVector< uint32 > m_vecValues;
+    };
+
+    struct random_attrib_t
+    {
+        float               m_flChanceOfRandomAttribute;
+        float               m_flTotalAttributeWeight;
+        bool                m_bPickAllAttributes;
+        CUtlVector<lootlist_attrib_t> m_RandomAttributes;
+    };
+
+public:
+    int                                GetAdditionalDropCount( void ) const { return m_AdditionalDrops.Count(); }
+    const loot_list_additional_drop_t* GetAdditionalDrop( int iIndex ) const  { return m_AdditionalDrops.IsValidIndex(iIndex) ? &m_AdditionalDrops[iIndex] : nullptr; }
+    const char *GetName() const                                         { return m_pszName; }
+    int         GetItemCount( void ) const                              { return m_ItemEntries.Count(); }
+    const item_list_entry_t* GetItem( int iIndex ) const                { return m_ItemEntries.IsValidIndex(iIndex) ? &m_ItemEntries[iIndex] : nullptr; }
+    uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
+    bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
+    bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
+    bool        ContainsStickersRepresentingOrganizations( void ) const { return m_bContainsStickersRepresentingOrganizations; }
+    bool        ContainsPatchesRepresentingOrganizations( void ) const  { return m_bContainsPatchesRepresentingOrganizations; }
+    bool        WillProduceStattrak( void ) const                       { return m_bWillProduceStattrak; }
+    float       GetTotalWeight( void ) const                            { return m_flTotalWeight; }
+    // TODO: m_flWeights
+    // TODO: m_RandomAttribs
+    bool        IsServerList( void ) const                              { return m_bWillProduceStattrak; }
+    // TODO: UNKNOWNS
+private: 
+    void*                           m_pVTable; // 0 (4)
+    CUtlVector<loot_list_additional_drop_t>    m_AdditionalDrops; // 4 (+20)
+    const char*                     m_pszName; // 24 (4)
+    CUtlVector<item_list_entry_t>   m_ItemEntries; // 28 (20)
+    uint32                            m_unHeroID;             // 48 (4)
+    bool                            m_bPublicListContents;    // 52 (1) // do not show loot list contents to users (ie., when listing crate contents on Steam)
+    bool                            m_bContainsStickersAutographedByProplayers;   // 53 (1)
+    bool                            m_bContainsStickersRepresentingOrganizations;   // 54 (1)
+    bool                            m_bContainsPatchesRepresentingOrganizations;   // 55 (1)
+    bool                            m_bWillProduceStattrak; // 56 (1)
+    // [Padding] 57 (3)
+    float                           m_flTotalWeight; // 60 (4)
+    CUtlVector<float>               m_flWeights; // 64 (20)
+    CUtlVector<random_attrib_t*>    m_RandomAttribs; // 84 (20)
+    bool                            m_bServerList; // 104 (1)
+    bool                        unknown105; // 105 (1)
+    // [Padding] 106 (2)
+    int                         unknown108; // 108 (4)
+    int                         unknown112; // 112 (4)
+    int                         unknown116; // 116 (4)
+    int                         unknown120; // 120 (4)
+    int                         unknown124; // 124 (4)
+};
+
 class CEconItemDefinition
 {
 public:
@@ -86,10 +392,250 @@ public:
     const char* GetDefinitionName();
 
 private: // Not used, just for offset.
-    void* m_pVTable;
-    KeyValues* m_pKVItem;
+    void* m_pVTable; // 0 (4)
+    KeyValues* m_pKVItem; // 4 (4)
 public: // Used.
-    uint16 m_nDefIndex; //8
+    // The number used to refer to this definition in the DB
+    item_definition_index_t    m_nDefIndex; // 8 (4)
+
+    // List of associated items, such as multiple different keys for the same crate.
+    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 8 (20)
+
+    int unknown28; // 28 (4)
+
+    // False if this definition has been turned off and we're not using it to generate items
+    bool        m_bEnabled; // 32 (1)
+
+    // [Padding] 33 (3)
+
+    // The prefab used by the item.
+    const char* m_szPrefab; // 36 (4)
+
+    // These values specify the range of item levels that an item based off this definition can be generated within.
+    uint8       m_unMinItemLevel; // 40 (1)
+    uint8       m_unMaxItemLevel; // 41 (1)
+
+    // This specifies an item's rarity.
+    uint8       m_nItemRarity; // 42 (1)
+
+    // This specifies an item quality that items from this definition must be set to. Used mostly to specify unique item definitions.
+    uint8       m_nItemQuality; // 43 (1)
+    uint8       m_nForcedItemQuality; // 44 (1)
+    uint8       m_nDefaultDropItemQuality; // 45 (1)
+
+    // Default drop quantity
+    uint8       m_nDefaultDropQuantity; // 46 (1)
+
+    // [Padding] 47 (1)
+
+    // Static attributes (ones that are always on these items)
+    CUtlVector<CEconLootListDefinition::static_attrib_t> m_vecStaticAttributes; // 48 (20)
+
+    // Seeds the popular item list with this number of the item when the list is reset.
+    uint8       m_nPopularitySeed; // 68 (1)
+    
+    // [Padding] 69 (3)
+
+    // Portraits KV
+    KeyValues*  m_pPortraitsKV; // 72 (4)
+
+    // ---------------------------------------------
+    // Display related data
+    // ---------------------------------------------
+    // The base name of this item. i.e. "The Kritz-Krieg".
+    const char* m_pszItemBaseName; // 76 (4)
+    bool        m_bProperName; // 80 (1)// If set, the name will have "The" prepended to it, unless it's got a non-unique quality
+                                        // in which case it'll have "A" prepended to the quality. i.e. A Community Kritzkrieg
+
+    // [Padding] 81 (3)
+
+    // The base type of this item. i.e. "Rocket Launcher" or "Shotgun".
+    // This is often the same as the base name, but not always.
+    const char        *m_pszItemTypeName; // 84 (4)
+
+    // A unique identifier for m_pszItemTypeName
+    uint32            m_unItemTypeID; // 88 (4)
+
+    // The item's non-attribute description.
+    const char        *m_pszItemDesc; // 92 (4)
+
+    // expiration time
+    RTime32            m_rtExpiration; // 96 (4)
+
+    // item def creation time
+    RTime32            m_rtDefCreation; // 100 (4)
+
+    // The .mdl file used for this item when it's displayed in inventory-style boxes.
+    const char        *m_pszInventoryModel; // 104 (4)
+    // Alternatively, the image used for this item when it's displayed in inventory-style boxes. If specified, it's used over the model.
+    const char        *m_pszInventoryImage; // 108 (4)
+    // An optional image that's overlayed over the top of the base inventory image. It'll be RGB colored by the tint color of the item.
+    CUtlVector<const char*>    m_pszInventoryOverlayImages; // 112 (20)
+    int                m_iInventoryImagePosition[2]; // 132,136 (8)
+    int                m_iInventoryImageSize[2]; // 140,144 (8)
+
+    const char        *m_pszBaseDisplayModel; // 148 (4)
+    bool            m_bLoadOnDemand; // 152 (1)
+    bool            m_bHasBeenLoaded; // 153 (1)
+
+    bool            m_bHideBodyGroupsDeployedOnly; // 154 (1)
+
+    // [Padding] 155 (1)
+
+    // The .mdl file used for the world view.
+    // This is inferior to using a c_model, but because the geometry of the sticky bomb launcher's
+    // world model is significantly different from the view model the demoman pack requires
+    // using two separate models for now.
+    const char        *m_pszWorldDisplayModel; // 156 (4)
+    const char        *m_pszWorldDroppedModel; // 160 (4)
+    const char        *m_pszHolsteredModel; // 164 (4)
+    const char        *m_pszWorldExtraWearableModel; // 168 (4)       // Some weapons attach an extra wearable item to the player
+    char m_szWorldDroppedModel[80]; // 172 (80)
+
+    // Sticker model paths
+    CUtlVector<StickerData_t>  m_vStickerModels; // 252 (20)
+
+    // This is the name of the default image used for the inventory until the generated image is ready
+    const char        *m_pszIconDefaultImage; // 272 (4)
+
+    // If set, we use the base hands model for a viewmodel, and bonemerge the above player model
+    bool            m_bAttachToHands; // 276 (1)
+    bool            m_bAttachToHandsVMOnly; // 277 (1)
+
+    // If set, we will force the view model to render flipped. Good for models built left handed.
+    bool            m_bFlipViewModel; // 278 (1)
+
+    // This is a wearable that sits in a non-wearable loadout slot
+    bool            m_bActAsWearable; // 279 (1)
+
+    // The possible sets this item is a member of
+    mutable CUtlVector< int > m_iItemSets; // 280 (20) - 55 89 E5 57 56 53 83 EC 2C 8B 7D 08 8B 75 0C 8B 9F 24 01 00 00
+
+    // Asset Modifiers & Info
+    void *m_pAssetInfo; // 300 (4) [AssetInfo]
+
+    // Another way to group econ items with similar properties, separate from item_class.
+    // (items of the same class may need to have different types). 
+    EItemType        m_eItemType; // 304 (4)
+
+    // Optional override for specifying a custom shell ejection model
+    const char        *m_pszBrassModelOverride; // 308 (4)
+
+    const char* m_pszZoomInSound; // 312 (4)
+    const char* m_pszZoomOutSound; // 316 (4)
+
+    IEconTool        *m_pTool; // 320 (4)
+    bundleinfo_t    *m_BundleInfo; // 324 (4)
+    item_capabilities_t m_iCapabilities; // 328 (4)
+
+    uint32            m_unNumConcreteItems; // 332 (4)   // This is the number of items that will actually end up in a user's inventory - this can be 0 for some items (e.g. map stamps in TF), 1 for a "regular" item, or many for bundles, etc.
+
+    int                m_nSoundMaterialID; // 336 (4)
+
+    bool            m_bDisableStyleSelection; // 340 (1)
+
+    CUtlString        m_sIconURLSmall;
+    CUtlString        m_sIconURLLarge;
+    
+    //particle file
+    const char        *m_pszParticleFile; // 408 (4)            // Some items have custom particle files attached to them
+    const char        *m_pszParticleSnapshotFile; // 412 (4)    // Some weapons override a generic effect with a custom snapshot
+
+    const char        *m_pszLootListName; // 416 (4)            // Optionally specified loot list for a crate item (instead of a supply crate series). 
+
+    CUtlVector<int> m_nCharacterPaintKitIndices; // 420 (20)
+
+protected:
+    CUtlVector< WeaponPaintableMaterial_t > m_PaintData; // 440 (20)
+    InventoryImageData_t*                   m_pInventoryImageData; // 460 (4)
+
+private:
+
+    // ---------------------------------------------
+    // Creation related data
+    // ---------------------------------------------
+    // The entity classname for this item.
+    const char        *m_pszItemClassname; // 464 (4)
+
+    // The entity name that will be displayed in log files.
+    const char        *m_pszItemLogClassname; // 468 (4)
+
+    // The name of the icon used in the death notices.
+    const char        *m_pszItemIconClassname; // 472 (4)
+
+    // This is the script file name of this definition. Used to generate items by script name.
+    const char        *m_pszDefinitionName; // 476 (4)
+
+    bool            m_bHidden; // 480 (1)
+    bool            m_bShouldShowInArmory; // 481 (1)
+    bool            m_bBaseItem; // 482 (1)
+    bool            m_bDefaultSlotItem; // 483 (1)
+    bool            m_bImported; // 484 (1)
+    bool            m_bOnePerAccountCDKEY; // 485 (1)
+
+    // A pack bundle is a bundle that contains items that are not for sale individually
+    bool            m_bIsPackBundle; // 486 (1)
+    
+    // [Padding] 487 (1)
+
+    // A pack item is an item which is not for sale individually and is only for sale as part of a pack bundle. A 'regular' bundle can only include a pack bundle by explicitly including all of the pack bundle's items individually.
+    // If this pointer is non-NULL, this item is considered to be a pack item (see CEconItemDefinition::IsPackItem()).
+    CEconItemDefinition*    m_pOwningPackBundle; // 488 (4)
+
+    // Contains information on how to describe items with this attribute in the Armory
+    const char        *m_pszArmoryDesc; // 492 (4)
+
+    // ---------------------------------------------
+    // Remapping data for armory/store
+    // ---------------------------------------------
+    int                m_iArmoryRemap; // 496 (4)
+    int                m_iStoreRemap; // 500 (4)
+    const char        *m_pszArmoryRemap; // 504 (4)
+    const char        *m_pszStoreRemap; // 508 (4)
+
+    // ---------------------------------------------
+    // Crafting related data
+    // ---------------------------------------------
+    const char        *m_pszClassToken; // 512 (4)
+    const char        *m_pszSlotToken; // 516 (4)
+
+    // ---------------------------------------------
+    // Gameplay related data
+    // ---------------------------------------------
+    // How to behave when the player wearing the item dies.
+    int                m_iDropType; // 520 (4)
+
+    // Holiday restriction. Item only has an appearance when the holiday is in effect.
+    const char        *m_pszHolidayRestriction; // 524 (4)
+
+    // Temporary. Revisit this in the engineer update. Enables an additional buildable.
+    int                m_iSubType; // 528 (4)
+
+    // Whitelist support for tournament mode
+    bool            m_bAllowedInThisMatch; // 532 (1)
+
+    // [Padding] 533 (3)
+
+    // this will hold a pointer to the criteria that should be used to generate the real item
+    void* m_pProxyCriteria; // 536 (4) [CItemSelectionCriteria*]
+
+    equip_region_mask_t    m_unEquipRegionMask; // 540 (4)          // which equip regions does this item cover directly
+    equip_region_mask_t m_unEquipRegionConflictMask; // 544 (4)     // which equip regions does equipping this item prevent from having something in them
+
+    // Alternate icons.
+    CUtlMap<uint32, const char*>*        m_pMapAlternateIcons; // 548 (4)
+
+    CUtlVector<econ_tag_handle_t>    m_vecTags; // 552 (20)
+    CUtlVector<const CEconItemDefinition *> m_vecContainingBundleItemDefs; // 572 (20) // Item definition indices for any bundles which contain this item
+    WorkshopContributorList_t m_vecSteamWorkshopContributors; // 592 (20)
+
+    friend class CEconItemSchema;
+    bool            m_bPublicItem; // 612 (1)
+    bool            m_bIgnoreInCollectionView; // 613 (1)
+
+    // [Padding] 614 (2)
+
+    // SIZE == 616
 };
 
 class CPaintKit
@@ -234,27 +780,6 @@ private:
     CUtlConstString m_strInventoryImage;
 };
 
-struct item_list_entry_t
-{
-    // Item def
-    int m_nItemDef;
-    
-    // Paint kit applied to it
-    int m_nPaintKit;
-    int m_nPaintKitSeed;
-    float m_flPaintKitWear;
-    
-    // Sticker kit applied to it
-    uint32 m_nStickerKit;
-
-    // music kit applied to it
-    uint32 m_nMusicKit;
-    
-    bool m_bIsNestedList;
-    bool m_bIsUnusualList;
-    mutable bool m_bAlreadyUsedInRecursiveCreation;
-};
-
 class CEconItemSetDefinition
 {
 public:
@@ -360,90 +885,6 @@ private:
 
     // A hex string representing the color this quality should display as. Used primarily for display on the Web.
     CUtlConstString    m_strHexColor;
-};
-
-class CEconLootListDefinition
-{
-public:
-    struct loot_list_additional_drop_t
-    {
-        float       m_fChance;
-        bool        m_bPremiumOnly;
-        const char *m_pszLootListDefName;
-    };
-    
-    struct static_attrib_t
-    {
-        union attribute_data_union_t
-        {
-            float asFloat;
-            uint32 asUint32;
-            byte *asBlobPointer;
-        };
-
-        attrib_definition_index_t	iDefIndex;
-        attribute_data_union_t m_value;
-        bool	m_bForceGCToGenerate;
-    };
-
-    struct lootlist_attrib_t
-    {
-        static_attrib_t    m_staticAttrib;
-        float    m_flWeight;
-        float    m_flRangeMin;
-        float    m_flRangeMax;
-
-        CCopyableUtlVector< uint32 > m_vecValues;
-    };
-
-    struct random_attrib_t
-    {
-        float               m_flChanceOfRandomAttribute;
-        float               m_flTotalAttributeWeight;
-        bool                m_bPickAllAttributes;
-        CUtlVector<lootlist_attrib_t> m_RandomAttributes;
-    };
-
-public:
-    int                                GetAdditionalDropCount( void ) const { return m_AdditionalDrops.Count(); }
-    const loot_list_additional_drop_t* GetAdditionalDrop( int iIndex ) const  { return m_AdditionalDrops.IsValidIndex(iIndex) ? &m_AdditionalDrops[iIndex] : nullptr; }
-    const char *GetName() const                                         { return m_pszName; }
-    int         GetItemCount( void ) const                              { return m_ItemEntries.Count(); }
-    const item_list_entry_t* GetItem( int iIndex ) const                { return m_ItemEntries.IsValidIndex(iIndex) ? &m_ItemEntries[iIndex] : nullptr; }
-    uint32      GetHeroID( void ) const                                 { return m_unHeroID; }
-    bool        IsPublicListContents( void ) const                      { return m_bPublicListContents; }
-    bool        ContainsStickersAutographedByProplayers( void ) const   { return m_bContainsStickersAutographedByProplayers; }
-    bool        ContainsStickersRepresentingOrganizations( void ) const { return m_bContainsStickersRepresentingOrganizations; }
-    bool        ContainsPatchesRepresentingOrganizations( void ) const  { return m_bContainsPatchesRepresentingOrganizations; }
-    bool        WillProduceStattrak( void ) const                       { return m_bWillProduceStattrak; }
-    float       GetTotalWeight( void ) const                            { return m_flTotalWeight; }
-    // TODO: m_flWeights
-    // TODO: m_RandomAttribs
-    bool        IsServerList( void ) const                              { return m_bWillProduceStattrak; }
-    // TODO: UNKNOWNS
-private: 
-    void*                           m_pVTable; // 0 (4)
-    CUtlVector<loot_list_additional_drop_t>    m_AdditionalDrops; // 4 (+20)
-    const char*                     m_pszName; // 24 (4)
-	CUtlVector<item_list_entry_t>   m_ItemEntries; // 28 (20)
-	uint32				            m_unHeroID;             // 48 (4)
-	bool				            m_bPublicListContents;	// 52 (1) // do not show loot list contents to users (ie., when listing crate contents on Steam)
-    bool                            m_bContainsStickersAutographedByProplayers;   // 53 (1)
-    bool                            m_bContainsStickersRepresentingOrganizations;   // 54 (1)
-    bool                            m_bContainsPatchesRepresentingOrganizations;   // 55 (1)
-    bool                            m_bWillProduceStattrak; // 56 (1)
-    // [Padding] 57 (3)
-    float                           m_flTotalWeight; // 60 (4)
-    CUtlVector<float>               m_flWeights; // 64 (20)
-    CUtlVector<random_attrib_t*>    m_RandomAttribs; // 84 (20)
-    bool                            m_bServerList; // 104 (1)
-    bool                        unknown105; // 105 (1)
-    // [Padding] 106 (2)
-    int                         unknown108; // 108 (4)
-    int                         unknown112; // 112 (4)
-    int                         unknown116; // 116 (4)
-    int                         unknown120; // 120 (4)
-    int                         unknown124; // 124 (4)
 };
 
 class CEconItemSchema
