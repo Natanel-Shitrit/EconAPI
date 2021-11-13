@@ -66,18 +66,42 @@ enum CEconItemQualityDefinition
 
 methodmap CEconItemDefinition
 {
+    /**
+     * Gets a 'CEconItemDefinition' by index (not definition index!).
+     *
+     * @return              'CEconItemDefinition' item in the given index, or null if invalid index.
+     *
+     * @note                Invalid index: index < 0 or index >= CEconItemDefinition.Count().
+     */
     public static native CEconItemDefinition Get(int index);
+    
+    /**
+     * Gets the number of 'CEconItemDefinition's.
+     *
+     * @return              Number of 'CEconItemDefinition's.
+     */
     public static native int Count();
 
+    /**
+     * Finds a 'CEconItemDefinition' by name.
+     *
+     * @return              'CEconItemDefinition' item with the given name, or null if not found.
+     */
     public static native CEconItemDefinition FindByName(const char[] name);
+    
+    /**
+     * Finds a 'CEconItemDefinition' by definition index.
+     *
+     * @return              'CEconItemDefinition' item with the given definition index, or null if not found.
+     */
     public static native CEconItemDefinition FindByDefIndex(int def_index);
 
     /**
-     * Gets the definition index.
+     * Gets the 'CEconItemDefinition' definition index.
      *
-     * @return             Returns definition index.
+     * @return             Item definition index.
      *
-     * @error              CEconItemDefinition == NULL.
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
     property int DefinitionIndex
     {
@@ -85,32 +109,34 @@ methodmap CEconItemDefinition
     }
 
     /**
-     * Gets the item definition name.
+     * Gets the 'CEconItemDefinition' definition name.
      *
-     * @param buffer      Destination string buffer.
-     * @param len         Maximum length of output string buffer.
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
      *
-     * @return             Returns length or 0 if failed.
+     * @return             Number of characters written.
      *
-     * @error              CEconItemDefinition == NULL.
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
     public native int GetDefinitionName(char[] buffer, int len);
 
     /**
-     * Gets LoadoutSlot.
+     * Gets the 'CEconItemDefinition' loadout slot.
      *
-     * @param iTeam        Team index or 0 if independently.
+     * @param team         Team index (0 for non-specific team slot).
      *
-     * @return             Returns loadout slot index.
+     * @return             Loadout slot index.
      *
-     * @error              CEconItemDefinition == NULL.
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
-    public native int GetLoadoutSlot(int iTeam = 0);
+    public native int GetLoadoutSlot(int team = 0);
 
     /**
-     * Gets the used by team.
+     * Gets the 'CEconItemDefinition' team (where the item is used).
      *
-     * @return             Returns team index or 0 if both team.
+     * @return             Team index or 0 for both.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
     property int UsedByTeam
     {
@@ -118,13 +144,11 @@ methodmap CEconItemDefinition
     }
 
     /**
-     * Gets the amount slot for stickers.
-     * @note On agents, places are counted according
-     *       to patch locations on the model.
+     * Gets the 'CEconItemDefinition' sticker slot count for weapons, or patch slot count for Agents.
      *
-     * @return             Returns sticker slot count.
+     * @return             Weapon sticker slot count / Agent patch slot count.
      *
-     * @error              CEconItemDefinition == NULL.
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
     property int NumSupportedStickerSlots
     {
@@ -132,33 +156,33 @@ methodmap CEconItemDefinition
     }
 
     /**
-     * Gets the item econ image path in resource/flash/.
+     * Gets the 'CEconItemDefinition' econ image path inside "resource/flash/".
      * Example: "econ/weapons/base_weapons/weapon_knife"
      *
      * @note Add ".png" in the end of string for full formatting.
      *
-     * @param buffer      Destination string buffer.
-     * @param len         Maximum length of output string buffer.
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
      *
-     * @return             Returns length or 0 if failed.
+     * @return             Number of characters written.
      *
-     * @error              CEconItemDefinition == NULL.
+     * @error              Invalid CEconItemDefinition. (NULL)
      */
     public native int GetEconImage(char[] buffer, int len);
 
     /**
      * Gets the item model path.
      *
-     * @param iModelType   Model type.
-     * @param buffer      Destination string buffer.
-     * @param len         Maximum length of output string buffer.
+     * @param model_type   Model type.
+     * @param buffer       Destination string buffer.
+     * @param len          Maximum length of output string buffer.
      *                     Max size PLATFORM_MAX_PATH.
      *
-     * @return             Returns length or 0 if failed.
+     * @return             Number of characters written.
      *
-     * @error              CEconItemDefinition == NULL or model type invalid.
+     * @error              Invalid model_type or invalid CEconItemDefinition. (NULL)
      */
-    public native int GetModel(EconAPI_ModelType iModelType, char[] buffer, int len);
+    public native int GetModel(EconAPI_ModelType model_type, char[] buffer, int len);
 }
 
 methodmap CPaintKit
