@@ -529,6 +529,13 @@ methodmap CEconLootListDefinition
     }
 
     public native CEconAdditionalDrop GetAdditionalDrop(int index);
+
+    property int ItemCount
+    {
+        public native get();
+    }
+
+    public native CEconItemSetItem GetItem(int index);
 }
 
 public Extension __ext_EconAPI = 
@@ -685,5 +692,7 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconLootListDefinition.ServerList.get");
     MarkNativeAsOptional("CEconLootListDefinition.AdditionalDropCount.get");
     MarkNativeAsOptional("CEconLootListDefinition.GetAdditionalDrop");
+    MarkNativeAsOptional("CEconLootListDefinition.ItemCount.get");
+    MarkNativeAsOptional("CEconLootListDefinition.GetItem");
 }
 #endif

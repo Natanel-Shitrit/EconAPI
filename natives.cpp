@@ -1368,6 +1368,24 @@ static cell_t CEconLootListDefinition_GetAdditionalDrop(IPluginContext* pContext
     return reinterpret_cast<cell_t>(pLootListDefinition->GetAdditionalDrop(params[2]));
 }
 
+static cell_t CEconLootListDefinition_GetItemCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return pLootListDefinition->GetItemCount();
+}
+
+static cell_t CEconLootListDefinition_GetItem(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+
+    return reinterpret_cast<cell_t>(pLootListDefinition->GetItem(params[2]));
+}
+
 // CEconAdditionalDrop
 static cell_t CEconAdditionalDrop_GetChance(IPluginContext* pContext, const cell_t* params)
 {
@@ -1546,6 +1564,8 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconLootListDefinition.ServerList.get",                     CEconLootListDefinition_IsServerList },
     { "CEconLootListDefinition.AdditionalDropCount.get",            CEconLootListDefinition_GetAdditionalDropCount },
     { "CEconLootListDefinition.GetAdditionalDrop",                  CEconLootListDefinition_GetAdditionalDrop },
+    { "CEconLootListDefinition.ItemCount.get",                      CEconLootListDefinition_GetItemCount },
+    { "CEconLootListDefinition.GetItem",                            CEconLootListDefinition_GetItem },
 
     { nullptr,  nullptr }
 };
