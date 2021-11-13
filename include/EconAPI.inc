@@ -312,7 +312,7 @@ methodmap CEconMusicDefinition
     public native int GetInventoryImage(char[] buffer, int len);
 }
 
-methodmap CEconItemSetItem
+methodmap CEconItemListEntry
 {
     property CEconItemDefinition ItemDef
     {
@@ -376,7 +376,7 @@ methodmap CEconItemSetDefinition
         public native get();
     }
 
-    public native CEconItemSetItem GetItem(int index);
+    public native CEconItemListEntry GetItem(int index);
 }
 
 methodmap CEconItemRarityDefinition
@@ -535,7 +535,7 @@ methodmap CEconLootListDefinition
         public native get();
     }
 
-    public native CEconItemSetItem GetItem(int index);
+    public native CEconItemListEntry GetItem(int index);
 }
 
 public Extension __ext_EconAPI = 
@@ -620,13 +620,13 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconMusicDefinition.GetPedestalDisplayModel");
     MarkNativeAsOptional("CEconMusicDefinition.GetInventoryImage");
     
-    // CEconItemSetItem
-    MarkNativeAsOptional("CEconItemSetItem.ItemDef.get");
-    MarkNativeAsOptional("CEconItemSetItem.PaintKit.get");
-    MarkNativeAsOptional("CEconItemSetItem.PaintKitSeed.get");
-    MarkNativeAsOptional("CEconItemSetItem.PaintKitWear.get");
-    MarkNativeAsOptional("CEconItemSetItem.StickerKit.get");
-    MarkNativeAsOptional("CEconItemSetItem.MusicKit.get");
+    // CEconItemListEntry
+    MarkNativeAsOptional("CEconItemListEntry.ItemDef.get");
+    MarkNativeAsOptional("CEconItemListEntry.PaintKit.get");
+    MarkNativeAsOptional("CEconItemListEntry.PaintKitSeed.get");
+    MarkNativeAsOptional("CEconItemListEntry.PaintKitWear.get");
+    MarkNativeAsOptional("CEconItemListEntry.StickerKit.get");
+    MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
 
     // CEconItemSetDefinition
     MarkNativeAsOptional("CEconItemSetDefinition.Get");

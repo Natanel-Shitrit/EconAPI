@@ -275,23 +275,23 @@ void DumpEcon()
 			item_set.IsHiddenSet
 		);
 		
-		CEconItemSetItem item_set_item;
+		CEconItemListEntry item_list_entry;
 		char item_def_name[64], paint_kit_name[64];
 		for (int j = item_set.ItemCount - 1; j >= 0; j--)
 		{
-			item_set_item = item_set.GetItem(j);
+			item_list_entry = item_set.GetItem(j);
 			
-			item_set_item.ItemDef.GetDefinitionName(item_def_name, sizeof(item_def_name));
-			item_set_item.PaintKit.GetName(paint_kit_name, sizeof(paint_kit_name));
+			item_list_entry.ItemDef.GetDefinitionName(item_def_name, sizeof(item_def_name));
+			item_list_entry.PaintKit.GetName(paint_kit_name, sizeof(paint_kit_name));
 			
 			Logger_Message("\t[%d] ItemDef: %s | PaintKit: %s | PaintKitSeed: %d | PaintKitWear: %f | StickerKit: %X | MusicKit: %X",
 				j,
 				item_def_name,
 				paint_kit_name,
-				item_set_item.PaintKitSeed,
-				item_set_item.PaintKitWear,
-				item_set_item.StickerKit,
-				item_set_item.MusicKit
+				item_list_entry.PaintKitSeed,
+				item_list_entry.PaintKitWear,
+				item_list_entry.StickerKit,
+				item_list_entry.MusicKit
 			);
 		}
 	}

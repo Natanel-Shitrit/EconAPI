@@ -722,67 +722,67 @@ static cell_t CEconMusicDefinition_GetInventoryImage(IPluginContext* pContext, c
     return numBytes;
 }
 
-// CEconItemSetItem //
-static cell_t CEconItemSetItem_GetItemDef(IPluginContext* pContext, const cell_t* params)
+// CEconItemListEntry //
+static cell_t CEconItemListEntry_GetItemDef(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
 
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
     
-    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinitionByDefIndex(pItemSetItem->m_nItemDef));
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinitionByDefIndex(pItemListEntry->m_nItemDef));
 }
 
-static cell_t CEconItemSetItem_GetPaintKit(IPluginContext* pContext, const cell_t* params)
+static cell_t CEconItemListEntry_GetPaintKit(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
     
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
 
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
 
-    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetPaintKitByID(pItemSetItem->m_nPaintKit));
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetPaintKitByID(pItemListEntry->m_nPaintKit));
 }
 
-static cell_t CEconItemSetItem_GetPaintKitSeed(IPluginContext* pContext, const cell_t* params)
+static cell_t CEconItemListEntry_GetPaintKitSeed(IPluginContext* pContext, const cell_t* params)
 {
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
 
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
 
-    return reinterpret_cast<cell_t>(pItemSetItem->m_nPaintKitSeed);
+    return reinterpret_cast<cell_t>(pItemListEntry->m_nPaintKitSeed);
 }
 
-static cell_t CEconItemSetItem_GetPaintKitWear(IPluginContext* pContext, const cell_t* params)
+static cell_t CEconItemListEntry_GetPaintKitWear(IPluginContext* pContext, const cell_t* params)
 {
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
 
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
 
-    return sp_ftoc(pItemSetItem->m_flPaintKitWear);
+    return sp_ftoc(pItemListEntry->m_flPaintKitWear);
 }
 
-static cell_t CEconItemSetItem_GetStickerKit(IPluginContext* pContext, const cell_t* params)
-{
-    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
-
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
-
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
-
-    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetStickerKitByID(pItemSetItem->m_nStickerKit));
-}
-
-static cell_t CEconItemSetItem_GetMusicKit(IPluginContext* pContext, const cell_t* params)
+static cell_t CEconItemListEntry_GetStickerKit(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    item_list_entry_t* pItemSetItem = reinterpret_cast<item_list_entry_t*>(params[1]);
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
 
-    SM_NATIVE_ERROR_IF_NULL(pItemSetItem);
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
 
-    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinitionByID(pItemSetItem->m_nMusicKit));
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetStickerKitByID(pItemListEntry->m_nStickerKit));
+}
+
+static cell_t CEconItemListEntry_GetMusicKit(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinitionByID(pItemListEntry->m_nMusicKit));
 }
 
 
@@ -1492,13 +1492,13 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconMusicDefinition.GetPedestalDisplayModel",       CEconMusicDefinition_GetPedestalDisplayModel },
     { "CEconMusicDefinition.GetInventoryImage",             CEconMusicDefinition_GetInventoryImage },
 
-    // CEconItemSetItem
-    { "CEconItemSetItem.ItemDef.get",                       CEconItemSetItem_GetItemDef },
-    { "CEconItemSetItem.PaintKit.get",                      CEconItemSetItem_GetPaintKit },
-    { "CEconItemSetItem.PaintKitSeed.get",                  CEconItemSetItem_GetPaintKitSeed },
-    { "CEconItemSetItem.PaintKitWear.get",                  CEconItemSetItem_GetPaintKitWear },
-    { "CEconItemSetItem.StickerKit.get",                    CEconItemSetItem_GetStickerKit },
-    { "CEconItemSetItem.MusicKit.get",                      CEconItemSetItem_GetMusicKit },
+    // CEconItemListEntry
+    { "CEconItemListEntry.ItemDef.get",                       CEconItemListEntry_GetItemDef },
+    { "CEconItemListEntry.PaintKit.get",                      CEconItemListEntry_GetPaintKit },
+    { "CEconItemListEntry.PaintKitSeed.get",                  CEconItemListEntry_GetPaintKitSeed },
+    { "CEconItemListEntry.PaintKitWear.get",                  CEconItemListEntry_GetPaintKitWear },
+    { "CEconItemListEntry.StickerKit.get",                    CEconItemListEntry_GetStickerKit },
+    { "CEconItemListEntry.MusicKit.get",                      CEconItemListEntry_GetMusicKit },
 
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },
