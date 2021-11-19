@@ -64,6 +64,59 @@ static cell_t CEconItemDefinition_GetDefinitionIndex(IPluginContext* pContext, c
     return pItemDefinition->GetDefinitionIndex();
 }
 
+static cell_t CEconItemDefinition_GetItemRarity(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+    
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemRarityDefinition(pItemDefinition->GetItemRarity()));
+}
+
+static cell_t CEconItemDefinition_GetItemQuality(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+    
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemQualityDefinition(pItemDefinition->GetItemQuality()));
+}
+
+static cell_t CEconItemDefinition_GetForcedItemQuality(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+    
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemQualityDefinition(pItemDefinition->GetForcedItemQuality()));
+}
+
+static cell_t CEconItemDefinition_GetDefaultDropItemQuality(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+    
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemQualityDefinition(pItemDefinition->GetDefaultDropItemQuality()));
+}
+
+static cell_t CEconItemDefinition_GetDefaultDropQuantity(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+    
+    return pItemDefinition->GetDefaultDropQuantity();
+}
+
 static cell_t CEconItemDefinition_GetDefinitionName(IPluginContext* pContext, const cell_t* params)
 {
     CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
@@ -1437,6 +1490,11 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemDefinition.FindByDefIndex",                 CEconItemDefinition_FindByDefIndex },
     { "CEconItemDefinition.FindByName",                     CEconItemDefinition_FindByName },
     { "CEconItemDefinition.DefinitionIndex.get",            CEconItemDefinition_GetDefinitionIndex },
+    { "CEconItemDefinition.ItemRarity.get",                 CEconItemDefinition_GetItemRarity },
+    { "CEconItemDefinition.ItemQuality.get",                CEconItemDefinition_GetItemQuality },
+    { "CEconItemDefinition.ForcedItemQuality.get",          CEconItemDefinition_GetForcedItemQuality },
+    { "CEconItemDefinition.DefaultDropItemQuality.get",     CEconItemDefinition_GetDefaultDropItemQuality },
+    { "CEconItemDefinition.DefaultDropQuantity.get",        CEconItemDefinition_GetDefaultDropQuantity },
     { "CEconItemDefinition.GetDefinitionName",              CEconItemDefinition_GetDefinitionName },
     { "CEconItemDefinition.GetLoadoutSlot",                 CEconItemDefinition_GetLoadoutSlot },
     { "CEconItemDefinition.UsedByTeam.get",                 CEconItemDefinition_GetUsedByTeam },
@@ -1497,12 +1555,12 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconMusicDefinition.GetInventoryImage",             CEconMusicDefinition_GetInventoryImage },
 
     // CEconItemListEntry
-    { "CEconItemListEntry.ItemDef.get",                       CEconItemListEntry_GetItemDef },
-    { "CEconItemListEntry.PaintKit.get",                      CEconItemListEntry_GetPaintKit },
-    { "CEconItemListEntry.PaintKitSeed.get",                  CEconItemListEntry_GetPaintKitSeed },
-    { "CEconItemListEntry.PaintKitWear.get",                  CEconItemListEntry_GetPaintKitWear },
-    { "CEconItemListEntry.StickerKit.get",                    CEconItemListEntry_GetStickerKit },
-    { "CEconItemListEntry.MusicKit.get",                      CEconItemListEntry_GetMusicKit },
+    { "CEconItemListEntry.ItemDef.get",                     CEconItemListEntry_GetItemDef },
+    { "CEconItemListEntry.PaintKit.get",                    CEconItemListEntry_GetPaintKit },
+    { "CEconItemListEntry.PaintKitSeed.get",                CEconItemListEntry_GetPaintKitSeed },
+    { "CEconItemListEntry.PaintKitWear.get",                CEconItemListEntry_GetPaintKitWear },
+    { "CEconItemListEntry.StickerKit.get",                  CEconItemListEntry_GetStickerKit },
+    { "CEconItemListEntry.MusicKit.get",                    CEconItemListEntry_GetMusicKit },
 
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },

@@ -109,6 +109,66 @@ methodmap CEconItemDefinition
     }
 
     /**
+     * Gets the 'CEconItemDefinition' item rarity.
+     *
+     * @return             Item rarity (CEconItemRarityDefinition).
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property CEconItemRarityDefinition ItemRarity
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' item quality.
+     *
+     * @return             Item quality (CEconItemQualityDefinition).
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property CEconItemQualityDefinition ItemQuality
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' forced item quality.
+     *
+     * @return             Forced item quality (CEconItemQualityDefinition).
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property CEconItemQualityDefinition ForcedItemQuality
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' default drop item quality.
+     *
+     * @return             Default drop item quality (CEconItemQualityDefinition).
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property CEconItemQualityDefinition DefaultDropItemQuality
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' default drop quantity.
+     *
+     * @return             Default drop quantity.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int DefaultDropQuantity
+    {
+        public native get();
+    }
+
+    /**
      * Gets the 'CEconItemDefinition' definition name.
      *
      * @param buffer       Data string buffer.
@@ -587,6 +647,11 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemDefinition.FindByDefIndex");
     MarkNativeAsOptional("CEconItemDefinition.FindByName");
     MarkNativeAsOptional("CEconItemDefinition.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconItemDefinition.ItemRarity.get");             
+    MarkNativeAsOptional("CEconItemDefinition.ItemQuality.get");            
+    MarkNativeAsOptional("CEconItemDefinition.ForcedItemQuality.get");      
+    MarkNativeAsOptional("CEconItemDefinition.DefaultDropItemQuality.get"); 
+    MarkNativeAsOptional("CEconItemDefinition.DefaultDropQuantity.get");    
     MarkNativeAsOptional("CEconItemDefinition.GetDefinitionName");
     MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
     MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");

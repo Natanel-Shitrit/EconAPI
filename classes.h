@@ -289,8 +289,14 @@ private:
 class CEconItemDefinition
 {
 public:
-    uint16 GetDefinitionIndex()                     { return m_nDefIndex; }
-    int GetNumSupportedStickerSlots()              { return m_vStickerModels.Count(); }
+    uint16 GetDefinitionIndex() const               { return m_nDefIndex; }
+    uint8 GetItemRarity() const                     { return m_nItemRarity; }
+    uint8 GetItemQuality() const                    { return m_nItemQuality; }
+    uint8 GetForcedItemQuality() const              { return m_nForcedItemQuality; }
+    uint8 GetDefaultDropItemQuality() const         { return m_nDefaultDropItemQuality; }
+    uint8 GetDefaultDropQuantity() const            { return m_nDefaultDropQuantity; }
+    
+    int GetNumSupportedStickerSlots() const         { return m_vStickerModels.Count(); }
     const char* GetInventoryImage() const           { return m_pszInventoryImage; }
     const char* GetBasePlayerDisplayModel() const   { return m_pszBaseDisplayModel; }
     const char* GetWorldDisplayModel() const        { return m_pszWorldDisplayModel; }
@@ -341,7 +347,7 @@ private:
 
     // Portraits KV
     KeyValues*  m_pPortraitsKV; // 72 (4)
-
+private:
     // ---------------------------------------------
     // Display related data
     // ---------------------------------------------
