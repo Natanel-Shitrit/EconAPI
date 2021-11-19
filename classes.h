@@ -304,50 +304,6 @@ public:
     const char* GetDefinitionName() const           { return m_pszDefinitionName; }
 
 private:
-    void* m_pVTable; // 0 (4)
-    KeyValues* m_pKVItem; // 4 (4)
-    // The number used to refer to this definition in the DB
-    item_definition_index_t    m_nDefIndex; // 8 (4)
-
-    // List of associated items, such as multiple different keys for the same crate.
-    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 12+ (20)
-
-    // False if this definition has been turned off and we're not using it to generate items
-    bool        m_bEnabled; // 32 (1)
-
-    // [Padding] 33 (3)
-
-    // The prefab used by the item.
-    const char* m_szPrefab; // 36 (4)
-
-    // These values specify the range of item levels that an item based off this definition can be generated within.
-    uint8       m_unMinItemLevel; // 40 (1)
-    uint8       m_unMaxItemLevel; // 41 (1)
-
-    // This specifies an item's rarity.
-    uint8       m_nItemRarity; // 42 (1)
-
-    // This specifies an item quality that items from this definition must be set to. Used mostly to specify unique item definitions.
-    uint8       m_nItemQuality; // 43 (1)
-    uint8       m_nForcedItemQuality; // 44 (1)
-    uint8       m_nDefaultDropItemQuality; // 45 (1)
-
-    // Default drop quantity
-    uint8       m_nDefaultDropQuantity; // 46 (1)
-
-    // [Padding] 47 (1)
-
-    // Static attributes (ones that are always on these items)
-    CUtlVector<CEconLootListDefinition::static_attrib_t> m_vecStaticAttributes; // 48 (20)
-
-    // Seeds the popular item list with this number of the item when the list is reset.
-    uint8       m_nPopularitySeed; // 68 (1)
-    
-    // [Padding] 69 (3)
-
-    // Portraits KV
-    KeyValues*  m_pPortraitsKV; // 72 (4)
-private:
     // ---------------------------------------------
     // Display related data
     // ---------------------------------------------
