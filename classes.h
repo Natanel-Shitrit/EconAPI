@@ -347,7 +347,7 @@ private:
 
     // Portraits KV
     KeyValues*  m_pPortraitsKV; // 72 (4)
-private:
+
     // ---------------------------------------------
     // Display related data
     // ---------------------------------------------
