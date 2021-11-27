@@ -57,7 +57,7 @@ typedef uint16 item_definition_index_t;
 typedef uint16 attrib_definition_index_t;
 typedef uint32 attrib_value_t;
 typedef CUtlVector< uint32 > WorkshopContributorList_t;
-typedef int        econ_tag_handle_t;
+typedef int econ_tag_handle_t;
 
 // Misc typedefs for clarity.
 typedef uint32    equip_region_mask_t;
