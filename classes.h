@@ -128,9 +128,8 @@ enum item_capabilities_t
     ITEM_CAP_RECIPE                 = 1 << 19,    // NOT USED
     ITEM_CAP_CAN_STICKER            = 1 << 20,        // used in CS:GO on sticker tools, primary and secondary weapons
     ITEM_CAP_STATTRACK_SWAP         = 1 << 21,        // used in CS:GO on stattrack items
-    NUM_ITEM_CAPS                   = 22,
-
-    // TODO: Check `can_patch` value in `customplayertradable`
+    ITEM_CAP_CAN_PATCH              = 1 << 22,        // used in CS:GO on customplayers
+    NUM_ITEM_CAPS                   = 23,
 };
 
 enum
