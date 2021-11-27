@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -98,6 +98,9 @@ enum EItemType
     k_EItemTypeOperationCoin,
     k_EItemTypePrestigeCoin,
     k_EItemTypeTool,
+    k_EItemTypeGameLicense,
+    k_EItemTypePickEmChallangeCoin,
+    k_EItemTypeSubscription,
 };
 
 enum item_capabilities_t
