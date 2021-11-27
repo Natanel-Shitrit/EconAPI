@@ -22,7 +22,7 @@
 #define _EconAPI_included
 
 
-enum EconAPI_ModelType
+enum ModelType
 {
     ViewModel = 0,
     WorldModel,

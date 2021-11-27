@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -23,7 +23,7 @@
 	if (!var) return pContext->ThrowNativeError("%s == nullptr.", #var);
 
 
-enum EconAPI_ModelType
+enum ModelType
 {
 	ViewModel = 0,
 	WorldModel,

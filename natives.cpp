@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -187,7 +187,7 @@ static cell_t CEconItemDefinition_GetModel(IPluginContext* pContext, const cell_
     size_t numBytes = 0;
     const char* sBuf;
 
-    switch (static_cast<EconAPI_ModelType>(params[2]))
+    switch (static_cast<ModelType>(params[2]))
     {
         case ViewModel:
         {
@@ -206,7 +206,7 @@ static cell_t CEconItemDefinition_GetModel(IPluginContext* pContext, const cell_
         }
         default:
         {
-            return pContext->ThrowNativeError("Invalid EconAPI_ModelType value");
+            return pContext->ThrowNativeError("Invalid ModelType value");
         }
     }
 
