@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -27,7 +27,10 @@ enum ModelType
 {
 	ViewModel = 0,
 	WorldModel,
-	DroppedModel
+	DroppedModel,
+	HolsteredModel,
+	WorldExtraWearableModel,
+	InventoryModel
 };
 
 extern const sp_nativeinfo_t g_ExtensionNatives[];

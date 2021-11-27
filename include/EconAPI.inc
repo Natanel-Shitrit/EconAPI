@@ -26,6 +26,12 @@ enum ModelType
 {
     ViewModel = 0,
     WorldModel,
+    DroppedModel,
+    HolsteredModel,
+    WorldExtraWearableModel,
+    InventoryModel
+}
+
 enum EItemType
 {
     k_EItemTypeNone,
@@ -136,14 +142,279 @@ methodmap CEconItemDefinition
      */
     public static native CEconItemDefinition FindByDefIndex(int def_index);
 
+
     /**
-     * Gets the 'CEconItemDefinition' definition index.
+     * Gets the 'CEconItemDefinition' .
      *
-     * @return             Item definition index.
+     * @return             Item .
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    property int DefinitionIndex
+    property bool IsEnabled
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool HasProperName
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShouldLoadOnDemand
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool HasBeenLoaded
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool HideBodyGroupsDeployedOnly
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShouldAttachToHands
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShouldAttachToHandsVMOnly
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShouldFlipViewModel
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsActingAsWearable
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShoulDisableStyleSelector
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsHidden
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool ShouldShowInArmory
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsBaseItem
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsDefaultSlotItem
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsImported
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsOnePerAccountCDKEY
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsPackBundle
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsPackItem
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsAllowedInMatch
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IsPublicItem
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property bool IgnoreInCollectionView
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int MinItemLevel
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int MaxItemLevel
     {
         public native get();
     }
@@ -209,7 +480,199 @@ methodmap CEconItemDefinition
     }
 
     /**
-     * Gets the 'CEconItemDefinition' definition name.
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int PopularitySeed
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int DefinitionIndex
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int ItemTypeID
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int NumConcreteItems
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int NumSupportedStickerSlots
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int SoundMaterialID
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int ArmoryRemap
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int StoreRemap
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int DropType
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int SubType
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int ExpirationTime
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int DefCreationTime
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int EconItemType
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int Capabilities
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int EquipRegionMask
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @return             Item .
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int EquipRegionConflictMask
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' .
      *
      * @param buffer       Data string buffer.
      * @param len          Maximum length of buffer.
@@ -218,42 +681,31 @@ methodmap CEconItemDefinition
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    public native int GetDefinitionName(char[] buffer, int len);
+    public native int GetBaseName(char[] buffer, int len);
 
     /**
-     * Gets the 'CEconItemDefinition' loadout slot.
+     * Gets the 'CEconItemDefinition' .
      *
-     * @param team         Team index (0 for non-specific team slot).
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
      *
-     * @return             Loadout slot index.
+     * @return             Number of characters written.
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    public native int GetLoadoutSlot(int team = 0);
+    public native int GetTypeName(char[] buffer, int len);
 
     /**
-     * Gets the 'CEconItemDefinition' team (where the item is used).
+     * Gets the 'CEconItemDefinition' .
      *
-     * @return             Team index or 0 for both.
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    property int UsedByTeam
-    {
-        public native get();
-    }
-
-    /**
-     * Gets the 'CEconItemDefinition' sticker slot count for weapons, or patch slot count for Agents.
-     *
-     * @return             Weapon sticker slot count / Agent patch slot count.
-     *
-     * @error              Invalid CEconItemDefinition. (NULL)
-     */
-    property int NumSupportedStickerSlots
-    {
-        public native get();
-    }
+    public native int GetDescription(char[] buffer, int len);
 
     /**
      * Gets the 'CEconItemDefinition' econ image path inside "resource/flash/".
@@ -268,7 +720,246 @@ methodmap CEconItemDefinition
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    public native int GetEconImage(char[] buffer, int len);
+    public native int GetInventoryImage(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetIconDefaultImage(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetZoomInSound(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetZoomOutSound(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetIconURLSmall(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetIconURLLarge(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetUnknown1(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetUnknown2(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetParticleFile(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetParticleSnapshotFile(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetLootListName(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetItemClassname(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetItemLogClassname(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetItemIconClassname(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' definition name.
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetDefinitionName(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetArmoryDescription(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetClassToken(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetSlotToken(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetHolidayRestriction(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' team (where the item is used).
+     *
+     * @return             Team index or 0 for both.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    property int UsedByTeam
+    {
+        public native get();
+    }
+
+    /**
+     * Gets the 'CEconItemDefinition' loadout slot.
+     *
+     * @param team         Team index (0 for non-specific team slot).
+     *
+     * @return             Loadout slot index.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
+    public native int GetLoadoutSlot(int team = 0);
 
     /**
      * Gets the item model path.
@@ -282,7 +973,7 @@ methodmap CEconItemDefinition
      *
      * @error              Invalid model_type or invalid CEconItemDefinition. (NULL)
      */
-    public native int GetModel(EconAPI_ModelType model_type, char[] buffer, int len);
+    public native int GetModel(ModelType model_type, char[] buffer, int len);
 }
 
 methodmap CPaintKit
@@ -686,17 +1377,77 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemDefinition.Count");
     MarkNativeAsOptional("CEconItemDefinition.FindByDefIndex");
     MarkNativeAsOptional("CEconItemDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemDefinition.IsEnabled.get");
+    MarkNativeAsOptional("CEconItemDefinition.HasProperName.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShouldLoadOnDemand.get");
+    MarkNativeAsOptional("CEconItemDefinition.HasBeenLoaded.get");
+    MarkNativeAsOptional("CEconItemDefinition.HideBodyGroupsDeployedOnly.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShouldAttachToHands.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShouldAttachToHandsVMOnly.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShouldFlipViewModel.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsActingAsWearable.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShoulDisableStyleSelector.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsHidden.get");
+    MarkNativeAsOptional("CEconItemDefinition.ShouldShowInArmory.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsBaseItem.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsDefaultSlotItem.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsImported.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsOnePerAccountCDKEY.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsPackBundle.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsPackItem.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsAllowedInMatch.get");
+    MarkNativeAsOptional("CEconItemDefinition.IsPublicItem.get");
+    MarkNativeAsOptional("CEconItemDefinition.IgnoreInCollectionView.get");
+
+    MarkNativeAsOptional("CEconItemDefinition.MinItemLevel.get");
+    MarkNativeAsOptional("CEconItemDefinition.MaxItemLevel.get");
+    MarkNativeAsOptional("CEconItemDefinition.ItemRarity.get");
+    MarkNativeAsOptional("CEconItemDefinition.ItemQuality.get");
+    MarkNativeAsOptional("CEconItemDefinition.ForcedItemQuality.get");
+    MarkNativeAsOptional("CEconItemDefinition.DefaultDropItemQuality.get");
+    MarkNativeAsOptional("CEconItemDefinition.DefaultDropQuantity.get");
+    MarkNativeAsOptional("CEconItemDefinition.PopularitySeed.get");
     MarkNativeAsOptional("CEconItemDefinition.DefinitionIndex.get");
-    MarkNativeAsOptional("CEconItemDefinition.ItemRarity.get");             
-    MarkNativeAsOptional("CEconItemDefinition.ItemQuality.get");            
-    MarkNativeAsOptional("CEconItemDefinition.ForcedItemQuality.get");      
-    MarkNativeAsOptional("CEconItemDefinition.DefaultDropItemQuality.get"); 
-    MarkNativeAsOptional("CEconItemDefinition.DefaultDropQuantity.get");    
-    MarkNativeAsOptional("CEconItemDefinition.GetDefinitionName");
-    MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
-    MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");
+    MarkNativeAsOptional("CEconItemDefinition.ItemTypeID.get");
+    MarkNativeAsOptional("CEconItemDefinition.NumConcreteItems.get");
     MarkNativeAsOptional("CEconItemDefinition.NumSupportedStickerSlots.get");
-    MarkNativeAsOptional("CEconItemDefinition.GetEconImage");
+    MarkNativeAsOptional("CEconItemDefinition.SoundMaterialID.get");
+    MarkNativeAsOptional("CEconItemDefinition.ArmoryRemap.get");
+    MarkNativeAsOptional("CEconItemDefinition.StoreRemap.get");
+    MarkNativeAsOptional("CEconItemDefinition.DropType.get");
+    MarkNativeAsOptional("CEconItemDefinition.SubType.get");
+    MarkNativeAsOptional("CEconItemDefinition.ExpirationTime.get");
+    MarkNativeAsOptional("CEconItemDefinition.DefCreationTime.get");
+    MarkNativeAsOptional("CEconItemDefinition.EconItemType.get");
+    MarkNativeAsOptional("CEconItemDefinition.Capabilities.get");
+    MarkNativeAsOptional("CEconItemDefinition.EquipRegionMask.get");
+    MarkNativeAsOptional("CEconItemDefinition.EquipRegionConflictMask.get");
+
+    MarkNativeAsOptional("CEconItemDefinition.GetBaseName");
+    MarkNativeAsOptional("CEconItemDefinition.GetTypeName");
+    MarkNativeAsOptional("CEconItemDefinition.GetDescription");
+    MarkNativeAsOptional("CEconItemDefinition.GetInventoryImage");
+    MarkNativeAsOptional("CEconItemDefinition.GetIconDefaultImage");
+    MarkNativeAsOptional("CEconItemDefinition.GetZoomInSound");
+    MarkNativeAsOptional("CEconItemDefinition.GetZoomOutSound");
+    MarkNativeAsOptional("CEconItemDefinition.GetIconURLSmall");
+    MarkNativeAsOptional("CEconItemDefinition.GetIconURLLarge");
+    MarkNativeAsOptional("CEconItemDefinition.GetUnknown1");
+    MarkNativeAsOptional("CEconItemDefinition.GetUnknown2");
+    MarkNativeAsOptional("CEconItemDefinition.GetParticleFile");
+    MarkNativeAsOptional("CEconItemDefinition.GetParticleSnapshotFile");
+    MarkNativeAsOptional("CEconItemDefinition.GetLootListName");
+    MarkNativeAsOptional("CEconItemDefinition.GetItemClassname");
+    MarkNativeAsOptional("CEconItemDefinition.GetItemLogClassname");
+    MarkNativeAsOptional("CEconItemDefinition.GetItemIconClassname");
+    MarkNativeAsOptional("CEconItemDefinition.GetDefinitionName");
+    MarkNativeAsOptional("CEconItemDefinition.GetArmoryDescription");
+    MarkNativeAsOptional("CEconItemDefinition.GetClassToken");
+    MarkNativeAsOptional("CEconItemDefinition.GetSlotToken");
+    MarkNativeAsOptional("CEconItemDefinition.GetHolidayRestriction");
+
+    MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");
+    MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
     MarkNativeAsOptional("CEconItemDefinition.GetModel");
 
     // CPaintKit
