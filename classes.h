@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -291,20 +291,92 @@ private:
 class CEconItemDefinition
 {
 public:
-    uint16 GetDefinitionIndex() const               { return m_nDefIndex; }
-    uint8 GetItemRarity() const                     { return m_nItemRarity; }
-    uint8 GetItemQuality() const                    { return m_nItemQuality; }
-    uint8 GetForcedItemQuality() const              { return m_nForcedItemQuality; }
-    uint8 GetDefaultDropItemQuality() const         { return m_nDefaultDropItemQuality; }
-    uint8 GetDefaultDropQuantity() const            { return m_nDefaultDropQuantity; }
+    // booleans
+    bool IsEnabled() const                      { return m_bEnabled; }
+    bool HasProperName() const                  { return m_bProperName; }
+    bool ShouldLoadOnDemand() const             { return m_bLoadOnDemand; }
+    bool HasBeenLoaded() const                  { return m_bHasBeenLoaded; }
+    bool HideBodyGroupsDeployedOnly() const     { return m_bHideBodyGroupsDeployedOnly; }
+    bool ShouldAttachToHands() const            { return m_bAttachToHands; }
+    bool ShouldAttachToHandsVMOnly() const      { return m_bAttachToHandsVMOnly; }
+    bool ShouldFlipViewModel() const            { return m_bFlipViewModel; }
+    bool IsActingAsWearable() const             { return m_bActAsWearable; }
+    bool ShoulDisableStyleSelector() const      { return m_bDisableStyleSelection; }
+    bool IsHidden() const                       { return m_bHidden; }
+    bool ShouldShowInArmory() const             { return m_bShouldShowInArmory; }
+    bool IsBaseItem() const                     { return m_bBaseItem; }
+    bool IsDefaultSlotItem() const              { return m_bDefaultSlotItem; }
+    bool IsImported() const                     { return m_bImported; }
+    bool IsOnePerAccountCDKEY() const           { return m_bOnePerAccountCDKEY; }
+    bool IsPackBundle() const                   { return m_bIsPackBundle; }
+    bool IsPackItem() const                     { return m_pOwningPackBundle != NULL; }
+    bool IsAllowedInMatch() const               { return m_bAllowedInThisMatch; }
+    bool IsPublicItem() const                   { return m_bPublicItem; }
+    bool IgnoreInCollectionView() const         { return m_bIgnoreInCollectionView; }
+
+    // integers
+    uint8 GetMinItemLevel() const           { return m_unMinItemLevel; }
+    uint8 GetMaxItemLevel() const           { return m_unMaxItemLevel; }
+    uint8 GetItemRarity() const             { return m_nItemRarity; }
+    uint8 GetItemQuality() const            { return m_nItemQuality; }
+    uint8 GetForcedItemQuality() const      { return m_nForcedItemQuality; }
+    uint8 GetDefaultDropItemQuality() const { return m_nDefaultDropItemQuality; }
+    uint8 GetDefaultDropQuantity() const    { return m_nDefaultDropQuantity; }
+    uint8 GetPopularitySeed() const         { return m_nPopularitySeed; }
+    uint16 GetDefinitionIndex() const       { return m_nDefIndex; }
+    uint32 GetItemTypeID() const            { return m_unItemTypeID; }
+    uint32 GetNumConcreteItems() const      { return m_unNumConcreteItems; }
+
+    int GetNumSupportedStickerSlots() const { return m_vStickerModels.Count(); }
+    int GetSoundMaterialID() const          { return m_nSoundMaterialID; }
+    int GetArmoryRemap() const              { return m_iArmoryRemap; }
+    int GetStoreRemap() const               { return m_iStoreRemap; }
+    int GetDropType() const                 { return m_iDropType; }
+    int GetSubType() const                  { return m_iSubType; }
     
-    int GetNumSupportedStickerSlots() const         { return m_vStickerModels.Count(); }
+    RTime32 GetExpirationTime() const   { return m_rtExpiration; }
+    RTime32 GetDefCreationTime() const  { return m_rtDefCreation; }
+
+    EItemType GetEconItemType() const           { return m_eItemType; }
+    item_capabilities_t GetCapabilities() const { return m_iCapabilities; }
+
+    equip_region_mask_t GetEquipRegionMask() const          { return m_unEquipRegionMask; }
+    equip_region_mask_t GetEquipRegionConflictMask() const  { return m_unEquipRegionConflictMask; }
+
+    // strings
+    const char* GetPrefab() const                   { return m_szPrefab; }
+    const char* GetBaseName() const                 { return m_pszItemBaseName; }
+    const char* GetTypeName() const                 { return m_pszItemTypeName; }
+    const char* GetDescription() const              { return m_pszItemDesc; }
+    const char* GetInventoryModel() const           { return m_pszInventoryModel; }
     const char* GetInventoryImage() const           { return m_pszInventoryImage; }
     const char* GetBasePlayerDisplayModel() const   { return m_pszBaseDisplayModel; }
     const char* GetWorldDisplayModel() const        { return m_pszWorldDisplayModel; }
     const char* GetWorldDroppedModel() const        { return m_pszWorldDroppedModel; }
+    const char* GetHolsteredModel() const           { return m_pszHolsteredModel; }
+    const char* GetWorldExtraWearableModel() const  { return m_pszWorldExtraWearableModel; }
+    const char* GetIconDefaultImage() const         { return m_pszIconDefaultImage; }
+    const char* GetBrassModelOverride() const       { return m_pszBrassModelOverride; }
+    const char* GetZoomInSound() const              { return m_pszZoomInSound; }
+    const char* GetZoomOutSound() const             { return m_pszZoomOutSound; }
+    const char* GetIconURLSmall() const             { return m_sIconURLSmall.Get(); }
+    const char* GetIconURLLarge() const             { return m_sIconURLLarge.Get(); }
+    const char* GetUnknown1() const                 { return m_sUnknown1.Get(); }
+    const char* GetUnknown2() const                 { return m_sUnknown2.Get(); }
+    const char* GetParticleFile() const             { return m_pszParticleFile; }
+    const char* GetParticleSnapshotFile() const     { return m_pszParticleSnapshotFile; }
+    const char* GetLootListName() const             { return m_pszLootListName; }
+    const char* GetItemClassname() const            { return m_pszItemClassname; }
+    const char* GetItemLogClassname() const         { return m_pszItemLogClassname; }
+    const char* GetItemIconClassname() const        { return m_pszItemIconClassname; }
     const char* GetDefinitionName() const           { return m_pszDefinitionName; }
+    const char* GetArmoryDescription() const        { return m_pszArmoryDesc; }
+    const char* GetClassToken() const               { return m_pszClassToken; }
+    const char* GetSlotToken() const                { return m_pszSlotToken; }
+    const char* GetHolidayRestriction() const       { return m_pszHolidayRestriction; }
 
+    // other
+    CEconItemDefinition* GetOwningPackBundle() const { return m_pOwningPackBundle; }
 private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
@@ -451,7 +523,7 @@ private:
     CUtlString        m_sIconURLLarge; // 360 (16)
     CUtlString        m_sUnknown1; // 376 (16)
     CUtlString        m_sUnknown2; // 392 (16)
-    
+
     //particle file
     const char        *m_pszParticleFile; // 408 (4)            // Some items have custom particle files attached to them
     const char        *m_pszParticleSnapshotFile; // 412 (4)    // Some weapons override a generic effect with a custom snapshot
