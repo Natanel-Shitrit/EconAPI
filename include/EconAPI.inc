@@ -26,7 +26,19 @@ enum EconAPI_ModelType
 {
     ViewModel = 0,
     WorldModel,
-    DroppedModel
+enum EItemType
+{
+    k_EItemTypeNone,
+    k_EItemTypeCoupon,
+    k_EItemTypeCampaign,
+    k_EItemTypeSelfOpeningPurchase,
+    k_EItemTypeOperationCoin,
+    k_EItemTypePrestigeCoin,
+    k_EItemTypeTool,
+    k_EItemTypeGameLicense,
+    k_EItemTypePickEmChallangeCoin,
+    k_EItemTypeSubscription
+}
 }
 
 enum CEconItemDefinition
