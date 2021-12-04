@@ -71,11 +71,7 @@ jobs:
           clang --version
           clang++ --version
         
-      - name: ➕ Add msbuild to PATH (W)
-        if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: 👓 Find Visual C++ compilers (W)
+      - name: 👓 Find Visual C++ compilers and make all environment variables global (W)
         if: runner.os == 'Windows'
         shell: cmd
         run: |
