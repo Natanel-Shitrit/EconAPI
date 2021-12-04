@@ -39,7 +39,7 @@ jobs:
           - csgo
 
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-18.04
             os_short: linux
           - os: windows-latest
             os_short: win
