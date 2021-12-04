@@ -26,6 +26,7 @@ builder.SetBuildFolder('package')
 # Add any folders you need to this list
 folder_list = [
   'addons/sourcemod/extensions',
+  'addons/sourcemod/scripting',
   'addons/sourcemod/scripting/include',
   'addons/sourcemod/gamedata'
 ]
@@ -45,13 +46,18 @@ def CopyFiles(src, dest, files):
     source_path = os.path.join(builder.sourcePath, src, source_file)
     builder.AddCopy(source_path, dest_entry)
 
+# Test script.
+CopyFiles('sourcemod/scripting', 'addons/sourcemod/scripting',
+  [ 'econ_api_test.sp', ]
+)
+
 # Include files 
-CopyFiles('include', 'addons/sourcemod/scripting/include',
+CopyFiles('sourcemod/scripting/include', 'addons/sourcemod/scripting/include',
   [ 'EconAPI.inc', ]
 )
 
 # GameData files
-CopyFiles('gamedata', 'addons/sourcemod/gamedata',
+CopyFiles('sourcemod/gamedata', 'addons/sourcemod/gamedata',
   [ 'EconAPI.games.txt', ]
 )
 
