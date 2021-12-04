@@ -70,7 +70,7 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
           clang --version
           clang++ --version
-        
+
       - name: 👓 Find Visual C++ compilers and make all environment variables global (W)
         if: runner.os == 'Windows'
         shell: cmd
@@ -79,11 +79,7 @@ jobs:
           for /f "usebackq delims=*" %%i in (`vswhere -latest -property installationPath`) do (
             call "%%i"\Common7\Tools\vsdevcmd.bat -arch=x86 -host_arch=x64
           )
-      
-      - name: 🌎 Make all environment variables global (W)
-        if: runner.os == 'Windows'
-        shell: cmd
-        run: |
+
           :: Loop over all environment variables and make them global.
           for /f "delims== tokens=1,2" %%a in ('set') do (
             echo>>"%GITHUB_ENV%" %%a=%%b
