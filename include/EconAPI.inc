@@ -744,6 +744,18 @@ methodmap CEconItemDefinition
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
+    public native int GetBrassModelOverride(char[] buffer, int len);
+
+    /**
+     * Gets the 'CEconItemDefinition' .
+     *
+     * @param buffer       Data string buffer.
+     * @param len          Maximum length of buffer.
+     *
+     * @return             Number of characters written.
+     *
+     * @error              Invalid CEconItemDefinition. (NULL)
+     */
     public native int GetZoomInSound(char[] buffer, int len);
 
     /**
@@ -1428,6 +1440,7 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemDefinition.GetDescription");
     MarkNativeAsOptional("CEconItemDefinition.GetInventoryImage");
     MarkNativeAsOptional("CEconItemDefinition.GetIconDefaultImage");
+    MarkNativeAsOptional("CEconItemDefinition.GetBrassModelOverride");
     MarkNativeAsOptional("CEconItemDefinition.GetZoomInSound");
     MarkNativeAsOptional("CEconItemDefinition.GetZoomOutSound");
     MarkNativeAsOptional("CEconItemDefinition.GetIconURLSmall");

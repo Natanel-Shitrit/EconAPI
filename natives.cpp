@@ -2249,6 +2249,7 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemDefinition.GetDescription",                 CEconItemDefinition_GetDescription },
     { "CEconItemDefinition.GetInventoryImage",              CEconItemDefinition_GetInventoryImage },
     { "CEconItemDefinition.GetIconDefaultImage",            CEconItemDefinition_GetIconDefaultImage },
+    { "CEconItemDefinition.GetBrassModelOverride",          CEconItemDefinition_GetBrassModelOverride },
     { "CEconItemDefinition.GetZoomInSound",                 CEconItemDefinition_GetZoomInSound },
     { "CEconItemDefinition.GetZoomOutSound",                CEconItemDefinition_GetZoomOutSound },
     { "CEconItemDefinition.GetIconURLSmall",                CEconItemDefinition_GetIconURLSmall },
