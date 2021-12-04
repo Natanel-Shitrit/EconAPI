@@ -46,12 +46,12 @@ def CopyFiles(src, dest, files):
     builder.AddCopy(source_path, dest_entry)
 
 # Include files 
-CopyFiles('include', 'addons/sourcemod/scripting/include',
+CopyFiles('sourcemod/scripting/include', 'addons/sourcemod/scripting/include',
   [ 'EconAPI.inc', ]
 )
 
 # GameData files
-CopyFiles('gamedata', 'addons/sourcemod/gamedata',
+CopyFiles('sourcemod/gamedata', 'addons/sourcemod/gamedata',
   [ 'EconAPI.games.txt', ]
 )
 
