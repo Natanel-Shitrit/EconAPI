@@ -44,10 +44,6 @@ jobs:
           - os: windows-latest
             os_short: win
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-
       # Setup Python for AMBuild.
       - name: 🐍 Setup Python 3.8
         uses: actions/setup-python@v2
