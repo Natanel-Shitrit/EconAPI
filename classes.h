@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit. All rights reserved.
  *
@@ -381,10 +381,12 @@ private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
     // The number used to refer to this definition in the DB
-    item_definition_index_t    m_nDefIndex; // 8 (4)
+    item_definition_index_t    m_nDefIndex; // 8 (2)
+
+    // [Padding] 10 (2)
 
     // List of associated items, such as multiple different keys for the same crate.
-    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 12+ (20)
+    CUtlVector< item_definition_index_t > m_nAssociatedItemsDefIndexes; // 12 (20)
 
     // False if this definition has been turned off and we're not using it to generate items
     bool        m_bEnabled; // 32 (1)
@@ -392,7 +394,7 @@ private:
     // [Padding] 33 (3)
 
     // The prefab used by the item.
-    const char* m_szPrefab; // 36 (4)
+    const char* m_szPrefab; // 36 (4) *GARBAGE - DO NOT USE*
 
     // These values specify the range of item levels that an item based off this definition can be generated within.
     uint8       m_unMinItemLevel; // 40 (1)
