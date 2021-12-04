@@ -117,8 +117,8 @@ jobs:
       - name: 🛠️ Build Extension
         shell: bash
         run: |
-          mkdir build && cd build
-          python ../configure.py --enable-optimize --sm-path="${{ github.workspace }}/sourcemod-${{ matrix.sm_version }}"
+          cd EconAPI && mkdir build && cd build
+          python ../configure.py --enable-optimize --sm-path="${{ github.workspace }}/sourcemod-${{ matrix.sm_branch }}"
           ambuild
 
       - name: 🏷️ Upload Package
