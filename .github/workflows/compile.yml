@@ -1,17 +1,17 @@
 name: ⚙️ Build Extension
 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch.
+  # Triggers the workflow on push or pull request events but only for the master branch.
   # Don't run if files doesn't effect building.
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths-ignore: 
       - LICENSE
       - README.md
       - sourcemod/**
 
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     paths-ignore: 
       - LICENSE
       - README.md
