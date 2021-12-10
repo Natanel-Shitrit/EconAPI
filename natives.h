@@ -23,11 +23,14 @@
 	if (!var) return pContext->ThrowNativeError("%s == nullptr.", #var);
 
 
-enum EconAPI_ModelType
+enum ModelType
 {
 	ViewModel = 0,
 	WorldModel,
-	DroppedModel
+	DroppedModel,
+	HolsteredModel,
+	WorldExtraWearableModel,
+	InventoryModel
 };
 
 extern const sp_nativeinfo_t g_ExtensionNatives[];
