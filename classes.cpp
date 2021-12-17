@@ -88,135 +88,27 @@ CEconItemDefinition* CEconItemSchema::GetItemDefinitionByDefIndex(uint16_t iItem
     return nullptr;
 }
 
-int CEconItemDefinition::GetLoadoutSlot(int iTeam)
+int CCStrike15ItemDefinition::GetUsedByTeam()
 {
-    static int (VCallingConvention* GetLoadoutSlot)(void*, int) = nullptr;
+	if ( CanBeUsedByTeam(TEAM_TERRORIST) && CanBeUsedByTeam(TEAM_CT) )
+		return TEAM_UNASSIGNED;
 
-    if (GetLoadoutSlot == nullptr && !g_pGameConf[GameConf_EconAPI]->GetMemSig("CCStrike15ItemDefinition::GetLoadoutSlot", (void**)&GetLoadoutSlot) || !GetLoadoutSlot)
-    {
-        smutils->LogError(myself, "Failed to get CCStrike15ItemDefinition::GetLoadoutSlot function.");
+	if ( CanBeUsedByTeam(TEAM_TERRORIST) )
+		return TEAM_TERRORIST;
+	
+	if ( CanBeUsedByTeam(TEAM_CT) )
+		return TEAM_CT;
 
-        return -1;
-    }
-
-    return GetLoadoutSlot(this, iTeam);
+	return TEAM_UNASSIGNED;
 }
 
-int CEconItemDefinition::GetUsedByTeam()
+int CCStrike15ItemDefinition::GetLoadoutSlot(int iTeam)
 {
-    static int offset = -1;
+	if ( iTeam <= 0 || iTeam >= LOADOUT_COUNT )
+		return m_iDefaultLoadoutSlot;
 
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CCStrike15ItemDefinition::m_vbClassUsability", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CCStrike15ItemDefinition::m_vbClassUsability offset.");
-
-        return -1;
-    }
-
-    CBitVec<4>* pClassUsability = (CBitVec<4>*)((intptr_t)this + offset);
-    
-    if (pClassUsability->IsBitSet(2) && pClassUsability->IsBitSet(3))
-    {
-        return 0;
-    }
-
-    if (pClassUsability->IsBitSet(3))
-    {
-        return 3;
-    }
-
-    if (pClassUsability->IsBitSet(2))
-    {
-        return 2;
-    }
-    
-    return 0;
+	return m_iLoadoutSlots[iTeam];
 }
-
-int CEconItemDefinition::GetNumSupportedStickerSlots()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::GetNumSupportedStickerSlots", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::GetNumSupportedStickerSlots offset.");
-
-        return -1;
-    }
-
-    return ((int(VCallingConvention*)(void*))(*(void***)this)[offset])(this);
-}
-
-const char* CEconItemDefinition::GetInventoryImage()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::GetInventoryImage", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::GetInventoryImage offset.");
-
-        return nullptr;
-    }
-
-    return ((const char*(VCallingConvention*)(void*))(*(void***)this)[offset])(this);
-}
-
-const char* CEconItemDefinition::GetBasePlayerDisplayModel()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::GetBasePlayerDisplayModel", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::GetBasePlayerDisplayModel offset.");
-
-        return nullptr;
-    }
-
-    return ((const char*(VCallingConvention*)(void*))(*(void***)this)[offset])(this);
-}
-
-const char* CEconItemDefinition::GetWorldDisplayModel()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::GetWorldDisplayModel", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::GetWorldDisplayModel offset.");
-
-        return nullptr;
-    }
-
-    return ((const char*(VCallingConvention*)(void*))(*(void***)this)[offset])(this);
-}
-
-const char* CEconItemDefinition::GetWorldDroppedModel()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::GetWorldDroppedModel", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::GetWorldDroppedModel offset.");
-
-        return nullptr;
-    }
-
-    return ((const char*(VCallingConvention*)(void*))(*(void***)this)[offset])(this);
-}
-
-const char* CEconItemDefinition::GetDefinitionName()
-{
-    static int offset = -1;
-
-    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemDefinition::m_pszDefinitionName", &offset))
-    {
-        smutils->LogError(myself, "Failed to get CEconItemDefinition::m_pszDefinitionName offset.");
-
-        return nullptr;
-    }
-
-    return *(const char**)((intptr_t)this + offset);
-}
-
 
 // CPaintKit
 CUtlMap<int, CPaintKit*, int, CDefLess<int>>* CEconItemSchema::GetPaintKitMap()
