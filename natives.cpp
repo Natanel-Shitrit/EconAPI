@@ -1513,7 +1513,7 @@ static cell_t CEconItemListEntry_GetPaintKitSeed(IPluginContext* pContext, const
 
     SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
 
-    return reinterpret_cast<cell_t>(pItemListEntry->m_nPaintKitSeed);
+    return pItemListEntry->m_nPaintKitSeed;
 }
 
 static cell_t CEconItemListEntry_GetPaintKitWear(IPluginContext* pContext, const cell_t* params)
@@ -2122,7 +2122,7 @@ static cell_t CEconLootListDefinition_GetAdditionalDropCount(IPluginContext* pCo
 
     SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
 
-    return reinterpret_cast<cell_t>(pLootListDefinition->GetAdditionalDropCount());
+    return pLootListDefinition->GetAdditionalDropCount();
 }
 
 static cell_t CEconLootListDefinition_GetAdditionalDrop(IPluginContext* pContext, const cell_t* params)
