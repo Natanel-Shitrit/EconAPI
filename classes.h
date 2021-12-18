@@ -650,67 +650,96 @@ private:
 class CPaintKit
 {
 public:
-    int         GetID( void ) const                 { return nID; }
-    const char *GetName( void ) const               { return sName.Get(); }
-    const char *GetDescriptionString( void ) const  { return sDescriptionString.Get(); }
-    const char *GetDescriptionTag( void ) const     { return sDescriptionTag.Get(); }
-    const char *GetPattern( void ) const            { return sPattern.Get(); }
-    const char *GetLogoMaterial( void ) const       { return sLogoMaterial.Get(); }
-    int         GetRarity( void ) const             { return nRarity; }
-    int         GetStyle( void ) const              { return nStyle; }
-    // todo: add color natives
-    float       GetWearRemapMin( void ) const       { return flWearRemapMin; }
-    float       GetWearRemapMax( void ) const       { return flWearRemapMax; }
-    float       GetPatternScale( void ) const       { return flPatternScale; }
-    const char *GetVmtPath( void ) const            { return sVmtPath.Get(); }
+    int         GetID( void ) const                                 { return nID; }
+    const char *GetName( void ) const                               { return sName.Get(); }
+    const char *GetDescriptionString( void ) const                  { return sDescriptionString.Get(); }
+    const char *GetDescriptionTag( void ) const                     { return sDescriptionTag.Get(); }
+    const char *GetSameNameFamilyAggregate( void ) const            { return sSameNameFamilyAggregate.Get(); }
+    const char *GetPattern( void ) const                            { return sPattern.Get(); }
+    const char *GetNormal( void ) const                             { return sNormal.Get(); }
+    const char *GetLogoMaterial( void ) const                       { return sLogoMaterial.Get(); }
+    int         GetRarity( void ) const                             { return nRarity; }
+    int         GetStyle( void ) const                              { return nStyle; }
+    void        GetRGBAColor( int iIndex, cell_t* buf ) const       { rgbaColor[iIndex].GetColor(buf[0], buf[1], buf[2], buf[3]); }
+    void        GetRGBALogoColor( int iIndex, cell_t* buf ) const   { rgbaLogoColor[iIndex].GetColor(buf[0], buf[1], buf[2], buf[3]); }
+    float       GetWearDefault( void ) const                        { return flWearDefault; }
+    float       GetWearRemapMin( void ) const                       { return flWearRemapMin; }
+    float       GetWearRemapMax( void ) const                       { return flWearRemapMax; }
+    unsigned char GetFixedSeed( void ) const                        { return nFixedSeed; }
+    unsigned char GetPhongExponent( void ) const                    { return uchPhongExponent; }
+    unsigned char GetPhongAlbedoBoost( void ) const                 { return uchPhongAlbedoBoost; }
+    unsigned char GetPhongIntensity( void ) const                   { return uchPhongIntensity; }
+    float       GetPatternScale( void ) const                       { return flPatternScale; }
+    float       GetPatternOffsetXStart( void ) const                { return flPatternOffsetXStart; }
+    float       GetPatternOffsetXEnd( void ) const                  { return flPatternOffsetXEnd; }
+    float       GetPatternOffsetYStart( void ) const                { return flPatternOffsetYStart; }
+    float       GetPatternOffsetYEnd( void ) const                  { return flPatternOffsetYEnd; }
+    float       GetPatternRotateStart( void ) const                 { return flPatternRotateStart; }
+    float       GetPatternRotateEnd( void ) const                   { return flPatternRotateEnd; }
+    float       GetLogoScale( void ) const                          { return flLogoScale; }
+    float       GetLogoOffsetX( void ) const                        { return flLogoOffsetX; }
+    float       GetLogoOffsetY( void ) const                        { return flLogoOffsetY; }
+    float       GetLogoRotation( void ) const                       { return flLogoRotation; }
+    bool        GetIgnoreWeaponSizeScale( void )                    { return bIgnoreWeaponSizeScale; }
+    int         GetViewModelExponentOverrideSize( void ) const      { return nViewModelExponentOverrideSize; }
+    bool        GetOnlyFirstMaterial( void )                        { return bOnlyFirstMaterial; }
+    bool        GetUseNormal( void )                                { return bUseNormal; }
+    float       GetPearlescent( void )                              { return flPearlescent; }
+    const char *GetVmtPath( void ) const                            { return sVmtPath.Get(); }
 
 private:
     enum { NUM_COLORS = 4 };
 
     // Generic fields
-    int nID;
-    CUtlString sName;
-    CUtlString sDescriptionString;
-    CUtlString sDescriptionTag;
-    CUtlString sSameNameFamilyAggregate;    // NEW
+    int nID; // 0 (4)
+    CUtlString sName; // 4 (16)
+    CUtlString sDescriptionString; // 20 (16)
+    CUtlString sDescriptionTag; // 36 (16)
+    CUtlString sSameNameFamilyAggregate; // 52 (16) (New)
     
     // (Generally) Weapon paint kit fields
     // Note that some fields may affect item generation for other paint kit types;
     // in particular the wear settings.
-    CUtlString sPattern;
-    CUtlString sNormal;                     // NEW
-    CUtlString sLogoMaterial;
-    int bBaseDiffuseOverride;//bool
-    int nRarity;
-    int nStyle;
-    Color rgbaColor[ NUM_COLORS ];
-    Color rgbaLogoColor[ NUM_COLORS ];
-    float flWearDefault;
-    float flWearRemapMin;
-    float flWearRemapMax;
-    unsigned char nFixedSeed;
-    unsigned char uchPhongExponent;
-    unsigned char uchPhongAlbedoBoost;
-    unsigned char uchPhongIntensity;
-    float flPatternScale;
-    float flPatternOffsetXStart;
-    float flPatternOffsetXEnd;
-    float flPatternOffsetYStart;
-    float flPatternOffsetYEnd;
-    float flPatternRotateStart;
-    float flPatternRotateEnd;
-    float flLogoScale;
-    float flLogoOffsetX;
-    float flLogoOffsetY;
-    float flLogoRotation;
-    int bIgnoreWeaponSizeScale;// bool
-    int nViewModelExponentOverrideSize;
-    int bOnlyFirstMaterial;// bool
-    float flPearlescent;
+    CUtlString sPattern; // 68 (16)
+    CUtlString sNormal; // 84 (16) (New)
+    CUtlString sLogoMaterial; // 100 (16)
+    bool bBaseDiffuseOverride; // 116 (1)
+    // [Padding] (3)
+    int nRarity; // 120 (4)
+    int nStyle; // 124 (4)
+    Color rgbaColor[ NUM_COLORS ]; // 128 (16)
+    Color rgbaLogoColor[ NUM_COLORS ]; // 144 (16)
+    float flWearDefault; // 160 (4)
+    float flWearRemapMin; // 164 (4)
+    float flWearRemapMax; // 168 (4)
+    unsigned char nFixedSeed; // 172 (1)
+    unsigned char uchPhongExponent; // 173 (1)
+    unsigned char uchPhongAlbedoBoost; // 174 (1)
+    unsigned char uchPhongIntensity; // 175 (1)
+    float flPatternScale; // 176 (4)
+    float flPatternOffsetXStart; // 180 (4)
+    float flPatternOffsetXEnd; // 184 (4)
+    float flPatternOffsetYStart; // 188 (4)
+    float flPatternOffsetYEnd; // 192 (4)
+    float flPatternRotateStart; // 196 (4)
+    float flPatternRotateEnd; // 200 (4)
+    float flLogoScale; // 204 (4)
+    float flLogoOffsetX; // 208 (4)
+    float flLogoOffsetY; // 212 (4)
+    float flLogoRotation; // 216 (4)
+    bool bIgnoreWeaponSizeScale; // 220 (1)
+    // [Padding] (3)
+    int nViewModelExponentOverrideSize; // 224 (4)
+    bool bOnlyFirstMaterial; // 228 (1)
+    bool bUseNormal;
+    // [Padding] (2)
+    float flPearlescent; // 232 (4)
 
     // Character paint kit fields
-    CUtlString sVmtPath;
-    KeyValues* kvVmtOverrides;
+    CUtlString sVmtPath; // 236 (16)
+    KeyValues* kvVmtOverrides; // 252 (4)
+
+    // SIZE == 256
 };
 
 class CStickerKit

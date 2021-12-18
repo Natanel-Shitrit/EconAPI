@@ -21,6 +21,7 @@
 #endif
 #define _EconAPI_included
 
+#define PAINT_KIT_NUM_COLORS 4
 
 enum ModelType
 {
@@ -990,6 +991,11 @@ methodmap CEconItemDefinition
 
 methodmap CPaintKit
 {
+	property int NumColors
+	{
+		public get() { return PAINT_KIT_NUM_COLORS; }
+	}
+
     public static native CPaintKit Get(int index);
     public static native int Count();
 
@@ -1009,14 +1015,17 @@ methodmap CPaintKit
     public native int GetName(char[] buffer, int len);
     public native int GetDescription(char[] buffer, int len);
     public native int GetDescriptionTag(char[] buffer, int len);
+    public native int GetSameNameFamilyAggregate(char[] buffer, int len);
     public native int GetPattern(char[] buffer, int len);
+    public native int GetNormal(char[] buffer, int len);
+    public native int GetLogoMaterial(char[] buffer, int len);
 
     property int ID
     {
         public native get();
     }
 
-    property int Rarity
+    property CEconItemRarityDefinition Rarity
     {
         public native get();
     }
@@ -1026,6 +1035,14 @@ methodmap CPaintKit
         public native get();
     }
     
+    public native void GetRGBAColor(int index, int color[4]);
+    public native void GetRGBALogoColor(int index, int color[4]);
+
+    property float DefaultWear
+    {
+        public native get();
+    }
+
     property float MinWear
     {
         public native get();
@@ -1035,8 +1052,103 @@ methodmap CPaintKit
     {
         public native get();
     }
+    
+    property int FixedSeed
+    {
+        public native get();
+    }
+    
+    property int PhongExponent
+    {
+        public native get();
+    }
+    
+    property int PhongAlbedoBoost
+    {
+        public native get();
+    }
+    
+    property int PhongIntensity
+    {
+        public native get();
+    }
 
     property float PatternScale
+    {
+        public native get();
+    }
+
+    property float PatternOffsetXStart
+    {
+        public native get();
+    }
+
+    property float PatternOffsetXEnd
+    {
+        public native get();
+    }
+
+    property float PatternOffsetYStart
+    {
+        public native get();
+    }
+
+    property float PatternOffsetYEnd
+    {
+        public native get();
+    }
+
+    property float PatternRotateStart
+    {
+        public native get();
+    }
+
+    property float PatternRotateEnd
+    {
+        public native get();
+    }
+
+    property float LogoScale
+    {
+        public native get();
+    }
+
+    property float LogoOffsetX
+    {
+        public native get();
+    }
+
+    property float LogoOffsetY
+    {
+        public native get();
+    }
+
+    property float LogoRotation
+    {
+        public native get();
+    }
+
+    property bool IgnoreWeaponSizeScale
+    {
+        public native get();
+    }
+
+    property int ViewModelExponentOverrideSize
+    {
+        public native get();
+    }
+
+    property bool OnlyFirstMaterial
+    {
+        public native get();
+    }
+
+    property bool UseNormal
+    {
+        public native get();
+    }
+
+    property float Pearlescent
     {
         public native get();
     }
@@ -1472,12 +1584,37 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CPaintKit.GetName");
     MarkNativeAsOptional("CPaintKit.GetDescription");
     MarkNativeAsOptional("CPaintKit.GetDescriptionTag");
+    MarkNativeAsOptional("CPaintKit.GetGetSameNameFamilyAggregate");
     MarkNativeAsOptional("CPaintKit.GetPattern");
+    MarkNativeAsOptional("CPaintKit.GetNormal");
+    MarkNativeAsOptional("CPaintKit.GetLogoMaterial");
     MarkNativeAsOptional("CPaintKit.Rarity.get");
     MarkNativeAsOptional("CPaintKit.Style.get");
+    MarkNativeAsOptional("CPaintKit.GetRGBAColor");
+    MarkNativeAsOptional("CPaintKit.GetRGBALogoColor");
+    MarkNativeAsOptional("CPaintKit.DefaultWear.get");
     MarkNativeAsOptional("CPaintKit.MinWear.get");
     MarkNativeAsOptional("CPaintKit.MaxWear.get");
+    MarkNativeAsOptional("CPaintKit.FixedSeed.get");
+    MarkNativeAsOptional("CPaintKit.PhongExponent.get");
+    MarkNativeAsOptional("CPaintKit.PhongAlbedoBoost.get");
+    MarkNativeAsOptional("CPaintKit.PhongIntensity.get");
     MarkNativeAsOptional("CPaintKit.PatternScale.get");
+    MarkNativeAsOptional("CPaintKit.PatternOffsetXStart.get");
+    MarkNativeAsOptional("CPaintKit.PatternOffsetXEnd.get");
+    MarkNativeAsOptional("CPaintKit.PatternOffsetYStart.get");
+    MarkNativeAsOptional("CPaintKit.PatternOffsetYEnd.get");
+    MarkNativeAsOptional("CPaintKit.PatternRotateStart.get");
+    MarkNativeAsOptional("CPaintKit.PatternRotateEnd.get");
+    MarkNativeAsOptional("CPaintKit.LogoScale.get");
+    MarkNativeAsOptional("CPaintKit.LogoOffsetX.get");
+    MarkNativeAsOptional("CPaintKit.LogoOffsetY.get");
+    MarkNativeAsOptional("CPaintKit.LogoRotation.get");
+    MarkNativeAsOptional("CPaintKit.IgnoreWeaponSizeScale.get");
+    MarkNativeAsOptional("CPaintKit.ViewModelExponentOverrideSize.get");
+    MarkNativeAsOptional("CPaintKit.OnlyFirstMaterial.get");
+    MarkNativeAsOptional("CPaintKit.UseNormal.get");
+    MarkNativeAsOptional("CPaintKit.Pearlescent.get");
     MarkNativeAsOptional("CPaintKit.GetVmtPath");
 
     // CStickerKit
