@@ -486,7 +486,7 @@ void DumpEcon()
 		sticker_kit.GetIconURLLarge(icon_large, sizeof(icon_large));
 		
 		
-		Logger_Message("[%d] name: %s | ID: %d | desc: %s | item_name: %s | material_path: %s | material_path_no_drips: %s | inv_img: %s | EventID: %d | EventTeamID: %d | PlayerID: %d | IsMaterialPathIsAbsolute: %d | ScaleMin: %f | ScaleMax: %f | icon_small: %s | icon_large: %s",
+		Logger_Message("[%d] name: %s | ID: %d | desc: %s | item_name: %s | material_path: %s | material_path_no_drips: %s | inv_img: %s | EventID: %d | EventTeamID: %d | PlayerID: %d | IsMaterialPathIsAbsolute: %d | RotateStart: %f | RotateEnd: %f | ScaleMin: %f | ScaleMax: %f | icon_small: %s | icon_large: %s",
 			i,
 			name,
 			sticker_kit.ID,
@@ -499,6 +499,8 @@ void DumpEcon()
 			sticker_kit.EventTeamID,
 			sticker_kit.PlayerID,
 			sticker_kit.IsMaterialPathIsAbsolute,
+			sticker_kit.RotateStart,
+			sticker_kit.RotateEnd,
 			sticker_kit.ScaleMin,
 			sticker_kit.ScaleMax,
 			icon_small,
