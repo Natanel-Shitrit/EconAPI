@@ -1206,6 +1206,16 @@ methodmap CStickerKit
         public native get();
     }
 
+    property float RotateStart
+    {
+        public native get();
+    }
+
+    property float RotateEnd
+    {
+        public native get();
+    }
+
     property float ScaleMin
     {
         public native get();
@@ -1633,6 +1643,8 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CStickerKit.EventTeamID.get");
     MarkNativeAsOptional("CStickerKit.PlayerID.get");
     MarkNativeAsOptional("CStickerKit.IsMaterialPathIsAbsolute.get");
+    MarkNativeAsOptional("CStickerKit.RotateStart.get");
+    MarkNativeAsOptional("CStickerKit.RotateEnd.get");
     MarkNativeAsOptional("CStickerKit.ScaleMin.get");
     MarkNativeAsOptional("CStickerKit.ScaleMax.get");
     MarkNativeAsOptional("CStickerKit.GetIconURLSmall");

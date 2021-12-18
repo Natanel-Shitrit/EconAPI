@@ -753,19 +753,16 @@ public:
     const char *GetMaterialPath( void ) const           { return sMaterialPath.Get(); }
     const char *GetMaterialPathNoDrips( void ) const    { return sMaterialPathNoDrips.Get(); }
     const char *GetInventoryImage( void ) const         { return m_strInventoryImage.Get(); }
-
     int         GetEventID( void ) const                { return m_nEventID; }
     int         GetEventTeamID( void ) const            { return m_nEventTeamID; }
     int         GetPlayerID( void ) const               { return m_nPlayerID; }
-
     bool        IsMaterialPathIsAbsolute( void ) const  { return bMaterialPathIsAbsolute; }
-
+    float       GetRotateStart( void ) const            { return flRotateStart; }
+    float       GetRotateEnd( void ) const              { return flRotateEnd; }
     float       GetScaleMin( void ) const               { return flScaleMin; }
     float       GetScaleMax( void ) const               { return flScaleMax; }
-
     float       GetWearMin( void ) const                { return flWearMin; }
     float       GetWearMax( void ) const                { return flWearMax; }
-
     const char *GetIconURLSmall() const                 { return m_sIconURLSmall.Get(); }
     const char *GetIconURLLarge() const                 { return m_sIconURLLarge.Get(); }
 

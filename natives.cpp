@@ -1544,6 +1544,24 @@ static cell_t CStickerKit_IsMaterialPathIsAbsolute(IPluginContext* pContext, con
     return pStickerKit->IsMaterialPathIsAbsolute();
 }
 
+static cell_t CStickerKit_GetRotateStart(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetRotateStart());
+}
+
+static cell_t CStickerKit_GetRotateEnd(IPluginContext* pContext, const cell_t* params)
+{
+    CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStickerKit);
+
+    return sp_ftoc(pStickerKit->GetRotateEnd());
+}
+
 static cell_t CStickerKit_GetScaleMin(IPluginContext* pContext, const cell_t* params)
 {
     CStickerKit* pStickerKit = reinterpret_cast<CStickerKit*>(params[1]);
@@ -2591,6 +2609,8 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CStickerKit.EventTeamID.get",                        CStickerKit_GetEventTeamID },
     { "CStickerKit.PlayerID.get",                           CStickerKit_GetPlayerID },
     { "CStickerKit.IsMaterialPathIsAbsolute.get",           CStickerKit_IsMaterialPathIsAbsolute },
+    { "CStickerKit.RotateStart.get",                        CStickerKit_GetRotateStart },
+    { "CStickerKit.RotateEnd.get",                          CStickerKit_GetRotateEnd },
     { "CStickerKit.ScaleMin.get",                           CStickerKit_GetScaleMin },
     { "CStickerKit.ScaleMax.get",                           CStickerKit_GetScaleMax },
     { "CStickerKit.WearMin.get",                            CStickerKit_GetWearMin },
