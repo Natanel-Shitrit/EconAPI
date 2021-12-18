@@ -1022,6 +1022,23 @@ static cell_t CPaintKit_GetDescriptionTag(IPluginContext* pContext, const cell_t
     return numBytes;
 }
 
+static cell_t CPaintKit_GetSameNameFamilyAggregate(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pPaintKit->GetSameNameFamilyAggregate();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
 static cell_t CPaintKit_GetPattern(IPluginContext* pContext, const cell_t* params)
 {
     CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
@@ -1039,13 +1056,49 @@ static cell_t CPaintKit_GetPattern(IPluginContext* pContext, const cell_t* param
     return numBytes;
 }
 
-static cell_t CPaintKit_GetRarity(IPluginContext* pContext, const cell_t* params)
+static cell_t CPaintKit_GetNormal(IPluginContext* pContext, const cell_t* params)
 {
     CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
 
     SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pPaintKit->GetNormal();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CPaintKit_GetLogoMaterial(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    size_t numBytes = 0;
+    const char* sBuf = pPaintKit->GetLogoMaterial();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CPaintKit_GetRarity(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
     
-    return pPaintKit->GetRarity();
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemRarityDefinition(pPaintKit->GetRarity()));
 }
 
 static cell_t CPaintKit_GetStyle(IPluginContext* pContext, const cell_t* params)
@@ -1055,6 +1108,43 @@ static cell_t CPaintKit_GetStyle(IPluginContext* pContext, const cell_t* params)
     SM_NATIVE_ERROR_IF_NULL(pPaintKit);
 
     return pPaintKit->GetStyle();
+}
+
+static cell_t CPaintKit_GetRGBAColor(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    cell_t* color_buffer;
+    pContext->LocalToPhysAddr(params[3], &color_buffer);
+
+    pPaintKit->GetRGBAColor(params[2], color_buffer);
+
+    return 0;
+}
+
+static cell_t CPaintKit_GetRGBALogoColor(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    cell_t* color_buffer;
+    pContext->LocalToPhysAddr(params[3], &color_buffer);
+
+    pPaintKit->GetRGBALogoColor(params[2], color_buffer);
+
+    return 0;
+}
+
+static cell_t CPaintKit_GetDefaultWear(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetWearDefault());
 }
 
 static cell_t CPaintKit_GetMinWear(IPluginContext* pContext, const cell_t* params)
@@ -1075,6 +1165,42 @@ static cell_t CPaintKit_GetMaxWear(IPluginContext* pContext, const cell_t* param
     return sp_ftoc(pPaintKit->GetWearRemapMax());
 }
 
+static cell_t CPaintKit_GetFixedSeed(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetFixedSeed();
+}
+
+static cell_t CPaintKit_GetPhongExponent(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetPhongExponent();
+}
+
+static cell_t CPaintKit_GetPhongAlbedoBoost(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetPhongAlbedoBoost();
+}
+
+static cell_t CPaintKit_GetPhongIntensity(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetPhongIntensity();
+}
+
 static cell_t CPaintKit_GetPatternScale(IPluginContext* pContext, const cell_t* params)
 {
     CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
@@ -1082,6 +1208,141 @@ static cell_t CPaintKit_GetPatternScale(IPluginContext* pContext, const cell_t* 
     SM_NATIVE_ERROR_IF_NULL(pPaintKit);
 
     return sp_ftoc(pPaintKit->GetPatternScale());
+}
+
+static cell_t CPaintKit_GetPatternOffsetXStart(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternOffsetXStart());
+}
+
+static cell_t CPaintKit_GetPatternOffsetXEnd(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternOffsetXEnd());
+}
+
+static cell_t CPaintKit_GetPatternOffsetYStart(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternOffsetYStart());
+}
+
+static cell_t CPaintKit_GetPatternOffsetYEnd(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternOffsetYEnd());
+}
+
+static cell_t CPaintKit_GetPatternRotateStart(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternRotateStart());
+}
+
+static cell_t CPaintKit_GetPatternRotateEnd(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPatternRotateEnd());
+}
+
+static cell_t CPaintKit_GetLogoScale(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetLogoScale());
+}
+
+static cell_t CPaintKit_GetLogoOffsetX(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetLogoOffsetX());
+}
+
+static cell_t CPaintKit_GetLogoOffsetY(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetLogoOffsetY());
+}
+
+static cell_t CPaintKit_GetLogoRotation(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetLogoRotation());
+}
+
+static cell_t CPaintKit_GetIgnoreWeaponSizeScale(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetIgnoreWeaponSizeScale();
+}
+
+static cell_t CPaintKit_GetViewModelExponentOverrideSize(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetViewModelExponentOverrideSize();
+}
+
+static cell_t CPaintKit_GetOnlyFirstMaterial(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetOnlyFirstMaterial();
+}
+
+static cell_t CPaintKit_GetUseNormal(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return pPaintKit->GetUseNormal();
+}
+
+static cell_t CPaintKit_GetPearlescent(IPluginContext* pContext, const cell_t* params)
+{
+    CPaintKit* pPaintKit = reinterpret_cast<CPaintKit*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pPaintKit);
+
+    return sp_ftoc(pPaintKit->GetPearlescent());
 }
 
 static cell_t CPaintKit_GetVmtPath(IPluginContext* pContext, const cell_t* params)
@@ -2281,12 +2542,37 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CPaintKit.GetName",                                  CPaintKit_GetName },
     { "CPaintKit.GetDescription",                           CPaintKit_GetDescription },
     { "CPaintKit.GetDescriptionTag",                        CPaintKit_GetDescriptionTag },
+    { "CPaintKit.GetSameNameFamilyAggregate",               CPaintKit_GetSameNameFamilyAggregate },
     { "CPaintKit.GetPattern",                               CPaintKit_GetPattern },
+    { "CPaintKit.GetNormal",                                CPaintKit_GetNormal },
+    { "CPaintKit.GetLogoMaterial",                          CPaintKit_GetLogoMaterial },
     { "CPaintKit.Rarity.get",                               CPaintKit_GetRarity },
     { "CPaintKit.Style.get",                                CPaintKit_GetStyle },
+    { "CPaintKit.GetRGBAColor",                             CPaintKit_GetRGBAColor },
+    { "CPaintKit.GetRGBALogoColor",                         CPaintKit_GetRGBALogoColor },
+    { "CPaintKit.DefaultWear.get",                          CPaintKit_GetDefaultWear },
     { "CPaintKit.MinWear.get",                              CPaintKit_GetMinWear },
     { "CPaintKit.MaxWear.get",                              CPaintKit_GetMaxWear },
+    { "CPaintKit.FixedSeed.get",                            CPaintKit_GetFixedSeed },
+    { "CPaintKit.PhongExponent.get",                        CPaintKit_GetPhongExponent },
+    { "CPaintKit.PhongAlbedoBoost.get",                     CPaintKit_GetPhongAlbedoBoost },
+    { "CPaintKit.PhongIntensity.get",                       CPaintKit_GetPhongIntensity },
     { "CPaintKit.PatternScale.get",                         CPaintKit_GetPatternScale },
+    { "CPaintKit.PatternOffsetXStart.get",                  CPaintKit_GetPatternOffsetXStart },
+    { "CPaintKit.PatternOffsetXEnd.get",                    CPaintKit_GetPatternOffsetXEnd },
+    { "CPaintKit.PatternOffsetYStart.get",                  CPaintKit_GetPatternOffsetYStart },
+    { "CPaintKit.PatternOffsetYEnd.get",                    CPaintKit_GetPatternOffsetYEnd },
+    { "CPaintKit.PatternRotateStart.get",                   CPaintKit_GetPatternRotateStart },
+    { "CPaintKit.PatternRotateEnd.get",                     CPaintKit_GetPatternRotateEnd },
+    { "CPaintKit.LogoScale.get",                            CPaintKit_GetLogoScale },
+    { "CPaintKit.LogoOffsetX.get",                          CPaintKit_GetLogoOffsetX },
+    { "CPaintKit.LogoOffsetY.get",                          CPaintKit_GetLogoOffsetY },
+    { "CPaintKit.LogoRotation.get",                         CPaintKit_GetLogoRotation },
+    { "CPaintKit.IgnoreWeaponSizeScale.get",                CPaintKit_GetIgnoreWeaponSizeScale },
+    { "CPaintKit.ViewModelExponentOverrideSize.get",        CPaintKit_GetViewModelExponentOverrideSize },
+    { "CPaintKit.OnlyFirstMaterial.get",                    CPaintKit_GetOnlyFirstMaterial },
+    { "CPaintKit.UseNormal.get",                            CPaintKit_GetUseNormal },
+    { "CPaintKit.Pearlescent.get",                          CPaintKit_GetPearlescent },
     { "CPaintKit.GetVmtPath",                               CPaintKit_GetVmtPath },
 
     // CStickerKit
