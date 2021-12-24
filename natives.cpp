@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -1826,6 +1826,24 @@ static cell_t CEconItemListEntry_GetMusicKit(IPluginContext* pContext, const cel
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinitionByID(pItemListEntry->m_nMusicKit));
 }
 
+// CEconItemAttributeDefinition //
+static cell_t CEconItemAttributeDefinition_GetAttribute(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinitionAttribute);
+
+    return pItemSetDefinitionAttribute->m_iAttribDefIndex;
+}
+
+static cell_t CEconItemAttributeDefinition_GetValue(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinitionAttribute);
+
+    return pItemSetDefinitionAttribute->m_valValue;
+}
 
 // CEconItemSetDefinition //
 static cell_t CEconItemSetDefinition_Get(IPluginContext* pContext, const cell_t* params)
@@ -1951,6 +1969,35 @@ static cell_t CEconItemSetDefinition_GetItem(IPluginContext* pContext, const cel
     SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
 
     return reinterpret_cast<cell_t>(pItemSetDefinition->GetItem(params[2]));
+}
+
+static cell_t CEconItemSetDefinition_GetCraftReward(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinition(pItemSetDefinition->GetCraftReward()));
+}
+
+static cell_t CEconItemSetDefinition_GetAttributeCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return pItemSetDefinition->GetAttributeCount();
+}
+
+static cell_t CEconItemSetDefinition_GetAttribute(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return reinterpret_cast<cell_t>(pItemSetDefinition->GetAttribute(params[2]));
 }
 
 // CEconItemRarityDefinition
@@ -2638,6 +2685,10 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemListEntry.StickerKit.get",                  CEconItemListEntry_GetStickerKit },
     { "CEconItemListEntry.MusicKit.get",                    CEconItemListEntry_GetMusicKit },
 
+    // CEconItemAttributeDefinition
+    { "CEconItemAttributeDefinition.Attribute.get",         CEconItemAttributeDefinition_GetAttribute },
+    { "CEconItemAttributeDefinition.Value.get",             CEconItemAttributeDefinition_GetValue },
+
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },
     { "CEconItemSetDefinition.Count",                       CEconItemSetDefinition_Count },
@@ -2650,6 +2701,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemSetDefinition.IsHiddenSet.get",             CEconItemSetDefinition_IsHiddenSet },
     { "CEconItemSetDefinition.ItemCount.get",               CEconItemSetDefinition_GetItemCount },
     { "CEconItemSetDefinition.GetItem",                     CEconItemSetDefinition_GetItem },
+    { "CEconItemSetDefinition.CraftReward.get",             CEconItemSetDefinition_GetCraftReward },
+    { "CEconItemSetDefinition.AttributeCount.get",          CEconItemSetDefinition_GetAttributeCount },
+    { "CEconItemSetDefinition.GetAttribute",                CEconItemSetDefinition_GetAttribute },
 
     // CEconItemRarityDefinition
     { "CEconItemRarityDefinition.Get",                      CEconItemRarityDefinition_Get },

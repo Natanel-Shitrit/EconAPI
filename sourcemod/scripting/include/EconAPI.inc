@@ -1294,6 +1294,19 @@ methodmap CEconItemListEntry
     }
 }
 
+methodmap CEconItemSetDefinitionAttribute
+{
+    property int AttributeDefIndex
+    {
+        public native get();
+    }
+
+    property any Value
+    {
+        public native get();
+    }
+}
+
 methodmap CEconItemSetDefinition
 {
     public static native CEconItemSetDefinition Get(int index);
@@ -1326,6 +1339,18 @@ methodmap CEconItemSetDefinition
     }
 
     public native CEconItemListEntry GetItem(int index);
+
+    property CEconItemDefinition CraftReward
+    {
+        public native get();
+    }
+
+    property int AttributeCount
+    {
+        property native get();
+    }
+
+    public native CEconItemSetDefinitionAttribute GetAttribute(int index);
 }
 
 methodmap CEconItemRarityDefinition
@@ -1670,6 +1695,10 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemListEntry.StickerKit.get");
     MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
 
+    // CEconItemSetDefinitionAttribute
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Attribute");
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Value");
+
     // CEconItemSetDefinition
     MarkNativeAsOptional("CEconItemSetDefinition.Get");
     MarkNativeAsOptional("CEconItemSetDefinition.Count");
@@ -1682,7 +1711,10 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemSetDefinition.IsHiddenSet.get");
     MarkNativeAsOptional("CEconItemSetDefinition.ItemCount.get");
     MarkNativeAsOptional("CEconItemSetDefinition.GetItem");
-
+    MarkNativeAsOptional("CEconItemSetDefinition.CraftReward.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.AttributeCount.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.GetAttribute");
+    
     // CEconItemRarityDefinition
     MarkNativeAsOptional("CEconItemRarityDefinition.Get");
     MarkNativeAsOptional("CEconItemRarityDefinition.Count");

@@ -39,13 +39,13 @@
 #define MAX_STICKER_DATA_PATH 128
 
 // The total number of loadouts to track for each player.
-#define LOADOUT_COUNT       4	// these are the number of skins (2 valid + 2 invalid)
+#define LOADOUT_COUNT       4    // these are the number of skins (2 valid + 2 invalid)
 
 // CS Team IDs.
-#define TEAM_ANY           -1	// for some team query methods
-#define	TEAM_INVALID       -1
-#define TEAM_UNASSIGNED     0	// not assigned to a team
-#define TEAM_SPECTATOR      1	// spectator team
+#define TEAM_ANY           -1    // for some team query methods
+#define TEAM_INVALID       -1
+#define TEAM_UNASSIGNED     0    // not assigned to a team
+#define TEAM_SPECTATOR      1    // spectator team
 #define TEAM_TERRORIST      2
 #define TEAM_CT             3
 #define TEAM_MAXCOUNT       4
@@ -818,16 +818,24 @@ private:
 class CEconItemSetDefinition
 {
 public:
-    const char* GetName( void ) const                       { return m_pszName; }
-    const char* GetLocKey( void ) const                     { return m_pszLocalizedName; }
-    const char* GetUnlocalizedName( void ) const            { return m_pszUnlocalizedName; }
-    const char* GetLocDescription( void ) const             { return m_pszLocalizedDescription; }
-    int         GetBundle( void ) const                     { return m_iBundleItemDef; }
-    int         IsCollection( void ) const                  { return m_bIsCollection; }
-    int         IsHiddenSet( void ) const                   { return m_bIsHiddenSet; }
-    int         GetItemCount( void ) const                  { return m_ItemEntries.Count(); }
-    const item_list_entry_t* GetItem( int iIndex ) const    { return &m_ItemEntries[iIndex]; }
-    item_definition_index_t GetCraftReward( void ) const    { return m_nCraftReward; }
+    struct itemset_attrib_t
+    {
+        int        m_iAttribDefIndex;
+        attrib_value_t    m_valValue;
+    };
+public:
+    const char* GetName( void ) const                           { return m_pszName; }
+    const char* GetLocKey( void ) const                         { return m_pszLocalizedName; }
+    const char* GetUnlocalizedName( void ) const                { return m_pszUnlocalizedName; }
+    const char* GetLocDescription( void ) const                 { return m_pszLocalizedDescription; }
+    int         GetBundle( void ) const                         { return m_iBundleItemDef; }
+    int         IsCollection( void ) const                      { return m_bIsCollection; }
+    int         IsHiddenSet( void ) const                       { return m_bIsHiddenSet; }
+    int         GetItemCount( void ) const                      { return m_ItemEntries.Count(); }
+    const item_list_entry_t* GetItem( int iIndex ) const        { return m_ItemEntries.IsValidIndex(iIndex) ? &m_ItemEntries[iIndex] : nullptr; }
+    item_definition_index_t GetCraftReward( void ) const        { return m_nCraftReward; }
+    int         GetAttributeCount( void ) const                 { return m_iAttributes.Count(); }
+    const itemset_attrib_t* GetAttribute( int iIndex ) const    { return m_iAttributes.IsValidIndex(iIndex) ? &m_iAttributes[iIndex] : nullptr; }
 private: 
     void* m_pVTable;
     const char    *m_pszName;
@@ -839,12 +847,6 @@ private:
     bool           m_bIsCollection;
     bool           m_bIsHiddenSet;
     item_definition_index_t    m_nCraftReward;
-
-    struct itemset_attrib_t
-    {
-        int        m_iAttribDefIndex;
-        attrib_value_t    m_valValue;
-    };
     CUtlVector<itemset_attrib_t>    m_iAttributes;
 };
 
