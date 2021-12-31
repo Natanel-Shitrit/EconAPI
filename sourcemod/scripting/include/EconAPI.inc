@@ -82,7 +82,7 @@ enum EAssetClassAttrExportRule_t
     k_EAssetClassAttrExportRule_Bucketed    = ( 1 << 0 ),    // attribute exports bucketed value to Steam Community
     k_EAssetClassAttrExportRule_Skip        = ( 1 << 1 ),    // attribute value is not exported to Steam Community
     k_EAssetClassAttrExportRule_GCOnly      = ( 1 << 2 ),    // attribute only lives on GC and not exported to any external request
-};
+}
 
 // Coloring for attribute lines
 enum attrib_effect_types_t
@@ -92,7 +92,7 @@ enum attrib_effect_types_t
     ATTRIB_EFFECT_NEGATIVE,
 
     NUM_EFFECT_TYPES,
-};
+}
 
 enum CEconItemDefinition
 {
