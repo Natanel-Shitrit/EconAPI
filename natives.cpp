@@ -1826,8 +1826,8 @@ static cell_t CEconItemListEntry_GetMusicKit(IPluginContext* pContext, const cel
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinitionByID(pItemListEntry->m_nMusicKit));
 }
 
-// CEconItemAttributeDefinition //
-static cell_t CEconItemAttributeDefinition_GetAttribute(IPluginContext* pContext, const cell_t* params)
+// CEconItemSetDefinitionAttribute //
+static cell_t CEconItemSetDefinitionAttribute_GetAttribute(IPluginContext* pContext, const cell_t* params)
 {
     CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
 
@@ -1836,7 +1836,7 @@ static cell_t CEconItemAttributeDefinition_GetAttribute(IPluginContext* pContext
     return pItemSetDefinitionAttribute->m_iAttribDefIndex;
 }
 
-static cell_t CEconItemAttributeDefinition_GetValue(IPluginContext* pContext, const cell_t* params)
+static cell_t CEconItemSetDefinitionAttribute_GetValue(IPluginContext* pContext, const cell_t* params)
 {
     CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
 
@@ -2685,9 +2685,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemListEntry.StickerKit.get",                  CEconItemListEntry_GetStickerKit },
     { "CEconItemListEntry.MusicKit.get",                    CEconItemListEntry_GetMusicKit },
 
-    // CEconItemAttributeDefinition
-    { "CEconItemAttributeDefinition.Attribute.get",         CEconItemAttributeDefinition_GetAttribute },
-    { "CEconItemAttributeDefinition.Value.get",             CEconItemAttributeDefinition_GetValue },
+    // CEconItemSetDefinitionAttribute
+    { "CEconItemSetDefinitionAttribute.AttributeDefIndex.get",      CEconItemSetDefinitionAttribute_GetAttribute },
+    { "CEconItemSetDefinitionAttribute.Value.get",          CEconItemSetDefinitionAttribute_GetValue },
 
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },

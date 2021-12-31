@@ -1696,8 +1696,8 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
 
     // CEconItemSetDefinitionAttribute
-    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Attribute");
-    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Value");
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.AttributeDefIndex.get");
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Value.get");
 
     // CEconItemSetDefinition
     MarkNativeAsOptional("CEconItemSetDefinition.Get");
