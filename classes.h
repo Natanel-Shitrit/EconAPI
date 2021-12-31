@@ -946,13 +946,26 @@ class CEconItemAttributeDefinition
 {
 public:
     attrib_definition_index_t GetDefinitionIndex() const    { return m_nDefIndex; }
+    const char* GetDefinitionName() const                   { return m_pszDefinitionName; }
+
     bool IsHidden() const                                   { return m_bHidden; }
     bool IsWebSchemaOutputForced() const                    { return m_bWebSchemaOutputForced; }
     bool IsStoredAsInteger() const                          { return m_bStoredAsInteger; }
     bool IsInstanceData() const                             { return m_bInstanceData; }
 
-    const char* GetDefinitionName() const                   { return m_pszDefinitionName; }
-    
+    EAssetClassAttrExportRule_t GetAssetClassAttrExportRule() const { return m_eAssetClassAttrExportRule; }
+    uint32                      GetAssetClassBucket() const         { return m_unAssetClassBucket; }
+    attrib_effect_types_t       GetEffectType() const               { return m_iEffectType; }
+    int                         GetDescriptionFormat() const        { return m_iDescriptionFormat; }
+
+    const char* GetDescription() const      { return m_pszDescriptionString; }
+    const char* GetDescriptionTag() const   { return m_pszDescriptionTag; }
+
+    const char* GetArmoryDescription() const    { return m_pszArmoryDesc; }
+    int         GetScore() const                { return m_iScore; }
+
+    const char* GetAttributeClass() const    { return m_pszAttributeClass; }
+
 private:
     void* m_pVTable; // 0 (4)
 

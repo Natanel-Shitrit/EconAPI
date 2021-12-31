@@ -1325,6 +1325,57 @@ methodmap CEconItemAttributeDefinition
     }
 
     public native int GetDefinitionName(char[] buffer, int len);
+
+    property bool IsHidden
+    {
+        public native get();
+    }
+
+    property bool IsWebSchemaOutputForced
+    {
+        public native get();
+    }
+
+    property bool IsStoredAsInteger
+    {
+        public native get();
+    }
+
+    property bool IsInstanceData
+    {
+        public native get();
+    }
+
+    property EAssetClassAttrExportRule_t AssetClassAttrExportRule
+    {
+        public native get();
+    }
+
+    property int AssetClassBucket
+    {
+        public native get();
+    }
+
+    property attrib_effect_types_t EffectType
+    {
+        public native get();
+    }
+
+    property int DescriptionFormat
+    {
+        public native get();
+    }
+
+    public native int GetDescription(char[] buffer, int len);
+    public native int GetDescriptionTag(char[] buffer, int len);
+    public native int GetArmoryDescription(char[] buffer, int len);
+
+    property int Score
+    {
+        public native get();
+    }
+
+    public native int GetAttributeClass(char[] buffer, int len);
 }
 
 methodmap CEconItemSetDefinitionAttribute
@@ -1808,5 +1859,25 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconLootListDefinition.GetAdditionalDrop");
     MarkNativeAsOptional("CEconLootListDefinition.ItemCount.get");
     MarkNativeAsOptional("CEconLootListDefinition.GetItem");
+
+    // CEconItemAttributeDefinition
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Count");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.FindByDefinitionName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDefinitionName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsHidden.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsWebSchemaOutputForced.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsStoredAsInteger.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsInstanceData.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.AssetClassAttrExportRule.get"
+    MarkNativeAsOptional("CEconItemAttributeDefinition.AssetClassBucket.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.EffectType.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DescriptionFormat.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDescription");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDescriptionTag");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetArmoryDescription");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Score.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetAttributeClass");
 }
 #endif
