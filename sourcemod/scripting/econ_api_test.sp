@@ -795,4 +795,30 @@ void DumpEcon()
 			);
 		}
 	}
+	
+	
+	Logger_Message("CEconItemAttributeDefinition.Count: %d", CEconItemAttributeDefinition.Count());
+	char item_attr_def_name[64];
+	
+	CEconItemAttributeDefinition item_attr_def;
+	for (int i = CEconItemAttributeDefinition.Count() - 1; i >= 0; i--)
+	{
+		item_attr_def = CEconItemAttributeDefinition.Get(i);
+		
+		if (!item_attr_def)
+		{
+			Logger_Message("item_attr_def == NULL");
+			continue;
+		}
+		
+		item_attr_def.GetDefinitionName(item_attr_def_name, sizeof(item_attr_def_name));
+		
+		Logger_Message(
+			"[%d = %X] Definition Name: %s | Definition Index: %d",
+			i,
+			item_attr_def,
+			item_attr_def_name,
+			item_attr_def.DefinitionIndex
+		);
+	}
 }

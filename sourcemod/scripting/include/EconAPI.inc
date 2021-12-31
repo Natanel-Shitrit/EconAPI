@@ -1294,6 +1294,21 @@ methodmap CEconItemListEntry
     }
 }
 
+methodmap CEconItemAttributeDefinition
+{
+    public static native CEconItemAttributeDefinition Get(int index);
+    public static native int Count();
+
+    public static native CEconItemAttributeDefinition FindByName(const char[] name);
+
+    property int DefinitionIndex
+    {
+        public native get();
+    }
+
+    public native int GetDefinitionName(char[] buffer, int len);
+}
+
 methodmap CEconItemSetDefinitionAttribute
 {
     property int AttributeDefIndex
@@ -1694,6 +1709,13 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemListEntry.PaintKitWear.get");
     MarkNativeAsOptional("CEconItemListEntry.StickerKit.get");
     MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
+
+    // CEconItemAttributeDefinition
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Count");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDefinitionName");
 
     // CEconItemSetDefinitionAttribute
     MarkNativeAsOptional("CEconItemSetDefinitionAttribute.AttributeDefIndex.get");

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EconAPI
  * Copyright (C) 2021 Natanel 'LuqS' Shitrit
  *
@@ -2507,14 +2507,69 @@ static cell_t CEconAdditionalDrop_GetLootListDefinition(IPluginContext* pContext
 
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinitionByName(pAdditionalDrop->m_pszLootListDefName));
 }
-/*
-static cell_t CEconLootListDefinition_(IPluginContext* pContext, const cell_t* params)
+
+// CEconItemAttributeDefinition
+static cell_t CEconItemAttributeDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
-    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetAttributeDefinition(params[1]));
+}
 
-    return pLootListDefinition->_____();
+static cell_t CEconItemAttributeDefinition_Count(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+    
+    auto pAttributeDefinitionContainer = g_pCEconItemSchema->GetAttributeDefinitionContainer();
+
+    SM_NATIVE_ERROR_IF_NULL(pAttributeDefinitionContainer);
+
+    return pAttributeDefinitionContainer->Count();
+}
+
+static cell_t CEconItemAttributeDefinition_FindByDefinitionName(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    char* strSource; pContext->LocalToString(params[1], &strSource);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetAttributeDefinitionByDefName(strSource));
+}
+
+static cell_t CEconItemAttributeDefinition_GetDefinitionIndex(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+    
+    return pItemAttributeDefinition->GetDefinitionIndex();
+}
+
+static cell_t CEconItemAttributeDefinition_GetDefinitionName(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetDefinitionName();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+/*
+static cell_t CEconItemAttributeDefinition_(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->_____();
 }
 */
 extern const sp_nativeinfo_t g_ExtensionNatives[] =
@@ -2758,6 +2813,13 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconLootListDefinition.GetAdditionalDrop",                  CEconLootListDefinition_GetAdditionalDrop },
     { "CEconLootListDefinition.ItemCount.get",                      CEconLootListDefinition_GetItemCount },
     { "CEconLootListDefinition.GetItem",                            CEconLootListDefinition_GetItem },
+
+    // CEconItemAttributeDefinition
+    { "CEconItemAttributeDefinition.Get",                           CEconItemAttributeDefinition_Get },
+    { "CEconItemAttributeDefinition.Count",                         CEconItemAttributeDefinition_Count },
+    { "CEconItemAttributeDefinition.FindByDefinitionName",          CEconItemAttributeDefinition_FindByDefinitionName },
+    { "CEconItemAttributeDefinition.DefinitionIndex.get",           CEconItemAttributeDefinition_GetDefinitionIndex },
+    { "CEconItemAttributeDefinition.GetDefinitionName",             CEconItemAttributeDefinition_GetDefinitionName },
 
     { nullptr,  nullptr }
 };
