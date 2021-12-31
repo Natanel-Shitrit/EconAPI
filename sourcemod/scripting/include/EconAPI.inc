@@ -1347,7 +1347,7 @@ methodmap CEconItemSetDefinition
 
     property int AttributeCount
     {
-        property native get();
+        public native get();
     }
 
     public native CEconItemSetDefinitionAttribute GetAttribute(int index);
