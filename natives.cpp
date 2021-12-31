@@ -1826,6 +1826,24 @@ static cell_t CEconItemListEntry_GetMusicKit(IPluginContext* pContext, const cel
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetMusicDefinitionByID(pItemListEntry->m_nMusicKit));
 }
 
+// CEconItemSetDefinitionAttribute //
+static cell_t CEconItemSetDefinitionAttribute_GetAttribute(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinitionAttribute);
+
+    return pItemSetDefinitionAttribute->m_iAttribDefIndex;
+}
+
+static cell_t CEconItemSetDefinitionAttribute_GetValue(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition::itemset_attrib_t* pItemSetDefinitionAttribute = reinterpret_cast<CEconItemSetDefinition::itemset_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinitionAttribute);
+
+    return pItemSetDefinitionAttribute->m_valValue;
+}
 
 // CEconItemSetDefinition //
 static cell_t CEconItemSetDefinition_Get(IPluginContext* pContext, const cell_t* params)
@@ -1951,6 +1969,35 @@ static cell_t CEconItemSetDefinition_GetItem(IPluginContext* pContext, const cel
     SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
 
     return reinterpret_cast<cell_t>(pItemSetDefinition->GetItem(params[2]));
+}
+
+static cell_t CEconItemSetDefinition_GetCraftReward(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinition(pItemSetDefinition->GetCraftReward()));
+}
+
+static cell_t CEconItemSetDefinition_GetAttributeCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return pItemSetDefinition->GetAttributeCount();
+}
+
+static cell_t CEconItemSetDefinition_GetAttribute(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemSetDefinition* pItemSetDefinition = reinterpret_cast<CEconItemSetDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemSetDefinition);
+
+    return reinterpret_cast<cell_t>(pItemSetDefinition->GetAttribute(params[2]));
 }
 
 // CEconItemRarityDefinition
@@ -2460,16 +2507,210 @@ static cell_t CEconAdditionalDrop_GetLootListDefinition(IPluginContext* pContext
 
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinitionByName(pAdditionalDrop->m_pszLootListDefName));
 }
-/*
-static cell_t CEconLootListDefinition_(IPluginContext* pContext, const cell_t* params)
+
+// CEconItemAttributeDefinition
+static cell_t CEconItemAttributeDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
-    CEconLootListDefinition* pLootListDefinition = reinterpret_cast<CEconLootListDefinition*>(params[1]);
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
 
-    SM_NATIVE_ERROR_IF_NULL(pLootListDefinition);
-
-    return pLootListDefinition->_____();
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetAttributeDefinition(params[1]));
 }
-*/
+
+static cell_t CEconItemAttributeDefinition_Count(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+    
+    auto pAttributeDefinitionContainer = g_pCEconItemSchema->GetAttributeDefinitionContainer();
+
+    SM_NATIVE_ERROR_IF_NULL(pAttributeDefinitionContainer);
+
+    return pAttributeDefinitionContainer->Count();
+}
+
+static cell_t CEconItemAttributeDefinition_FindByDefinitionName(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    char* strSource; pContext->LocalToString(params[1], &strSource);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetAttributeDefinitionByDefName(strSource));
+}
+
+static cell_t CEconItemAttributeDefinition_GetDefinitionIndex(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+    
+    return pItemAttributeDefinition->GetDefinitionIndex();
+}
+
+static cell_t CEconItemAttributeDefinition_GetDefinitionName(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetDefinitionName();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CEconItemAttributeDefinition_IsHidden(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->IsHidden();
+}
+
+static cell_t CEconItemAttributeDefinition_IsWebSchemaOutputForced(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->IsWebSchemaOutputForced();
+}
+
+static cell_t CEconItemAttributeDefinition_IsStoredAsInteger(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->IsStoredAsInteger();
+}
+
+static cell_t CEconItemAttributeDefinition_IsInstanceData(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->IsInstanceData();
+}
+
+static cell_t CEconItemAttributeDefinition_GetAssetClassAttrExportRule(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->GetAssetClassAttrExportRule();
+}
+
+static cell_t CEconItemAttributeDefinition_GetAssetClassBucket(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->GetAssetClassBucket();
+}
+
+static cell_t CEconItemAttributeDefinition_GetEffectType(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->GetEffectType();
+}
+
+static cell_t CEconItemAttributeDefinition_GetDescriptionFormat(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->GetDescriptionFormat();
+}
+
+static cell_t CEconItemAttributeDefinition_GetDescription(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetDescription();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CEconItemAttributeDefinition_GetDescriptionTag(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetDescriptionTag();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CEconItemAttributeDefinition_GetArmoryDescription(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetArmoryDescription();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
+static cell_t CEconItemAttributeDefinition_GetScore(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    return pItemAttributeDefinition->GetScore();
+}
+
+static cell_t CEconItemAttributeDefinition_GetAttributeClass(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemAttributeDefinition* pItemAttributeDefinition = reinterpret_cast<CEconItemAttributeDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemAttributeDefinition);
+
+    size_t numBytes = 0;
+    const char* sBuf = pItemAttributeDefinition->GetAttributeClass();
+
+    if (sBuf)
+    {
+        pContext->StringToLocalUTF8(params[2], params[3], sBuf, &numBytes);
+    }
+
+    return numBytes;
+}
+
 extern const sp_nativeinfo_t g_ExtensionNatives[] =
 {
     // CEconItemDefinition
@@ -2638,6 +2879,10 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemListEntry.StickerKit.get",                  CEconItemListEntry_GetStickerKit },
     { "CEconItemListEntry.MusicKit.get",                    CEconItemListEntry_GetMusicKit },
 
+    // CEconItemSetDefinitionAttribute
+    { "CEconItemSetDefinitionAttribute.AttributeDefIndex.get",      CEconItemSetDefinitionAttribute_GetAttribute },
+    { "CEconItemSetDefinitionAttribute.Value.get",          CEconItemSetDefinitionAttribute_GetValue },
+
     // CEconItemSetDefinition
     { "CEconItemSetDefinition.Get",                         CEconItemSetDefinition_Get },
     { "CEconItemSetDefinition.Count",                       CEconItemSetDefinition_Count },
@@ -2650,6 +2895,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemSetDefinition.IsHiddenSet.get",             CEconItemSetDefinition_IsHiddenSet },
     { "CEconItemSetDefinition.ItemCount.get",               CEconItemSetDefinition_GetItemCount },
     { "CEconItemSetDefinition.GetItem",                     CEconItemSetDefinition_GetItem },
+    { "CEconItemSetDefinition.CraftReward.get",             CEconItemSetDefinition_GetCraftReward },
+    { "CEconItemSetDefinition.AttributeCount.get",          CEconItemSetDefinition_GetAttributeCount },
+    { "CEconItemSetDefinition.GetAttribute",                CEconItemSetDefinition_GetAttribute },
 
     // CEconItemRarityDefinition
     { "CEconItemRarityDefinition.Get",                      CEconItemRarityDefinition_Get },
@@ -2704,6 +2952,26 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconLootListDefinition.GetAdditionalDrop",                  CEconLootListDefinition_GetAdditionalDrop },
     { "CEconLootListDefinition.ItemCount.get",                      CEconLootListDefinition_GetItemCount },
     { "CEconLootListDefinition.GetItem",                            CEconLootListDefinition_GetItem },
+
+    // CEconItemAttributeDefinition
+    { "CEconItemAttributeDefinition.Get",                           CEconItemAttributeDefinition_Get },
+    { "CEconItemAttributeDefinition.Count",                         CEconItemAttributeDefinition_Count },
+    { "CEconItemAttributeDefinition.FindByDefinitionName",          CEconItemAttributeDefinition_FindByDefinitionName },
+    { "CEconItemAttributeDefinition.DefinitionIndex.get",           CEconItemAttributeDefinition_GetDefinitionIndex },
+    { "CEconItemAttributeDefinition.GetDefinitionName",             CEconItemAttributeDefinition_GetDefinitionName },
+    { "CEconItemAttributeDefinition.IsHidden.get",                  CEconItemAttributeDefinition_IsHidden },
+    { "CEconItemAttributeDefinition.IsWebSchemaOutputForced.get",   CEconItemAttributeDefinition_IsWebSchemaOutputForced },
+    { "CEconItemAttributeDefinition.IsStoredAsInteger.get",         CEconItemAttributeDefinition_IsStoredAsInteger },
+    { "CEconItemAttributeDefinition.IsInstanceData.get",            CEconItemAttributeDefinition_IsInstanceData },
+    { "CEconItemAttributeDefinition.AssetClassAttrExportRule.get",  CEconItemAttributeDefinition_GetAssetClassAttrExportRule },
+    { "CEconItemAttributeDefinition.AssetClassBucket.get",          CEconItemAttributeDefinition_GetAssetClassBucket },
+    { "CEconItemAttributeDefinition.EffectType.get",                CEconItemAttributeDefinition_GetEffectType },
+    { "CEconItemAttributeDefinition.DescriptionFormat.get",         CEconItemAttributeDefinition_GetDescriptionFormat },
+    { "CEconItemAttributeDefinition.GetDescription",                CEconItemAttributeDefinition_GetDescription },
+    { "CEconItemAttributeDefinition.GetDescriptionTag",             CEconItemAttributeDefinition_GetDescriptionTag },
+    { "CEconItemAttributeDefinition.GetArmoryDescription",          CEconItemAttributeDefinition_GetArmoryDescription },
+    { "CEconItemAttributeDefinition.Score.get",                     CEconItemAttributeDefinition_GetScore },
+    { "CEconItemAttributeDefinition.GetAttributeClass",             CEconItemAttributeDefinition_GetAttributeClass },
 
     { nullptr,  nullptr }
 };

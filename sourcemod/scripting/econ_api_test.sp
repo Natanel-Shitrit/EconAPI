@@ -56,7 +56,8 @@ void Logger_Message(char[] format, any ...)
     VFormat(message_buffer, sizeof(message_buffer), format, 2);
 
     // Log message.
-    LogToOpenFileEx(log_file, message_buffer);
+    log_file.WriteLine(message_buffer);
+    log_file.Flush();
 }
 
 Action Command_DumpEcon(int argc)
@@ -154,8 +155,7 @@ void DumpEcon()
 		item_def.GetHolidayRestriction(holiday_restrection, sizeof(holiday_restrection));
 		item_def.GetInventoryImage(inv_image, sizeof(inv_image));
 		Logger_Message(
-			"[%d]\
-			 | IsEnabled: %d \
+			"[%d] IsEnabled: %d \
 			 | HasProperName: %d \
 			 | ShouldLoadOnDemand: %d \
 			 | HasBeenLoaded: %d \
@@ -557,6 +557,7 @@ void DumpEcon()
 		 paint_kit_name[64];
 	
 	CEconItemListEntry item_list_entry;
+	CEconItemSetDefinitionAttribute item_list_attr;
 	CEconItemSetDefinition item_set;
 	for (int i = CEconItemSetDefinition.Count() - 1; i >= 0; i--)
 	{
@@ -602,6 +603,19 @@ void DumpEcon()
 				item_list_entry.PaintKitWear,
 				item_list_entry.StickerKit,
 				item_list_entry.MusicKit
+			);
+		}
+		
+		Logger_Message("\tAttributeCount: %d", item_set.AttributeCount);
+		for (int j = item_set.AttributeCount - 1; j >= 0; j--)
+		{
+			item_list_attr = item_set.GetAttribute(j);
+			
+			Logger_Message("\t[%d] AttributeDefIndex: %d | Value: %d / %f",
+				j,
+				item_list_attr.AttributeDefIndex,
+				item_list_attr.Value,
+				item_list_attr.Value
 			);
 		}
 	}
@@ -780,5 +794,62 @@ void DumpEcon()
 				item_list_entry.MusicKit
 			);
 		}
+	}
+	
+	
+	Logger_Message("CEconItemAttributeDefinition.Count: %d", CEconItemAttributeDefinition.Count());
+	char item_attr_def_name[64],
+		 desc_tag[64],
+		 attr_class[64];
+	
+	CEconItemAttributeDefinition item_attr_def;
+	for (int i = CEconItemAttributeDefinition.Count() - 1; i >= 0; i--)
+	{
+		item_attr_def = CEconItemAttributeDefinition.Get(i);
+		
+		if (!item_attr_def)
+		{
+			Logger_Message("item_attr_def == NULL");
+			continue;
+		}
+		
+		item_attr_def.GetDefinitionName(item_attr_def_name, sizeof(item_attr_def_name));
+		item_attr_def.GetDescription(desc, sizeof(desc));
+		item_attr_def.GetDescriptionTag(desc_tag, sizeof(desc_tag));
+		item_attr_def.GetArmoryDescription(armory_desc, sizeof(armory_desc));
+		item_attr_def.GetAttributeClass(attr_class, sizeof(attr_class));
+		
+		Logger_Message(
+			"[%d = %X] Definition Name: %s \
+			 | IsHidden: %d \
+			 | IsWebSchemaOutputForced: %d \
+			 | IsStoredAsInteger: %d \
+			 | IsInstanceData: %d \
+			 | AssetClassAttrExportRule: %d \
+			 | AssetClassBucket: %d \
+			 | EffectType: %d \
+			 | DescriptionFormat: %d \
+			 | Description: %s \
+			 | Description Tag: %s \
+			 | Armory Description: %s \
+			 | Score: %d \
+			 | Attribute Class: %s",
+			i,
+			item_attr_def,
+			item_attr_def_name,
+			item_attr_def.IsHidden,
+			item_attr_def.IsWebSchemaOutputForced,
+			item_attr_def.IsStoredAsInteger,
+			item_attr_def.IsInstanceData,
+			item_attr_def.AssetClassAttrExportRule,
+			item_attr_def.AssetClassBucket,
+			item_attr_def.EffectType,
+			item_attr_def.DescriptionFormat,
+			desc,
+			desc_tag,
+			armory_desc,
+			item_attr_def.Score,
+			attr_class
+		);
 	}
 }

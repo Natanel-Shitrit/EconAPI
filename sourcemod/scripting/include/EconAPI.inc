@@ -76,6 +76,24 @@ enum item_capabilities_t
     NUM_ITEM_CAPS                   = 23
 }
 
+enum EAssetClassAttrExportRule_t
+{
+    k_EAssetClassAttrExportRule_Default     = 0,
+    k_EAssetClassAttrExportRule_Bucketed    = ( 1 << 0 ),    // attribute exports bucketed value to Steam Community
+    k_EAssetClassAttrExportRule_Skip        = ( 1 << 1 ),    // attribute value is not exported to Steam Community
+    k_EAssetClassAttrExportRule_GCOnly      = ( 1 << 2 ),    // attribute only lives on GC and not exported to any external request
+}
+
+// Coloring for attribute lines
+enum attrib_effect_types_t
+{
+    ATTRIB_EFFECT_NEUTRAL = 0,
+    ATTRIB_EFFECT_POSITIVE,
+    ATTRIB_EFFECT_NEGATIVE,
+
+    NUM_EFFECT_TYPES,
+}
+
 enum CEconItemDefinition
 {
     CEconItemDefinition_NULL = 0
@@ -1294,6 +1312,85 @@ methodmap CEconItemListEntry
     }
 }
 
+methodmap CEconItemAttributeDefinition
+{
+    public static native CEconItemAttributeDefinition Get(int index);
+    public static native int Count();
+
+    public static native CEconItemAttributeDefinition FindByName(const char[] name);
+
+    property int DefinitionIndex
+    {
+        public native get();
+    }
+
+    public native int GetDefinitionName(char[] buffer, int len);
+
+    property bool IsHidden
+    {
+        public native get();
+    }
+
+    property bool IsWebSchemaOutputForced
+    {
+        public native get();
+    }
+
+    property bool IsStoredAsInteger
+    {
+        public native get();
+    }
+
+    property bool IsInstanceData
+    {
+        public native get();
+    }
+
+    property EAssetClassAttrExportRule_t AssetClassAttrExportRule
+    {
+        public native get();
+    }
+
+    property int AssetClassBucket
+    {
+        public native get();
+    }
+
+    property attrib_effect_types_t EffectType
+    {
+        public native get();
+    }
+
+    property int DescriptionFormat
+    {
+        public native get();
+    }
+
+    public native int GetDescription(char[] buffer, int len);
+    public native int GetDescriptionTag(char[] buffer, int len);
+    public native int GetArmoryDescription(char[] buffer, int len);
+
+    property int Score
+    {
+        public native get();
+    }
+
+    public native int GetAttributeClass(char[] buffer, int len);
+}
+
+methodmap CEconItemSetDefinitionAttribute
+{
+    property int AttributeDefIndex
+    {
+        public native get();
+    }
+
+    property any Value
+    {
+        public native get();
+    }
+}
+
 methodmap CEconItemSetDefinition
 {
     public static native CEconItemSetDefinition Get(int index);
@@ -1326,6 +1423,18 @@ methodmap CEconItemSetDefinition
     }
 
     public native CEconItemListEntry GetItem(int index);
+
+    property CEconItemDefinition CraftReward
+    {
+        public native get();
+    }
+
+    property int AttributeCount
+    {
+        public native get();
+    }
+
+    public native CEconItemSetDefinitionAttribute GetAttribute(int index);
 }
 
 methodmap CEconItemRarityDefinition
@@ -1670,6 +1779,17 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemListEntry.StickerKit.get");
     MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
 
+    // CEconItemAttributeDefinition
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Count");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.FindByName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDefinitionName");
+
+    // CEconItemSetDefinitionAttribute
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.AttributeDefIndex.get");
+    MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Value.get");
+
     // CEconItemSetDefinition
     MarkNativeAsOptional("CEconItemSetDefinition.Get");
     MarkNativeAsOptional("CEconItemSetDefinition.Count");
@@ -1682,7 +1802,10 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemSetDefinition.IsHiddenSet.get");
     MarkNativeAsOptional("CEconItemSetDefinition.ItemCount.get");
     MarkNativeAsOptional("CEconItemSetDefinition.GetItem");
-
+    MarkNativeAsOptional("CEconItemSetDefinition.CraftReward.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.AttributeCount.get");
+    MarkNativeAsOptional("CEconItemSetDefinition.GetAttribute");
+    
     // CEconItemRarityDefinition
     MarkNativeAsOptional("CEconItemRarityDefinition.Get");
     MarkNativeAsOptional("CEconItemRarityDefinition.Count");
@@ -1736,5 +1859,25 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconLootListDefinition.GetAdditionalDrop");
     MarkNativeAsOptional("CEconLootListDefinition.ItemCount.get");
     MarkNativeAsOptional("CEconLootListDefinition.GetItem");
+
+    // CEconItemAttributeDefinition
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Count");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.FindByDefinitionName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDefinitionName");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsHidden.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsWebSchemaOutputForced.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsStoredAsInteger.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.IsInstanceData.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.AssetClassAttrExportRule.get"
+    MarkNativeAsOptional("CEconItemAttributeDefinition.AssetClassBucket.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.EffectType.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.DescriptionFormat.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDescription");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDescriptionTag");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetArmoryDescription");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.Score.get");
+    MarkNativeAsOptional("CEconItemAttributeDefinition.GetAttributeClass");
 }
 #endif

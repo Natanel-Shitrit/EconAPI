@@ -21,6 +21,7 @@
 
 #include "utlhashmaplarge.h"
 #include "utldict.h"
+#include "string_t.h"
 
 //-----------------------------------------------------------------------------
 // A dictionary mapping from symbol to structure
@@ -39,13 +40,13 @@
 #define MAX_STICKER_DATA_PATH 128
 
 // The total number of loadouts to track for each player.
-#define LOADOUT_COUNT       4	// these are the number of skins (2 valid + 2 invalid)
+#define LOADOUT_COUNT       4    // these are the number of skins (2 valid + 2 invalid)
 
 // CS Team IDs.
-#define TEAM_ANY           -1	// for some team query methods
-#define	TEAM_INVALID       -1
-#define TEAM_UNASSIGNED     0	// not assigned to a team
-#define TEAM_SPECTATOR      1	// spectator team
+#define TEAM_ANY           -1    // for some team query methods
+#define TEAM_INVALID       -1
+#define TEAM_UNASSIGNED     0    // not assigned to a team
+#define TEAM_SPECTATOR      1    // spectator team
 #define TEAM_TERRORIST      2
 #define TEAM_CT             3
 #define TEAM_MAXCOUNT       4
@@ -135,6 +136,24 @@ enum item_capabilities_t
 enum
 {
     MATERIAL_MAX_LIGHT_COUNT = 4,
+};
+
+enum EAssetClassAttrExportRule_t
+{
+    k_EAssetClassAttrExportRule_Default     = 0,
+    k_EAssetClassAttrExportRule_Bucketed    = ( 1 << 0 ),    // attribute exports bucketed value to Steam Community
+    k_EAssetClassAttrExportRule_Skip        = ( 1 << 1 ),    // attribute value is not exported to Steam Community
+    k_EAssetClassAttrExportRule_GCOnly      = ( 1 << 2 ),    // attribute only lives on GC and not exported to any external request
+};
+
+// Coloring for attribute lines
+enum attrib_effect_types_t
+{
+    ATTRIB_EFFECT_NEUTRAL = 0,
+    ATTRIB_EFFECT_POSITIVE,
+    ATTRIB_EFFECT_NEGATIVE,
+
+    NUM_EFFECT_TYPES,
 };
 
 struct WeaponPaintableMaterial_t
@@ -818,16 +837,24 @@ private:
 class CEconItemSetDefinition
 {
 public:
-    const char* GetName( void ) const                       { return m_pszName; }
-    const char* GetLocKey( void ) const                     { return m_pszLocalizedName; }
-    const char* GetUnlocalizedName( void ) const            { return m_pszUnlocalizedName; }
-    const char* GetLocDescription( void ) const             { return m_pszLocalizedDescription; }
-    int         GetBundle( void ) const                     { return m_iBundleItemDef; }
-    int         IsCollection( void ) const                  { return m_bIsCollection; }
-    int         IsHiddenSet( void ) const                   { return m_bIsHiddenSet; }
-    int         GetItemCount( void ) const                  { return m_ItemEntries.Count(); }
-    const item_list_entry_t* GetItem( int iIndex ) const    { return &m_ItemEntries[iIndex]; }
-    item_definition_index_t GetCraftReward( void ) const    { return m_nCraftReward; }
+    struct itemset_attrib_t
+    {
+        int        m_iAttribDefIndex;
+        attrib_value_t    m_valValue;
+    };
+public:
+    const char* GetName( void ) const                           { return m_pszName; }
+    const char* GetLocKey( void ) const                         { return m_pszLocalizedName; }
+    const char* GetUnlocalizedName( void ) const                { return m_pszUnlocalizedName; }
+    const char* GetLocDescription( void ) const                 { return m_pszLocalizedDescription; }
+    int         GetBundle( void ) const                         { return m_iBundleItemDef; }
+    int         IsCollection( void ) const                      { return m_bIsCollection; }
+    int         IsHiddenSet( void ) const                       { return m_bIsHiddenSet; }
+    int         GetItemCount( void ) const                      { return m_ItemEntries.Count(); }
+    const item_list_entry_t* GetItem( int iIndex ) const        { return m_ItemEntries.IsValidIndex(iIndex) ? &m_ItemEntries[iIndex] : nullptr; }
+    item_definition_index_t GetCraftReward( void ) const        { return m_nCraftReward; }
+    int         GetAttributeCount( void ) const                 { return m_iAttributes.Count(); }
+    const itemset_attrib_t* GetAttribute( int iIndex ) const    { return m_iAttributes.IsValidIndex(iIndex) ? &m_iAttributes[iIndex] : nullptr; }
 private: 
     void* m_pVTable;
     const char    *m_pszName;
@@ -839,12 +866,6 @@ private:
     bool           m_bIsCollection;
     bool           m_bIsHiddenSet;
     item_definition_index_t    m_nCraftReward;
-
-    struct itemset_attrib_t
-    {
-        int        m_iAttribDefIndex;
-        attrib_value_t    m_valValue;
-    };
     CUtlVector<itemset_attrib_t>    m_iAttributes;
 };
 
@@ -921,6 +942,87 @@ private:
     CUtlConstString    m_strHexColor;
 };
 
+class CEconItemAttributeDefinition
+{
+public:
+    attrib_definition_index_t GetDefinitionIndex() const    { return m_nDefIndex; }
+    const char* GetDefinitionName() const                   { return m_pszDefinitionName; }
+
+    bool IsHidden() const                                   { return m_bHidden; }
+    bool IsWebSchemaOutputForced() const                    { return m_bWebSchemaOutputForced; }
+    bool IsStoredAsInteger() const                          { return m_bStoredAsInteger; }
+    bool IsInstanceData() const                             { return m_bInstanceData; }
+
+    EAssetClassAttrExportRule_t GetAssetClassAttrExportRule() const { return m_eAssetClassAttrExportRule; }
+    uint32                      GetAssetClassBucket() const         { return m_unAssetClassBucket; }
+    attrib_effect_types_t       GetEffectType() const               { return m_iEffectType; }
+    int                         GetDescriptionFormat() const        { return m_iDescriptionFormat; }
+
+    const char* GetDescription() const      { return m_pszDescriptionString; }
+    const char* GetDescriptionTag() const   { return m_pszDescriptionTag; }
+
+    const char* GetArmoryDescription() const    { return m_pszArmoryDesc; }
+    int         GetScore() const                { return m_iScore; }
+
+    const char* GetAttributeClass() const    { return m_pszAttributeClass; }
+
+private:
+    void* m_pVTable; // 0 (4)
+
+    // The raw keyvalues for this attribute definition.
+    KeyValues *m_pKVAttribute; // 4 (4)
+
+    // Required valued from m_pKVAttribute:
+
+    // The number used to refer to this definition in the DB
+    attrib_definition_index_t m_nDefIndex; // 8 (2)
+
+    // [Padding] 10 (2)
+
+    // ...
+    const class ISchemaAttributeType *m_pAttrType; // 12 (4)
+
+    // ---------------------------------------------
+    // Display related data
+    // ---------------------------------------------
+    // If true, this attribute isn't shown in the item description
+    bool        m_bHidden; // 16 (1)
+
+    // If true, this attribute's description is always output in web api calls regardless of the hidden flag.
+    bool        m_bWebSchemaOutputForced; // 17 (1)
+
+    // Whether or not the value is stored as an integer in the DB.
+    bool        m_bStoredAsInteger; // 18 (1)
+
+    // If this is true the attribute is counted as "instance" data for purposes of asset class in the Steam Economy. Non-instance
+    // properties are considered things that can differentiate items at a fundamental level (ie., definition index, quality); instance
+    // properties are more things like additional customizations -- score for strange items, paint color, etc.
+    bool        m_bInstanceData; // 19 (1)
+    EAssetClassAttrExportRule_t    m_eAssetClassAttrExportRule; // 20 (4)           // if this is true the attribute will not be exported for asset class
+    uint32        m_unAssetClassBucket; // 24 (4)       // if this is set then attribute value is bucketed when exported for asset class
+
+    // Overall positive/negative effect. Used to color the attribute.
+    attrib_effect_types_t m_iEffectType; // 28 (4)
+
+    // Contains the description format & string for this attribute
+    int            m_iDescriptionFormat; // 32 (4)
+    const char    *m_pszDescriptionString; // 36 (4)
+
+    const char    *m_pszDescriptionTag; // 40 (4)
+
+    // Contains information on how to describe items with this attribute in the Armory
+    const char    *m_pszArmoryDesc; // 44 (4)
+    int            m_iScore; // 48 (4)
+
+    // Used to allow unique items to specify attributes by name.
+    const char    *m_pszDefinitionName; // 52 (4)
+
+    // The class name of this attribute. Used in creation, and to hook the attribute into the actual code that uses it.
+    const char    *m_pszAttributeClass; // 56 (4)
+
+    mutable string_t    m_iszAttributeClass; // 60 (?)   // Same as the above, but used for fast lookup when applying attributes.
+};
+
 class CEconItemSchema
 {
 public:
@@ -972,7 +1074,12 @@ public:
     CUtlDict<CEconLootListDefinition>*  GetLootListDefinitionDict();
     CEconLootListDefinition*            GetLootListDefinition(int iIndex) { return GetLootListDefinitionDict()->IsValidIndex(iIndex) ? &GetLootListDefinitionDict()->Element(iIndex) : nullptr; }
     CEconLootListDefinition*            GetLootListDefinitionByName(const char* pszName);
-    const char*                         GetLootListDefinitionName(CEconLootListDefinition* pLootListDefinition);
+
+    // CEconItemAttributeDefinition
+    CUtlVector<CEconItemAttributeDefinition*>* GetAttributeDefinitionContainer();
+    CEconItemAttributeDefinition* GetAttributeDefinition(int iIndex) { return GetAttributeDefinitionContainer()->IsValidIndex(iIndex) ? GetAttributeDefinitionContainer()->Element(iIndex) : nullptr; }
+    CEconItemAttributeDefinition* GetAttributeDefinitionByDefIndex(int iDefIndex);
+    CEconItemAttributeDefinition* GetAttributeDefinitionByDefName(const char* pszName);
 };
 
 extern CEconItemSchema* g_pCEconItemSchema;
