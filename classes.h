@@ -140,20 +140,20 @@ enum
 
 enum EAssetClassAttrExportRule_t
 {
-	k_EAssetClassAttrExportRule_Default		= 0,
-	k_EAssetClassAttrExportRule_Bucketed	= ( 1 << 0 ),	// attribute exports bucketed value to Steam Community
-	k_EAssetClassAttrExportRule_Skip		= ( 1 << 1 ),	// attribute value is not exported to Steam Community
-	k_EAssetClassAttrExportRule_GCOnly		= ( 1 << 2 ),	// attribute only lives on GC and not exported to any external request
+    k_EAssetClassAttrExportRule_Default     = 0,
+    k_EAssetClassAttrExportRule_Bucketed    = ( 1 << 0 ),    // attribute exports bucketed value to Steam Community
+    k_EAssetClassAttrExportRule_Skip        = ( 1 << 1 ),    // attribute value is not exported to Steam Community
+    k_EAssetClassAttrExportRule_GCOnly      = ( 1 << 2 ),    // attribute only lives on GC and not exported to any external request
 };
 
 // Coloring for attribute lines
 enum attrib_effect_types_t
 {
-	ATTRIB_EFFECT_NEUTRAL = 0,
-	ATTRIB_EFFECT_POSITIVE,
-	ATTRIB_EFFECT_NEGATIVE,
+    ATTRIB_EFFECT_NEUTRAL = 0,
+    ATTRIB_EFFECT_POSITIVE,
+    ATTRIB_EFFECT_NEGATIVE,
 
-	NUM_EFFECT_TYPES,
+    NUM_EFFECT_TYPES,
 };
 
 struct WeaponPaintableMaterial_t
