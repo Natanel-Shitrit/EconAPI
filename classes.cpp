@@ -424,3 +424,39 @@ CEconLootListDefinition* CEconItemSchema::GetLootListDefinitionByName(const char
 
     return nullptr;
 }
+
+// CEconItemAttributeDefinition
+CUtlVector<CEconItemAttributeDefinition*>* CEconItemSchema::GetAttributeDefinitionContainer()
+{
+    static int offset = -1;
+
+    if (offset == -1 && !g_pGameConf[GameConf_EconAPI]->GetOffset("CEconItemSchema::m_mapAttributesContainer", &offset))
+    {
+        smutils->LogError(myself, "Failed to get CEconItemSchema::m_mapAttributesContainer offset.");
+
+        return nullptr;
+    }
+    
+    return (CUtlVector<CEconItemAttributeDefinition*>*)((intptr_t)this + offset);
+}
+
+CEconItemAttributeDefinition* CEconItemSchema::GetAttributeDefinitionByDefName(const char* pszName)
+{
+    auto pAttributeDefinitionContainer = GetAttributeDefinitionContainer();
+
+    if (pAttributeDefinitionContainer)
+    {
+        CEconItemAttributeDefinition* pCurrentItemAttributeDefinition;
+
+        FOR_EACH_VEC(*pAttributeDefinitionContainer, i)
+        {
+            if ((pCurrentItemAttributeDefinition = pAttributeDefinitionContainer->Element(i)) &&
+                !strcmp(pszName, pCurrentItemAttributeDefinition->GetDefinitionName()))
+            {
+                return pCurrentItemAttributeDefinition;
+            }
+        }
+    }
+
+    return nullptr;
+}

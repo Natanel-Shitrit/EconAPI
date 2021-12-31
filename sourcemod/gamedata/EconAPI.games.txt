@@ -35,6 +35,11 @@
                 "windows"       "172"
                 "linux"         "172"
             }
+            "CEconItemSchema::m_mapAttributesContainer"
+            {
+                "windows"       "284"
+                "linux"         "284"
+            }
             "CEconItemSchema::m_mapItemSets"
             {
                 "windows"       "340"
