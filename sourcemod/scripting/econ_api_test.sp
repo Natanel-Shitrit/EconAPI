@@ -56,7 +56,8 @@ void Logger_Message(char[] format, any ...)
     VFormat(message_buffer, sizeof(message_buffer), format, 2);
 
     // Log message.
-    LogToOpenFileEx(log_file, message_buffer);
+    log_file.WriteLine(message_buffer);
+    log_file.Flush();
 }
 
 Action Command_DumpEcon(int argc)
@@ -154,8 +155,7 @@ void DumpEcon()
 		item_def.GetHolidayRestriction(holiday_restrection, sizeof(holiday_restrection));
 		item_def.GetInventoryImage(inv_image, sizeof(inv_image));
 		Logger_Message(
-			"[%d]\
-			 | IsEnabled: %d \
+			"[%d] IsEnabled: %d \
 			 | HasProperName: %d \
 			 | ShouldLoadOnDemand: %d \
 			 | HasBeenLoaded: %d \
@@ -557,6 +557,7 @@ void DumpEcon()
 		 paint_kit_name[64];
 	
 	CEconItemListEntry item_list_entry;
+	CEconItemSetDefinitionAttribute item_list_attr;
 	CEconItemSetDefinition item_set;
 	for (int i = CEconItemSetDefinition.Count() - 1; i >= 0; i--)
 	{
@@ -602,6 +603,19 @@ void DumpEcon()
 				item_list_entry.PaintKitWear,
 				item_list_entry.StickerKit,
 				item_list_entry.MusicKit
+			);
+		}
+		
+		Logger_Message("\tAttributeCount: %d", item_set.AttributeCount);
+		for (int j = item_set.AttributeCount - 1; j >= 0; j--)
+		{
+			item_list_attr = item_set.GetAttribute(j);
+			
+			Logger_Message("\t[%d] AttributeDefIndex: %d | Value: %d / %f",
+				j,
+				item_list_attr.AttributeDefIndex,
+				item_list_attr.Value,
+				item_list_attr.Value
 			);
 		}
 	}
