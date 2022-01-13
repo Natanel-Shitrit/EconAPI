@@ -1775,6 +1775,17 @@ static cell_t CEconItemListEntry_GetItemDef(IPluginContext* pContext, const cell
     return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemDefinitionByDefIndex(pItemListEntry->m_nItemDef));
 }
 
+static cell_t CEconItemListEntry_GetLootList(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    item_list_entry_t* pItemListEntry = reinterpret_cast<item_list_entry_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemListEntry);
+    
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetLootListDefinition(pItemListEntry->m_nItemDef));
+}
+
 static cell_t CEconItemListEntry_GetPaintKit(IPluginContext* pContext, const cell_t* params)
 {
     SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
@@ -2873,6 +2884,7 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
 
     // CEconItemListEntry
     { "CEconItemListEntry.ItemDef.get",                     CEconItemListEntry_GetItemDef },
+    { "CEconItemListEntry.LootList.get",                    CEconItemListEntry_GetLootList },
     { "CEconItemListEntry.PaintKit.get",                    CEconItemListEntry_GetPaintKit },
     { "CEconItemListEntry.PaintKitSeed.get",                CEconItemListEntry_GetPaintKitSeed },
     { "CEconItemListEntry.PaintKitWear.get",                CEconItemListEntry_GetPaintKitWear },

@@ -1286,6 +1286,11 @@ methodmap CEconItemListEntry
         public native get();
     }
 
+    property CEconLootListDefinition LootList
+    {
+        public native get();
+    }
+
     property CPaintKit PaintKit
     {
         public native get();
@@ -1773,6 +1778,7 @@ public __ext_EconAPI_SetNTVOptional()
     
     // CEconItemListEntry
     MarkNativeAsOptional("CEconItemListEntry.ItemDef.get");
+    MarkNativeAsOptional("CEconItemListEntry.LootList.get");
     MarkNativeAsOptional("CEconItemListEntry.PaintKit.get");
     MarkNativeAsOptional("CEconItemListEntry.PaintKitSeed.get");
     MarkNativeAsOptional("CEconItemListEntry.PaintKitWear.get");
