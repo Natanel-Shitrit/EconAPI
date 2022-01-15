@@ -1785,13 +1785,6 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemListEntry.StickerKit.get");
     MarkNativeAsOptional("CEconItemListEntry.MusicKit.get");
 
-    // CEconItemAttributeDefinition
-    MarkNativeAsOptional("CEconItemAttributeDefinition.Get");
-    MarkNativeAsOptional("CEconItemAttributeDefinition.Count");
-    MarkNativeAsOptional("CEconItemAttributeDefinition.FindByName");
-    MarkNativeAsOptional("CEconItemAttributeDefinition.DefinitionIndex.get");
-    MarkNativeAsOptional("CEconItemAttributeDefinition.GetDefinitionName");
-
     // CEconItemSetDefinitionAttribute
     MarkNativeAsOptional("CEconItemSetDefinitionAttribute.AttributeDefIndex.get");
     MarkNativeAsOptional("CEconItemSetDefinitionAttribute.Value.get");
