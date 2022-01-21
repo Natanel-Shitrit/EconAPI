@@ -1542,7 +1542,7 @@ methodmap CEconLootListDefinition
     public static native CEconLootListDefinition Get(int index);
     public static native int Count();
 
-    public native CEconLootListDefinition FindByName(char[] buffer);
+    public static native CEconLootListDefinition FindByName(char[] buffer);
     
     public native int GetName(char[] buffer, int len);
 
