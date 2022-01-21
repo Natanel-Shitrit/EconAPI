@@ -134,6 +134,11 @@ enum CEconLootListDefinition
     CEconLootListDefinition_NULL = 0
 }
 
+enum CEconItemListEntry
+{
+    CEconItemListEntry_NULL = 0
+}
+
 methodmap CEconItemDefinition
 {
     /**
