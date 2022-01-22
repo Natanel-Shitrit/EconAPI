@@ -882,8 +882,9 @@ public:
     };
 public:
     int GetBundle() const                                   { return m_iBundleItemDef; }
-    int IsCollection() const                                { return m_bIsCollection; }
-    int IsHiddenSet() const                                 { return m_bIsHiddenSet; }
+    
+    bool IsCollection() const                               { return m_bIsCollection; }
+    bool IsHiddenSet() const                                { return m_bIsHiddenSet; }
 
     const char* GetName() const                             { return m_pszName; }
     const char* GetLocKey() const                           { return m_pszLocalizedName; }
