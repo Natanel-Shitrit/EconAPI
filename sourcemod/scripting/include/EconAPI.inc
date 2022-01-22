@@ -671,7 +671,7 @@ methodmap CEconItemDefinition
      *
      * @error              Invalid CEconItemDefinition. (NULL)
      */
-    property int Capabilities
+    property item_capabilities_t Capabilities
     {
         public native get();
     }
