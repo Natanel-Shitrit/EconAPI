@@ -27,7 +27,7 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"EconAPI"
 #define SMEXT_CONF_DESCRIPTION	"API for CS:GO economy items."
-#define SMEXT_CONF_VERSION		"1.0.0.0"
+#define SMEXT_CONF_VERSION		"1.0.0"
 #define SMEXT_CONF_AUTHOR		"LuqS"
 #define SMEXT_CONF_URL			"https://github.com/Natanel-Shitrit/EconAPI"
 #define SMEXT_CONF_LOGTAG		"ECON"
