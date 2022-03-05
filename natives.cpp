@@ -1,4 +1,4 @@
-﻿/**
+/**
  * EconAPI
  * Copyright (C) 2021-2022 Natanel 'LuqS' Shitrit
  *
@@ -906,6 +906,26 @@ static cell_t CEconItemDefinition_GetModel(IPluginContext* pContext, const cell_
     }
 
     return numBytes;
+}
+
+static cell_t CEconItemSetDefinition_GetItemSetsCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return pItemDefinition->GetItemSetsCount();
+}
+
+static cell_t CEconItemSetDefinition_GetItemSet(IPluginContext* pContext, const cell_t* params)
+{
+    SM_NATIVE_ERROR_IF_NULL(g_pCEconItemSchema);
+
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return reinterpret_cast<cell_t>(g_pCEconItemSchema->GetItemSetDefinition(pItemDefinition->GetItemSet(params[2])));
 }
 
 // CCStrike15ItemDefinition
@@ -2802,6 +2822,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemDefinition.UsedByTeam.get",                 CEconItemDefinition_GetUsedByTeam },
     { "CEconItemDefinition.GetLoadoutSlot",                 CEconItemDefinition_GetLoadoutSlot },
     { "CEconItemDefinition.GetModel",                       CEconItemDefinition_GetModel },
+
+    { "CEconItemDefinition.ItemSetsCount.get",              CEconItemSetDefinition_GetItemSetsCount },
+    { "CEconItemDefinition.GetItemSet",                     CEconItemSetDefinition_GetItemSet },
 
     // CPaintKit
     { "CPaintKit.Get",                                      CPaintKit_Get },
