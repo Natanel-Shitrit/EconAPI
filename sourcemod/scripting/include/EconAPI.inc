@@ -1015,6 +1015,13 @@ methodmap CEconItemDefinition
      * @error              Invalid model_type or invalid CEconItemDefinition. (NULL)
      */
     public native int GetModel(ModelType model_type, char[] buffer, int len);
+
+    property int ItemSetsCount
+    {
+        public native get();
+    }
+    
+    public native CEconItemSetDefinition GetItemSet(int index);
 }
 
 methodmap CPaintKit
@@ -1708,6 +1715,9 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");
     MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
     MarkNativeAsOptional("CEconItemDefinition.GetModel");
+
+    MarkNativeAsOptional("CEconItemDefinition.ItemSetsCount.get");
+    MarkNativeAsOptional("CEconItemDefinition.GetItemSet");
 
     // CPaintKit
     MarkNativeAsOptional("CPaintKit.Get");
