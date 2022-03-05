@@ -409,6 +409,14 @@ public:
 
     // other
     CEconItemDefinition* GetOwningPackBundle() const        { return m_pOwningPackBundle; }
+
+    // Item sets
+    int GetItemSetsCount() const { return m_iItemSets.Count(); }
+    int GetItemSet(int iIndex) const
+    {
+        return m_iItemSets.IsValidIndex(iIndex) ? m_iItemSets[iIndex] : -1;
+    }
+
 private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
