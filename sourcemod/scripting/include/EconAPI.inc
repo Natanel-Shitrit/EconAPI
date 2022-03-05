@@ -139,6 +139,24 @@ enum CEconItemListEntry
     CEconItemListEntry_NULL = 0
 }
 
+methodmap CEconStaticAttribute
+{
+    property int DefinitionIndex
+    {
+        public native get();
+    }
+
+    property int IntValue
+    {
+        public native get();
+    }
+
+    property float FloatValue
+    {
+        public native get();
+    }
+}
+
 methodmap CEconItemDefinition
 {
     /**
@@ -1015,6 +1033,13 @@ methodmap CEconItemDefinition
      * @error              Invalid model_type or invalid CEconItemDefinition. (NULL)
      */
     public native int GetModel(ModelType model_type, char[] buffer, int len);
+
+    property int StaticAttributeCount
+    {
+        public native get();
+    }
+
+    public native CEconStaticAttribute GetStaticAttribute(int index);
 }
 
 methodmap CPaintKit
@@ -1630,6 +1655,11 @@ public Extension __ext_EconAPI =
 #if !defined REQUIRE_EXTENSIONS
 public __ext_EconAPI_SetNTVOptional()
 {
+    // CEconStaticAttribute
+    MarkNativeAsOptional("CEconStaticAttribute.DefinitionIndex.get");
+    MarkNativeAsOptional("CEconStaticAttribute.IntValue.get");
+    MarkNativeAsOptional("CEconStaticAttribute.FloatValue.get");
+
     // CEconItemDefinition
     MarkNativeAsOptional("CEconItemDefinition.Get");
     MarkNativeAsOptional("CEconItemDefinition.Count");
@@ -1708,6 +1738,9 @@ public __ext_EconAPI_SetNTVOptional()
     MarkNativeAsOptional("CEconItemDefinition.UsedByTeam.get");
     MarkNativeAsOptional("CEconItemDefinition.GetLoadoutSlot");
     MarkNativeAsOptional("CEconItemDefinition.GetModel");
+
+    MarkNativeAsOptional("CEconItemDefinition.StaticAttributeCount.get");
+    MarkNativeAsOptional("CEconItemDefinition.GetStaticAttribute");
 
     // CPaintKit
     MarkNativeAsOptional("CPaintKit.Get");

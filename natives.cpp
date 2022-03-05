@@ -20,6 +20,35 @@
 #include "natives.h"
 #include "classes.h"
 
+// CEconStaticAttribute //
+static cell_t CEconStaticAttribute_GetDefinitionIndex(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition::static_attrib_t* pStaticAttr = reinterpret_cast<CEconLootListDefinition::static_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStaticAttr);
+
+    return pStaticAttr->iDefIndex;
+}
+
+static cell_t CEconStaticAttribute_GetIntValue(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition::static_attrib_t* pStaticAttr = reinterpret_cast<CEconLootListDefinition::static_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStaticAttr);
+
+    return pStaticAttr->m_value.asUint32;
+}
+
+static cell_t CEconStaticAttribute_GetFloatValue(IPluginContext* pContext, const cell_t* params)
+{
+    CEconLootListDefinition::static_attrib_t* pStaticAttr = reinterpret_cast<CEconLootListDefinition::static_attrib_t*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pStaticAttr);
+
+    return sp_ftoc(pStaticAttr->m_value.asFloat);
+}
+
+
 // CEconItemDefinition //
 static cell_t CEconItemDefinition_Get(IPluginContext* pContext, const cell_t* params)
 {
@@ -906,6 +935,24 @@ static cell_t CEconItemDefinition_GetModel(IPluginContext* pContext, const cell_
     }
 
     return numBytes;
+}
+
+static cell_t CEconItemSetDefinition_GetStaticAttributeCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return pItemDefinition->GetStaticAttributeCount();
+}
+
+static cell_t CEconItemSetDefinition_GetStaticAttribute(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return reinterpret_cast<cell_t>(pItemDefinition->GetStaticAttribute(params[2]));
 }
 
 // CCStrike15ItemDefinition
@@ -2724,6 +2771,11 @@ static cell_t CEconItemAttributeDefinition_GetAttributeClass(IPluginContext* pCo
 
 extern const sp_nativeinfo_t g_ExtensionNatives[] =
 {
+    // CEconStaticAttribute
+    { "CEconStaticAttribute.DefinitionIndex.get",           CEconStaticAttribute_GetDefinitionIndex },
+    { "CEconStaticAttribute.IntValue.get",                  CEconStaticAttribute_GetIntValue },
+    { "CEconStaticAttribute.FloatValue.get",                CEconStaticAttribute_GetFloatValue },
+
     // CEconItemDefinition
     { "CEconItemDefinition.Get",                            CEconItemDefinition_Get },
     { "CEconItemDefinition.Count",                          CEconItemDefinition_Count },
@@ -2802,6 +2854,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemDefinition.UsedByTeam.get",                 CEconItemDefinition_GetUsedByTeam },
     { "CEconItemDefinition.GetLoadoutSlot",                 CEconItemDefinition_GetLoadoutSlot },
     { "CEconItemDefinition.GetModel",                       CEconItemDefinition_GetModel },
+
+    { "CEconItemDefinition.StaticAttributeCount.get",       CEconItemSetDefinition_GetStaticAttributeCount },
+    { "CEconItemDefinition.GetStaticAttribute",             CEconItemSetDefinition_GetStaticAttribute },
 
     // CPaintKit
     { "CPaintKit.Get",                                      CPaintKit_Get },

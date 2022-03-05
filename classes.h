@@ -409,6 +409,14 @@ public:
 
     // other
     CEconItemDefinition* GetOwningPackBundle() const        { return m_pOwningPackBundle; }
+
+    // Static Attributes
+    int GetStaticAttributeCount() const { return m_vecStaticAttributes.Count(); }
+    const CEconLootListDefinition::static_attrib_t* GetStaticAttribute(int iIndex) const
+    {
+        return m_vecStaticAttributes.IsValidIndex(iIndex) ? &m_vecStaticAttributes[iIndex] : nullptr;
+    }
+
 private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
