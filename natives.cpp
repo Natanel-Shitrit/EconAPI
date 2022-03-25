@@ -908,6 +908,24 @@ static cell_t CEconItemDefinition_GetModel(IPluginContext* pContext, const cell_
     return numBytes;
 }
 
+static cell_t CEconItemSetDefinition_GetWorkshopContributorsCount(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return pItemDefinition->GetWorkshopContributorsCount();
+}
+
+static cell_t CEconItemSetDefinition_GetWorkshopContributor(IPluginContext* pContext, const cell_t* params)
+{
+    CEconItemDefinition* pItemDefinition = reinterpret_cast<CEconItemDefinition*>(params[1]);
+
+    SM_NATIVE_ERROR_IF_NULL(pItemDefinition);
+
+    return pItemDefinition->GetWorkshopContributor(params[2]);
+}
+
 // CCStrike15ItemDefinition
 static cell_t CEconItemDefinition_GetLoadoutSlot(IPluginContext* pContext, const cell_t* params)
 {
@@ -2802,6 +2820,9 @@ extern const sp_nativeinfo_t g_ExtensionNatives[] =
     { "CEconItemDefinition.UsedByTeam.get",                 CEconItemDefinition_GetUsedByTeam },
     { "CEconItemDefinition.GetLoadoutSlot",                 CEconItemDefinition_GetLoadoutSlot },
     { "CEconItemDefinition.GetModel",                       CEconItemDefinition_GetModel },
+
+    { "CEconItemDefinition.WorkshopContributorsCount.get",  CEconItemSetDefinition_GetWorkshopContributorsCount },
+    { "CEconItemDefinition.GetWorkshopContributor",         CEconItemSetDefinition_GetWorkshopContributor },
 
     // CPaintKit
     { "CPaintKit.Get",                                      CPaintKit_Get },
