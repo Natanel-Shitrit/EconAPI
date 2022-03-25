@@ -41,6 +41,8 @@
 
 #define MATERIAL_MAX_LIGHT_COUNT 4
 
+#define INVALID_USERID 0
+
 // The total number of loadouts to track for each player.
 // these are the number of skins (2 valid + 2 invalid)
 #define LOADOUT_COUNT 4
@@ -409,6 +411,13 @@ public:
 
     // other
     CEconItemDefinition* GetOwningPackBundle() const        { return m_pOwningPackBundle; }
+
+    // Workshop Contributors
+    int GetWorkshopContributorsCount() const { return m_vecSteamWorkshopContributors.Count(); }
+    int GetWorkshopContributor(int iIndex) const
+    {
+        return m_vecSteamWorkshopContributors.IsValidIndex(iIndex) ? m_vecSteamWorkshopContributors[iIndex] : INVALID_USERID;
+    }
 private:
     void* m_pVTable; // 0 (4)
     KeyValues* m_pKVItem; // 4 (4)
